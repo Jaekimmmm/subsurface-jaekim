@@ -3,9 +3,14 @@
 #define DIVELOCATIONMODEL_H
 
 #include <QAbstractTableModel>
+#include <QAbstractItemModel>
 #include <QStringListModel>
 #include <QSortFilterProxyModel>
 #include "core/units.h"
+// AI-generated (Claude)
+#include "core/taxonomy.h"
+#include <memory>
+#include <vector>
 
 struct dive;
 struct dive_trip;
@@ -66,6 +71,53 @@ public:
 	void set(const struct dive_site *ignoreDs, const location_t &);
 	void setCoordinates(const location_t &);
 	void setDistance(int64_t dist); // Distance from coordinates in mm
+};
+
+// AI-generated (Claude): Tree view of dive sites grouped by the user-enabled
+// taxonomy categories from prefs.geocoding.category[]. The leaves are
+// dive_site* and the internal nodes are taxonomy values. The tree is
+// rebuilt on any divesite signal or prefs change — simple but adequate for
+// the typical dive-site count (hundreds, not millions).
+class DiveSiteTreeModel : public QAbstractItemModel {
+	Q_OBJECT
+public:
+	enum Columns { NAME, NUM_DIVES, COLUMNS };
+	enum Roles { DIVESITE_ROLE = Qt::UserRole + 1 };
+
+	DiveSiteTreeModel(QObject *parent = nullptr);
+	~DiveSiteTreeModel() override;
+
+	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+	QModelIndex parent(const QModelIndex &index) const override;
+	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+	struct dive_site *getDiveSite(const QModelIndex &idx) const;
+	int hierarchyDepth() const { return static_cast<int>(levels.size()); }
+
+public slots:
+	void rebuild();
+	// AI-generated (Claude): coalesce many close-together triggers into a
+	// single rebuild on the next event-loop tick.
+	void scheduleRebuild();
+
+private:
+	struct Node {
+		Node *parent = nullptr;
+		int rowInParent = 0;
+		// For group nodes: text + child collection; for leaves: ds is set
+		QString label;
+		struct dive_site *ds = nullptr;
+		int diveCount = 0; // aggregated for groups, ds->dives.size() for leaves
+		std::vector<std::unique_ptr<Node>> children;
+	};
+	std::unique_ptr<Node> root;
+	std::vector<enum taxonomy_category> levels;
+	bool rebuildPending = false; // AI-generated (Claude)
+
+	Node *nodeOf(const QModelIndex &idx) const;
 };
 
 class GeoReferencingOptionsModel : public QStringListModel {

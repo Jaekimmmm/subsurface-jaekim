@@ -114,11 +114,6 @@ void editDiveSiteNotes(dive_site *ds, const QString &value)
 	execute(new EditDiveSiteNotes(ds, value));
 }
 
-void editDiveSiteCountry(dive_site *ds, const QString &value)
-{
-	execute(new EditDiveSiteCountry(ds, value));
-}
-
 void editDiveSiteLocation(dive_site *ds, location_t value)
 {
 	execute(new EditDiveSiteLocation(ds, value));
@@ -127,6 +122,12 @@ void editDiveSiteLocation(dive_site *ds, location_t value)
 void editDiveSiteTaxonomy(dive_site *ds, taxonomy_data &value)
 {
 	execute(new EditDiveSiteTaxonomy(ds, value));
+}
+
+// AI-generated (Claude)
+void editDiveSitesBulk(const QVector<dive_site *> &sites, const BulkDiveSiteEdit &edit)
+{
+	execute(new EditDiveSitesBulk(sites, edit));
 }
 
 void addDiveSite(const QString &name)

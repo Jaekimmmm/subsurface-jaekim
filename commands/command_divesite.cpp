@@ -235,31 +235,6 @@ void EditDiveSiteNotes::undo()
 	redo();
 }
 
-EditDiveSiteCountry::EditDiveSiteCountry(dive_site *dsIn, const QString &country) : ds(dsIn),
-	value(country.toStdString())
-{
-	setText(Command::Base::tr("Edit dive site country"));
-}
-
-bool EditDiveSiteCountry::workToBeDone()
-{
-	return value != taxonomy_get_country(ds->taxonomy);
-}
-
-void EditDiveSiteCountry::redo()
-{
-	std::string old = taxonomy_get_country(ds->taxonomy);
-	taxonomy_set_country(ds->taxonomy, value, taxonomy_origin::GEOMANUAL);
-	value = old;
-	emit diveListNotifier.diveSiteChanged(ds, LocationInformationModel::TAXONOMY); // Inform frontend of changed dive site.
-}
-
-void EditDiveSiteCountry::undo()
-{
-	// Undo and redo do the same
-	redo();
-}
-
 EditDiveSiteLocation::EditDiveSiteLocation(dive_site *dsIn, const location_t location) : ds(dsIn),
 	value(location)
 {
@@ -414,6 +389,87 @@ void ApplyGPSFixes::undo()
 {
 	sitesToAdd = removeDiveSites(sitesToRemove);
 	editDiveSites();
+}
+
+// AI-generated (Claude): bulk edit dive sites in a single undo step.
+// On the first redo we snapshot the previous state of each site and overwrite
+// per the user's edit spec. undo() and subsequent redo() simply swap each
+// stored state with the live one, so we don't keep two copies.
+EditDiveSitesBulk::EditDiveSitesBulk(const QVector<dive_site *> &sites, const BulkDiveSiteEdit &editIn)
+	: edit(editIn)
+{
+	setText(Command::Base::tr("Bulk edit %n dive site(s)", "", sites.size()));
+	savedState.reserve(sites.size());
+	for (dive_site *ds: sites) {
+		if (!ds)
+			continue;
+		savedState.push_back({ ds, ds->description, ds->notes, ds->taxonomy });
+	}
+}
+
+bool EditDiveSitesBulk::workToBeDone()
+{
+	if (savedState.empty()) return false;
+	if (edit.descriptionMode != BulkDiveSiteEdit::Mode::LeaveUnchanged) return true;
+	if (edit.notesMode       != BulkDiveSiteEdit::Mode::LeaveUnchanged) return true;
+	for (const auto &t: edit.taxonomy)
+		if (t.second.mode != BulkDiveSiteEdit::Mode::LeaveUnchanged) return true;
+	return false;
+}
+
+static std::string apply_text(BulkDiveSiteEdit::Mode mode, const std::string &cur, const QString &val)
+{
+	switch (mode) {
+	case BulkDiveSiteEdit::Mode::LeaveUnchanged: return cur;
+	case BulkDiveSiteEdit::Mode::Clear:          return {};
+	case BulkDiveSiteEdit::Mode::Set:            return val.toStdString();
+	case BulkDiveSiteEdit::Mode::Append: {
+		std::string out = cur;
+		if (!out.empty()) out += "\n";
+		out += val.toStdString();
+		return out;
+	}}
+	return cur;
+}
+
+void EditDiveSitesBulk::redo()
+{
+	for (auto &s: savedState) {
+		if (!applied) {
+			// Compute target values from the saved (= current) state.
+			std::string newDesc  = apply_text(edit.descriptionMode, s.description, edit.descriptionValue);
+			std::string newNotes = apply_text(edit.notesMode,       s.notes,       edit.notesValue);
+			taxonomy_data newTax = s.taxonomy;
+			for (const auto &[cat, t]: edit.taxonomy) {
+				auto category = static_cast<enum taxonomy_category>(cat);
+				if (t.mode == BulkDiveSiteEdit::Mode::Clear) {
+					newTax.erase(std::remove_if(newTax.begin(), newTax.end(),
+						[category](const taxonomy &x) { return x.category == category; }),
+						newTax.end());
+				} else if (t.mode == BulkDiveSiteEdit::Mode::Set) {
+					taxonomy_set_category(newTax, category, t.value, GEOMANUAL);
+				}
+			}
+			// Now savedState holds *new* values about to be swapped in;
+			// after the swap, live site has new, savedState has old.
+			s.description = std::move(newDesc);
+			s.notes       = std::move(newNotes);
+			s.taxonomy    = std::move(newTax);
+		}
+		std::swap(s.ds->description, s.description);
+		std::swap(s.ds->notes,       s.notes);
+		std::swap(s.ds->taxonomy,    s.taxonomy);
+		emit diveListNotifier.diveSiteChanged(s.ds, LocationInformationModel::DESCRIPTION);
+		emit diveListNotifier.diveSiteChanged(s.ds, LocationInformationModel::NOTES);
+		emit diveListNotifier.diveSiteChanged(s.ds, LocationInformationModel::TAXONOMY);
+	}
+	applied = !applied;
+}
+
+void EditDiveSitesBulk::undo()
+{
+	// swap-based redo handles both directions.
+	redo();
 }
 
 } // namespace Command

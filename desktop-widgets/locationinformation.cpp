@@ -16,7 +16,9 @@
 #include "core/taxonomy.h"
 #include "core/selection.h"
 #include "core/settings/qPrefUnit.h"
+#include "core/settings/qPrefGeocoding.h"
 #include "core/string-format.h"
+#include "core/gettextfromc.h"
 #include "commands/command.h"
 
 #include <QShowEvent>
@@ -27,6 +29,9 @@
 #include <QDesktopWidget>
 #endif
 #include <QFileDialog>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayoutItem>
 #include <QScrollBar>
 
 LocationInformationWidget::LocationInformationWidget(QWidget *parent) : QGroupBox(parent), diveSite(nullptr), closeDistance(0)
@@ -50,6 +55,72 @@ LocationInformationWidget::LocationInformationWidget(QWidget *parent) : QGroupBo
 	ui.diveSiteListView->setModel(&filter_model);
 	ui.diveSiteListView->setModelColumn(LocationInformationModel::NAME);
 	ui.diveSiteListView->installEventFilter(this);
+
+	// AI-generated (Claude): build the taxonomy form based on current prefs and
+	// rebuild it whenever the user changes the enabled categories in prefs.
+	rebuildTaxonomyForm();
+	auto rebuild = [this](taxonomy_category) { rebuildTaxonomyForm(); refreshTaxonomyValues(); };
+	connect(qPrefGeocoding::instance(), &qPrefGeocoding::first_taxonomy_categoryChanged, this, rebuild);
+	connect(qPrefGeocoding::instance(), &qPrefGeocoding::second_taxonomy_categoryChanged, this, rebuild);
+	connect(qPrefGeocoding::instance(), &qPrefGeocoding::third_taxonomy_categoryChanged, this, rebuild);
+	connect(qPrefGeocoding::instance(), &qPrefGeocoding::fourth_taxonomy_categoryChanged, this, rebuild);
+	connect(qPrefGeocoding::instance(), &qPrefGeocoding::fifth_taxonomy_categoryChanged, this, rebuild);
+}
+
+// AI-generated (Claude): wipe and rebuild the dynamic taxonomy form using the
+// currently-enabled categories in prefs.geocoding.category[]. All label/edit
+// pairs sit on a single horizontal line instead of being wrapped one per row.
+void LocationInformationWidget::rebuildTaxonomyForm()
+{
+	QHBoxLayout *layout = ui.taxonomyLayout;
+	while (QLayoutItem *item = layout->takeAt(0)) {
+		delete item->widget();
+		delete item;
+	}
+	taxonomyRows.clear();
+
+	for (enum taxonomy_category cat: taxonomy_active_categories()) {
+		QLabel *lbl = new QLabel(gettextFromC::tr(taxonomy_category_names[cat]),
+					 ui.taxonomyContainer);
+		QLineEdit *edit = new QLineEdit(ui.taxonomyContainer);
+		layout->addWidget(lbl);
+		layout->addWidget(edit, 1);
+		taxonomyRows.push_back({cat, lbl, edit});
+		connect(edit, &QLineEdit::editingFinished, this, [this, cat, edit] {
+			taxonomyEdited(cat, edit->text());
+		});
+	}
+}
+
+// AI-generated (Claude)
+void LocationInformationWidget::refreshTaxonomyValues()
+{
+	for (const TaxonomyRow &row: taxonomyRows) {
+		QString v = diveSite
+			? QString::fromStdString(taxonomy_get_value(diveSite->taxonomy, row.category))
+			: QString();
+		if (row.edit->text() != v)
+			row.edit->setText(v);
+	}
+}
+
+// AI-generated (Claude): apply a single-category edit by cloning the existing
+// taxonomy, updating just that category (origin=GEOMANUAL), and dispatching
+// through the undo-aware EditDiveSiteTaxonomy command.
+void LocationInformationWidget::taxonomyEdited(enum taxonomy_category cat, const QString &value)
+{
+	if (!diveSite)
+		return;
+	taxonomy_data updated = diveSite->taxonomy;
+	std::string newValue = value.trimmed().toStdString();
+	if (newValue.empty()) {
+		updated.erase(std::remove_if(updated.begin(), updated.end(),
+					     [cat](const taxonomy &t) { return t.category == cat; }),
+			      updated.end());
+	} else {
+		taxonomy_set_category(updated, cat, newValue, GEOMANUAL);
+	}
+	Command::editDiveSiteTaxonomy(diveSite, updated);
 }
 
 void LocationInformationWidget::keyPressEvent(QKeyEvent *e)
@@ -134,11 +205,6 @@ void LocationInformationWidget::updateLabels()
 		ui.diveSiteName->setText(QString::fromStdString(diveSite->name));
 	else
 		ui.diveSiteName->clear();
-	std::string country = taxonomy_get_country(diveSite->taxonomy);
-	if (!country.empty())
-		ui.diveSiteCountry->setText(QString::fromStdString(country));
-	else
-		ui.diveSiteCountry->clear();
 	if (!diveSite->description.empty())
 		ui.diveSiteDescription->setText(QString::fromStdString(diveSite->description));
 	else
@@ -153,7 +219,8 @@ void LocationInformationWidget::updateLabels()
 		ui.diveSiteCoordinates->clear();
 	coordinatesSetWarning(false);
 
-	ui.locationTags->setText(QString::fromStdString(taxonomy_get_location_tags(diveSite->taxonomy, false)));
+	// AI-generated (Claude)
+	refreshTaxonomyValues();
 }
 
 void LocationInformationWidget::unitsChanged()
@@ -182,8 +249,8 @@ void LocationInformationWidget::diveSiteChanged(struct dive_site *ds, int field)
 		ui.diveSiteNotes->setText(QString::fromStdString(diveSite->notes));
 		return;
 	case LocationInformationModel::TAXONOMY:
-		ui.diveSiteCountry->setText(QString::fromStdString(taxonomy_get_country(diveSite->taxonomy)));
-		ui.locationTags->setText(QString::fromStdString(taxonomy_get_location_tags(diveSite->taxonomy, false)));
+		// AI-generated (Claude)
+		refreshTaxonomyValues();
 		return;
 	case LocationInformationModel::LOCATION:
 		filter_model.setCoordinates(diveSite->location);
@@ -204,12 +271,13 @@ void LocationInformationWidget::diveSiteChanged(struct dive_site *ds, int field)
 void LocationInformationWidget::clearLabels()
 {
 	ui.diveSiteName->clear();
-	ui.diveSiteCountry->clear();
 	ui.diveSiteDescription->clear();
 	ui.diveSiteNotes->clear();
 	ui.diveSiteCoordinates->clear();
 	coordinatesSetWarning(false);
-	ui.locationTags->clear();
+	// AI-generated (Claude)
+	for (const TaxonomyRow &row: taxonomyRows)
+		row.edit->clear();
 }
 
 // Parse GPS text into location_t
@@ -302,12 +370,6 @@ void LocationInformationWidget::on_diveSiteCoordinates_textEdited(const QString 
 	coordinatesSetWarning(!validateGpsText(s));
 }
 
-void LocationInformationWidget::on_diveSiteCountry_editingFinished()
-{
-	if (diveSite)
-		Command::editDiveSiteCountry(diveSite, ui.diveSiteCountry->text());
-}
-
 void LocationInformationWidget::on_diveSiteDescription_editingFinished()
 {
 	if (diveSite)
@@ -345,6 +407,24 @@ void LocationInformationWidget::reverseGeocode()
 	taxonomy_data taxonomy = reverseGeoLookup(location.lat, location.lon);
 	if (ds != diveSite)
 		return;
+	// AI-generated (Claude): also copy dive_region / dive_point from a nearby
+	// site so reverse-lookup doesn't blow them away when the user already had
+	// them set on a sibling site.
+	for (enum taxonomy_category cat: { TC_DIVE_REGION, TC_DIVE_POINT }) {
+		std::string v = taxonomy_get_value(ds->taxonomy, cat);
+		if (!v.empty())
+			taxonomy_set_category(taxonomy, cat, v, GEOMANUAL);
+	}
+	dive_site *nearby = divelog.sites.get_by_gps_proximity(location, 500 * 1000);
+	if (nearby && nearby != ds) {
+		for (enum taxonomy_category cat: { TC_DIVE_REGION, TC_DIVE_POINT }) {
+			if (!taxonomy_get_value(taxonomy, cat).empty())
+				continue;
+			std::string v = taxonomy_get_value(nearby->taxonomy, cat);
+			if (!v.empty())
+				taxonomy_set_category(taxonomy, cat, v, GEOCOPIED);
+		}
+	}
 	// This call transfers ownership of the taxonomy memory into an EditDiveSiteTaxonomy object
 	Command::editDiveSiteTaxonomy(ds, taxonomy);
 }

@@ -9,6 +9,11 @@
 #include <stdint.h>
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
+// AI-generated (Claude)
+#include "core/taxonomy.h"
+#include <QLineEdit>
+#include <QLabel>
+#include <vector>
 
 struct dive_site;
 
@@ -25,7 +30,6 @@ protected:
 
 public slots:
 	void acceptChanges();
-	void on_diveSiteCountry_editingFinished();
 	void on_diveSiteCoordinates_editingFinished();
 	void on_diveSiteCoordinates_textEdited(const QString &s);
 	void on_diveSiteDescription_editingFinished();
@@ -48,6 +52,16 @@ private:
 	GPSLocationInformationModel filter_model;
 	dive_site *diveSite;
 	int64_t closeDistance; // Distance of "close" dive sites in mm
+	// AI-generated (Claude): dynamic taxonomy form
+	struct TaxonomyRow {
+		enum taxonomy_category category;
+		QLabel *label;
+		QLineEdit *edit;
+	};
+	std::vector<TaxonomyRow> taxonomyRows;
+	void rebuildTaxonomyForm();
+	void refreshTaxonomyValues();
+	void taxonomyEdited(enum taxonomy_category cat, const QString &value);
 };
 
 class DiveLocationFilterProxyModel : public QSortFilterProxyModel {

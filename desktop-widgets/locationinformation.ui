@@ -170,29 +170,16 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Tags</string>
-     </property>
+   <item row="2" column="0" colspan="5">
+    <widget class="QWidget" name="taxonomyContainer" native="true">
+     <layout class="QHBoxLayout" name="taxonomyLayout">
+      <property name="leftMargin"><number>0</number></property>
+      <property name="topMargin"><number>0</number></property>
+      <property name="rightMargin"><number>0</number></property>
+      <property name="bottomMargin"><number>0</number></property>
+      <property name="spacing"><number>6</number></property>
+     </layout>
     </widget>
-   </item>
-   <item row="4" column="2" colspan="3">
-    <widget class="QLabel" name="locationTags">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Country</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2" colspan="3">
-    <widget class="QLineEdit" name="diveSiteCountry"/>
    </item>
   </layout>
  </widget>
@@ -210,7 +197,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>diveSiteName</tabstop>
-  <tabstop>diveSiteCountry</tabstop>
   <tabstop>diveSiteCoordinates</tabstop>
   <tabstop>geoCodeButton</tabstop>
   <tabstop>diveSiteDescription</tabstop>

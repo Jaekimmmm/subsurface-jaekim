@@ -8,6 +8,7 @@
 #include "core/taxonomy.h"
 #include <QVector>
 #include <QAction>
+#include <map>
 #include <vector>
 
 struct divecomputer;
@@ -65,9 +66,27 @@ void deleteDiveSites(const QVector <dive_site *> &sites);
 void editDiveSiteName(dive_site *ds, const QString &value);
 void editDiveSiteDescription(dive_site *ds, const QString &value);
 void editDiveSiteNotes(dive_site *ds, const QString &value);
-void editDiveSiteCountry(dive_site *ds, const QString &value);
 void editDiveSiteLocation(dive_site *ds, location_t value);
 void editDiveSiteTaxonomy(dive_site *ds, taxonomy_data &value); // value is consumed (i.e. will be erased after call)!
+
+// AI-generated (Claude): bulk edit several dive sites at once.
+// Each field independently: LeaveUnchanged / Clear / Set / Append. Append is
+// only meaningful for the free-text fields (description / notes); for taxonomy
+// only LeaveUnchanged / Clear / Set are valid.
+struct BulkDiveSiteEdit {
+	enum class Mode { LeaveUnchanged, Clear, Set, Append };
+	Mode descriptionMode = Mode::LeaveUnchanged;
+	QString descriptionValue;
+	Mode notesMode = Mode::LeaveUnchanged;
+	QString notesValue;
+	struct TaxonomyEdit {
+		Mode mode = Mode::LeaveUnchanged;
+		std::string value;
+	};
+	// Only entries the user touched are inserted; missing categories = LeaveUnchanged
+	std::map<int /*taxonomy_category*/, TaxonomyEdit> taxonomy;
+};
+void editDiveSitesBulk(const QVector<dive_site *> &sites, const BulkDiveSiteEdit &edit);
 void addDiveSite(const QString &name);
 void importDiveSites(dive_site_table sites, const QString &source); // takes ownership of dive site table
 void mergeDiveSites(dive_site *ds, const QVector<dive_site *> &sites);

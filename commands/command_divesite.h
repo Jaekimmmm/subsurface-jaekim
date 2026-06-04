@@ -5,6 +5,7 @@
 #define COMMAND_DIVESITE_H
 
 #include "command_base.h"
+#include "command.h"      // for BulkDiveSiteEdit
 
 #include <QVector>
 
@@ -116,18 +117,6 @@ private:
 	std::string value; // Value to be set
 };
 
-class EditDiveSiteCountry : public Base {
-public:
-	EditDiveSiteCountry(dive_site *ds, const QString &country);
-private:
-	bool workToBeDone() override;
-	void undo() override;
-	void redo() override;
-
-	dive_site *ds;
-	std::string value; // Value to be set
-};
-
 class EditDiveSiteLocation : public Base {
 public:
 	EditDiveSiteLocation(dive_site *ds, location_t location);
@@ -168,6 +157,27 @@ private:
 
 	// For undo
 	std::vector<std::unique_ptr<dive_site>> sitesToAdd;
+};
+
+// AI-generated (Claude): apply description / notes / taxonomy edits to a list
+// of dive sites as a single undo step.
+class EditDiveSitesBulk : public Base {
+public:
+	EditDiveSitesBulk(const QVector<dive_site *> &sites, const BulkDiveSiteEdit &edit);
+private:
+	bool workToBeDone() override;
+	void undo() override;
+	void redo() override;
+
+	struct SiteState {
+		dive_site *ds;
+		std::string description;
+		std::string notes;
+		taxonomy_data taxonomy;
+	};
+	std::vector<SiteState> savedState;       // previous values for undo / swap target
+	BulkDiveSiteEdit edit;
+	bool applied = false;                     // true after redo; flip on undo
 };
 
 class ApplyGPSFixes : public Base {

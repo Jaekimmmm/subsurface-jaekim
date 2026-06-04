@@ -86,6 +86,8 @@ set(SUBSURFACE_INTERFACE
 	divesiteimportdialog.h
 	divesitelistview.cpp
 	divesitelistview.h
+	bulkdivesiteedit.cpp
+	bulkdivesiteedit.h
 	downloadfromdivecomputer.cpp
 	downloadfromdivecomputer.h
 	filterconstraintwidget.cpp
