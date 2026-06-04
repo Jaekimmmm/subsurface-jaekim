@@ -58,11 +58,17 @@ BulkDiveSiteEditDialog::makeRow(const QString &label, bool allowClear, bool allo
 	if (allowAppend) {
 		plain = new QPlainTextEdit(container);
 		plain->setMaximumHeight(60);
+		plain->setPlaceholderText(tr("Value"));
 		input = plain;
 	} else {
 		line = new QLineEdit(container);
+		line->setPlaceholderText(tr("Value"));
 		input = line;
 	}
+	// AI-generated (Claude): keep the input slot wide and visible even while
+	// disabled, otherwise on macOS Qt5 it can collapse to zero visible area.
+	input->setMinimumWidth(220);
+	input->setSizePolicy(QSizePolicy::Expanding, input->sizePolicy().verticalPolicy());
 	input->setEnabled(false);
 
 	auto syncEnabled = [input, group]() {
