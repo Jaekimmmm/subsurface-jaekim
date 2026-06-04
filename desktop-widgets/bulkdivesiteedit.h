@@ -39,7 +39,7 @@ private:
 	QVector<dive_site *> sites;
 	QTableWidget *preview;
 
-	FieldRow makeRow(const QString &label, bool allowAppend, QWidget *container, int row);
+	FieldRow makeRow(const QString &label, bool allowClear, bool allowAppend, QWidget *container, int row);
 	static Command::BulkDiveSiteEdit::Mode modeFromId(int id);
 };
 

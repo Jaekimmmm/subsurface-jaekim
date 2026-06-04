@@ -37,18 +37,18 @@ Command::BulkDiveSiteEdit::Mode BulkDiveSiteEditDialog::modeFromId(int id)
 }
 
 BulkDiveSiteEditDialog::FieldRow
-BulkDiveSiteEditDialog::makeRow(const QString &label, bool allowAppend, QWidget *container, int row)
+BulkDiveSiteEditDialog::makeRow(const QString &label, bool allowClear, bool allowAppend, QWidget *container, int row)
 {
 	auto *grid = qobject_cast<QGridLayout *>(container->layout());
 	auto *lbl = new QLabel("<b>" + label + "</b>", container);
 	auto *rLeave  = new QRadioButton(tr("Leave"),  container);
-	auto *rClear  = new QRadioButton(tr("Clear"),  container);
+	auto *rClear  = allowClear  ? new QRadioButton(tr("Clear"),  container) : nullptr;
 	auto *rSet    = new QRadioButton(tr("Set"),    container);
 	auto *rAppend = allowAppend ? new QRadioButton(tr("Append"), container) : nullptr;
 	rLeave->setChecked(true);
 	auto *group = new QButtonGroup(container);
 	group->addButton(rLeave,  ID_LEAVE);
-	group->addButton(rClear,  ID_CLEAR);
+	if (rClear)  group->addButton(rClear,  ID_CLEAR);
 	group->addButton(rSet,    ID_SET);
 	if (rAppend) group->addButton(rAppend, ID_APPEND);
 
@@ -77,7 +77,7 @@ BulkDiveSiteEditDialog::makeRow(const QString &label, bool allowAppend, QWidget 
 	auto *radios = new QHBoxLayout;
 	radios->setContentsMargins(0, 0, 0, 0);
 	radios->addWidget(rLeave);
-	radios->addWidget(rClear);
+	if (rClear)  radios->addWidget(rClear);
 	radios->addWidget(rSet);
 	if (rAppend) radios->addWidget(rAppend);
 	radios->addStretch(1);
@@ -112,7 +112,9 @@ BulkDiveSiteEditDialog::BulkDiveSiteEditDialog(const QVector<dive_site *> &sites
 
 	for (enum taxonomy_category cat: taxonomy_active_categories()) {
 		QString lbl = gettextFromC::tr(taxonomy_category_names[cat]);
-		FieldRow r = makeRow(lbl, /*append*/ false, editor, row++);
+		// AI-generated (Claude): taxonomy exposes Leave / Clear / Set (no Append).
+		// Set takes a free-text string.
+		FieldRow r = makeRow(lbl, /*clear*/ true, /*append*/ false, editor, row++);
 		taxonomyRows.push_back({ cat, r });
 	}
 
@@ -120,8 +122,8 @@ BulkDiveSiteEditDialog::BulkDiveSiteEditDialog(const QVector<dive_site *> &sites
 	sep->setFrameShape(QFrame::HLine);
 	grid->addWidget(sep, row++, 0, 1, 3);
 
-	descriptionRow = makeRow(tr("Description"), /*append*/ true, editor, row++);
-	notesRow       = makeRow(tr("Notes"),       /*append*/ true, editor, row++);
+	descriptionRow = makeRow(tr("Description"), /*clear*/ true, /*append*/ true, editor, row++);
+	notesRow       = makeRow(tr("Notes"),       /*clear*/ true, /*append*/ true, editor, row++);
 
 	grid->setRowStretch(row, 1);
 	editorScroll->setWidget(editor);
