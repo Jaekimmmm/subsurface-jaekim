@@ -1,0 +1,7 @@
+cd /Users/jaekim/Dev
+conda deactivate
+rm -rf subsurface/build install-root googlemaps googlemaps-build
+bash subsurface/scripts/get-dep-lib.sh scripts /Users/jaekim/Dev/install-root
+
+export QMAKE="/opt/homebrew/opt/qt@5/bin/qmake"
+bash subsurface/scripts/build.sh -desktop
