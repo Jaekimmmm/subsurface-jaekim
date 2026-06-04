@@ -4,6 +4,7 @@
 #include "stats/statsview.h"
 #include <QCheckBox>
 #include <QPainter>
+#include <QStandardItemModel>
 #include <QStyledItemDelegate>
 #include <QQmlEngine>
 
@@ -111,14 +112,91 @@ StatsView *StatsWidget::getView()
 	return view;
 }
 
-// Initialize QComboBox with list of variables
+// AI-generated (Claude): group definitions for stats variable combos. Each
+// entry maps the variable's display name (as returned by StatsVariable::name())
+// to its group. Variables whose name isn't in any list end up in "Other".
+namespace {
+struct GroupSpec { const char *title; QStringList names; };
+static const QList<GroupSpec> &variableGroups()
+{
+	static const QList<GroupSpec> kGroups = {
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "Default"),
+		  { "#", "Date", "Day of week", "Month of year" } },
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "Location"),
+		  { "Dive site", "Dive trip", "Ocean", "Country", "State",
+		    "County", "Town", "City", "Dive region", "Dive point" } },
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "Dive profile"),
+		  { "Mode", "Max. depth", "Mean depth", "Water temperature",
+		    "Air temperature", "Duration", "Dive computer" } },
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "Equipment & Gas"),
+		  { "Weight", "Suit type", "Weights", "Cylinders", "Gases",
+		    "SAC", "O₂ (max)", "O₂+He (max)", "He" } },
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "People"),
+		  { "Buddies", "Dive guides", "People" } },
+		{ QT_TRANSLATE_NOOP("StatsTranslations", "Media & Description"),
+		  { "Tags", "Rating", "Visibility" } },
+	};
+	return kGroups;
+}
+}
+
+// Initialize QComboBox with list of variables, inserting non-selectable group
+// header rows above each cluster of related variables.
 static void setVariableList(QComboBox *combo, const StatsState::VariableList &list)
 {
 	combo->clear();
 	combo->setEnabled(!list.variables.empty());
-	for (const StatsState::Variable &v: list.variables)
+
+	// Bucket the variables by group while keeping any unknown ones in a
+	// trailing "Other" bucket.
+	const auto &groups = variableGroups();
+	// AI-generated (Claude): Qt5 QList has no size-constructor; init empty buckets manually.
+	QList<QList<StatsState::Variable>> buckets;
+	buckets.reserve(groups.size() + 1); // +1 for Other
+	for (int i = 0; i <= groups.size(); ++i)
+		buckets.append(QList<StatsState::Variable>{});
+	for (const StatsState::Variable &v: list.variables) {
+		int bucket = groups.size(); // default = Other
+		for (int g = 0; g < groups.size(); ++g) {
+			if (groups[g].names.contains(v.name)) {
+				bucket = g;
+				break;
+			}
+		}
+		buckets[bucket].push_back(v);
+	}
+
+	int targetIndex = -1;
+	auto addHeader = [combo](const QString &text) {
+		combo->addItem(QString("— %1 —").arg(text));
+		const int row = combo->count() - 1;
+		auto *item = qobject_cast<QStandardItemModel *>(combo->model())->item(row);
+		if (item) {
+			item->setFlags(item->flags() & ~(Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+			QFont f = item->font();
+			f.setBold(true);
+			item->setFont(f);
+		}
+	};
+	auto addVar = [combo, &list, &targetIndex](const StatsState::Variable &v) {
 		combo->addItem(v.name, QVariant(v.id));
-	combo->setCurrentIndex(list.selected);
+		const int row = combo->count() - 1;
+		if (list.selected >= 0 && list.selected < list.variables.size() &&
+		    list.variables[list.selected].id == v.id)
+			targetIndex = row;
+	};
+
+	for (int g = 0; g < groups.size(); ++g) {
+		if (buckets[g].isEmpty()) continue;
+		addHeader(combo->tr(groups[g].title));
+		for (const auto &v: buckets[g]) addVar(v);
+	}
+	if (!buckets.last().isEmpty()) {
+		addHeader(combo->tr("Other"));
+		for (const auto &v: buckets.last()) addVar(v);
+	}
+	if (targetIndex >= 0)
+		combo->setCurrentIndex(targetIndex);
 }
 
 // Initialize QComboBox and QLabel of binners. Hide if there are no binners.

@@ -10,6 +10,7 @@
 #include "core/qthelper.h" // for get_depth_unit() et al.
 #include "core/string-format.h"
 #include "core/tag.h"
+#include "core/taxonomy.h"
 #include "core/trip.h"
 #include "core/subsurface-time.h"
 #include <cmath>
@@ -1844,6 +1845,39 @@ struct LocationVariable : public StatsVariableTemplate<StatsVariable::Type::Disc
 	}
 };
 
+// AI-generated (Claude): one binner + variable per geo-taxonomy category. The
+// binner reads the dive site's taxonomy value for a given category and treats
+// it as a single-string discrete bin (or skips the dive when empty).
+#define DEFINE_TAXONOMY_VARIABLE(VarName, Cat, NameStr)                                       \
+	struct VarName##Binner : public StringBinner<VarName##Binner, StringBin> {            \
+		std::vector<QString> to_bin_values(const dive *d) const {                     \
+			if (!d->dive_site) return {};                                          \
+			std::string v = taxonomy_get_value(d->dive_site->taxonomy, Cat);       \
+			if (v.empty()) return {};                                              \
+			return { QString::fromStdString(v) };                                  \
+		}                                                                              \
+	};                                                                                     \
+	static VarName##Binner VarName##_binner;                                               \
+	struct VarName##Variable : public StatsVariableTemplate<StatsVariable::Type::Discrete> { \
+		QString name() const override { return StatsTranslations::tr(NameStr); }       \
+		QString diveCategories(const dive *d) const override {                         \
+			if (!d->dive_site) return QString();                                   \
+			return QString::fromStdString(taxonomy_get_value(d->dive_site->taxonomy, Cat)); \
+		}                                                                              \
+		std::vector<const StatsBinner *> binners() const override {                    \
+			return { &VarName##_binner };                                          \
+		}                                                                              \
+	};
+
+DEFINE_TAXONOMY_VARIABLE(tax_ocean,   TC_OCEAN,       "Ocean")
+DEFINE_TAXONOMY_VARIABLE(tax_country, TC_COUNTRY,     "Country")
+DEFINE_TAXONOMY_VARIABLE(tax_state,   TC_ADMIN_L1,    "State")
+DEFINE_TAXONOMY_VARIABLE(tax_county,  TC_ADMIN_L2,    "County")
+DEFINE_TAXONOMY_VARIABLE(tax_town,    TC_LOCALNAME,   "Town")
+DEFINE_TAXONOMY_VARIABLE(tax_city,    TC_ADMIN_L3,    "City")
+DEFINE_TAXONOMY_VARIABLE(tax_region,  TC_DIVE_REGION, "Dive region")
+DEFINE_TAXONOMY_VARIABLE(tax_point,   TC_DIVE_POINT,  "Dive point")
+
 // ============ Dive trip ============
 
 using TripBin = SimpleBin<TripWrapper>;
@@ -2021,6 +2055,15 @@ static SuitVariable suit_variable;
 static WeightsystemVariable weightsystem_variable;
 static CylinderTypeVariable cylinder_type_variable;
 static LocationVariable location_variable;
+// AI-generated (Claude)
+static tax_oceanVariable   tax_ocean_variable;
+static tax_countryVariable tax_country_variable;
+static tax_stateVariable   tax_state_variable;
+static tax_countyVariable  tax_county_variable;
+static tax_townVariable    tax_town_variable;
+static tax_cityVariable    tax_city_variable;
+static tax_regionVariable  tax_region_variable;
+static tax_pointVariable   tax_point_variable;
 static TripVariable trip_variable;
 static DayOfWeekVariable day_of_week_variable;
 static MonthOfYearVariable month_of_year_variable;
@@ -2028,12 +2071,25 @@ static RatingVariable rating_variable;
 static VisibilityVariable visibility_variable;
 static DiveComputerVariable dive_computer_variable;
 
+// AI-generated (Claude): reordered by group (Default / Location / Dive profile /
+// Equipment & Gas / People / Media & Description / Misc) for grouped display.
 const std::vector<const StatsVariable *> stats_variables = {
-	&date_variable, &max_depth_variable, &mean_depth_variable, &duration_variable, &sac_variable,
-	&water_temperature_variable, &air_temperature_variable, &weight_variable, &dive_nr_variable,
+	// --- Default ---
+	&dive_nr_variable, &date_variable, &day_of_week_variable, &month_of_year_variable,
+	// --- Location ---
+	&location_variable, &trip_variable,
+	&tax_ocean_variable, &tax_country_variable, &tax_state_variable, &tax_county_variable,
+	&tax_town_variable, &tax_city_variable, &tax_region_variable, &tax_point_variable,
+	// --- Dive profile ---
+	&dive_mode_variable, &max_depth_variable, &mean_depth_variable,
+	&water_temperature_variable, &air_temperature_variable, &duration_variable,
+	&dive_computer_variable,
+	// --- Equipment & Gas ---
+	&weight_variable, &suit_variable, &weightsystem_variable,
+	&cylinder_type_variable, &gas_type_variable, &sac_variable,
 	&gas_content_o2_variable, &gas_content_o2_he_max_variable, &gas_content_he_variable,
-	&dive_mode_variable, &people_variable, &buddy_variable, &dive_guide_variable, &tag_variable,
-	&gas_type_variable, &suit_variable,
-	&weightsystem_variable, &cylinder_type_variable, &location_variable, &trip_variable, &day_of_week_variable,
-	&month_of_year_variable, &rating_variable, &visibility_variable, &dive_computer_variable,
+	// --- People ---
+	&buddy_variable, &dive_guide_variable, &people_variable,
+	// --- Media & Description ---
+	&tag_variable, &rating_variable, &visibility_variable,
 };
