@@ -28,11 +28,15 @@ Item {
 	Map {
 		id: map
 		anchors.fill: parent
-		zoomLevel: defaultZoomIn
+		// AI-generated (Claude): initial view — Jeju area, zoom 8
+		center: QtPositioning.coordinate(33.35607909161026, 126.53013192706959)
+		zoomLevel: 8.0
 
 		property var mapType
-		readonly property var defaultCenter: QtPositioning.coordinate(0, 0)
-		readonly property real defaultZoomIn: 12.0
+		// AI-generated (Claude): default startup target (Jeju)
+		readonly property var defaultCenter: QtPositioning.coordinate(33.35607909161026, 126.53013192706959)
+		readonly property real defaultZoomIn: 18.0
+		readonly property real singleSiteZoom: 14.0
 		readonly property real defaultZoomOut: 1.0
 		readonly property real textVisibleZoom: 11.0
 		readonly property real zoomStep: 2.0
@@ -41,6 +45,7 @@ Item {
 		property real newZoomOut: 1.0
 		property var clickCoord: QtPositioning.coordinate(0, 0)
 		property bool isReady: false
+		readonly property real fitPaddingRatio: 0.25
 
 		Component.onCompleted: isReady = true
 		onZoomLevelChanged: {
@@ -69,7 +74,10 @@ Item {
 						drag.target: (mapHelper.editMode && model.isSelected) ? mapItem : undefined
 						anchors.fill: parent
 						onClicked: {
-							if (!mapHelper.editMode && model.divesite)
+							// AI-generated (Claude): allow clicks even in
+							// dive-site (edit) mode so markers can drive
+							// the dive-site list selection.
+							if (model.divesite)
 								mapHelper.selectedLocationChanged(model.divesite)
 						}
 						onDoubleClicked: map.doubleClickHandler(mapItem.coordinate)
@@ -150,75 +158,59 @@ Item {
 			mapAnimationZoomIn.stop()
 		}
 
-		function centerOnCoordinate(coord) {
+		// AI-generated (Claude): 2-arg signature to match helper's invokeMethod.
+		function centerOnCoordinate(coord, preserveZoom) {
 			stopZoomAnimations()
 			if (!coordIsValid(coord)) {
 				console.warn("MapWidget.qml: centerOnCoordinate(): !coordIsValid()")
 				return
 			}
-			var newZoomOutFound = false
 			var zoomStored = zoomLevel
-			var centerStored = QtPositioning.coordinate(center.latitude, center.longitude)
-			newZoomOut = zoomLevel
 			newCenter = coord
-			zoomLevel = Math.floor(zoomLevel)
-			while (zoomLevel > minimumZoomLevel) {
-				var pt = fromCoordinate(coord)
-				if (pointIsVisible(pt)) {
-					newZoomOut = zoomLevel
-					newZoomOutFound = true
-					break
-				}
-				zoomLevel -= 1.0
+			if (preserveZoom === true) {
+				newZoom = zoomStored
+			} else {
+				newZoom = singleSiteZoom
 			}
-			if (!newZoomOutFound)
-				newZoomOut = defaultZoomOut
-			zoomLevel = zoomStored
-			center = centerStored
-			newZoom = zoomStored
+			newZoomOut = zoomStored
 			mapAnimationZoomIn.restart()
 		}
 
+		// AI-generated (Claude): padding-based fit-to-bbox.
 		function centerOnRectangle(topLeft, bottomRight, centerRect) {
 			stopZoomAnimations()
 			if (newCenter.latitude === 0.0 && newCenter.longitude === 0.0) {
-				// Do nothing
 				return
 			}
 			var centerStored = QtPositioning.coordinate(center.latitude, center.longitude)
 			var zoomStored = zoomLevel
-			var newZoomOutFound = false
 			newCenter = centerRect
-			// calculate zoom out
-			newZoomOut = zoomLevel
-			while (zoomLevel > minimumZoomLevel) {
-				var ptCenter = fromCoordinate(centerStored)
-				var ptCenterRect = fromCoordinate(centerRect)
-				if (pointIsVisible(ptCenter) && pointIsVisible(ptCenterRect)) {
-					newZoomOut = zoomLevel
-					newZoomOutFound = true
-					break
-				}
-				zoomLevel -= 1.0
-			}
-			if (!newZoomOutFound)
-				newZoomOut = defaultZoomOut
-			// calculate zoom in
-			center = newCenter
-			zoomLevel = Math.floor(maximumZoomLevel)
-			var diagonalRect = topLeft.distanceTo(bottomRight)
-			while (zoomLevel > minimumZoomLevel) {
-				var c0 = toCoordinate(Qt.point(0.0, 0.0))
-				var c1 = toCoordinate(Qt.point(width, height))
-				if (c0.distanceTo(c1) > diagonalRect) {
-					newZoom = zoomLevel - 2.0
-					break
-				}
-				zoomLevel -= 1.0
-			}
-			if (newZoom > defaultZoomIn)
+
+			var midY = height * 0.5, midX = width * 0.5
+			var viewportW = toCoordinate(Qt.point(0.0, midY)).distanceTo(toCoordinate(Qt.point(width, midY)))
+			var viewportH = toCoordinate(Qt.point(midX, 0.0)).distanceTo(toCoordinate(Qt.point(midX, height)))
+
+			var midLat = (topLeft.latitude + bottomRight.latitude) * 0.5
+			var midLon = (topLeft.longitude + bottomRight.longitude) * 0.5
+			var rectW = QtPositioning.coordinate(midLat, topLeft.longitude)
+			              .distanceTo(QtPositioning.coordinate(midLat, bottomRight.longitude))
+			var rectH = QtPositioning.coordinate(topLeft.latitude, midLon)
+			              .distanceTo(QtPositioning.coordinate(bottomRight.latitude, midLon))
+
+			if (viewportW > 0 && viewportH > 0 && rectW > 0 && rectH > 0) {
+				var pad = 1.0 + 2.0 * fitPaddingRatio
+				var ratioX = viewportW / (rectW * pad)
+				var ratioY = viewportH / (rectH * pad)
+				var limit = Math.min(ratioX, ratioY)
+				newZoom = zoomStored + Math.log2(limit)
+			} else {
 				newZoom = defaultZoomIn
-			zoomLevel = zoomStored
+			}
+			if (newZoom > defaultZoomIn) newZoom = defaultZoomIn
+			if (newZoom < minimumZoomLevel) newZoom = minimumZoomLevel
+
+			newZoomOut = zoomStored
+
 			center = centerStored
 			mapAnimationZoomIn.restart()
 		}

@@ -9,6 +9,7 @@
 		<file alias="dive-location-marker-icon">icons/mapwidget-marker.png</file>
 		<file alias="dive-location-marker-inactive-icon">icons/mapwidget-marker-gray.png</file>
 		<file alias="dive-location-marker-selected-icon">icons/mapwidget-marker-selected.png</file>
+		<file alias="dive-location-marker-exit-icon">icons/mapwidget-marker-checkered.png</file>
 		<file alias="map-style-map-icon">icons/mapwidget-toggle-street.png</file>
 		<file alias="map-style-photo-icon">icons/mapwidget-toggle-satellite.png</file>
 		<file alias="open-menu-icon">icons/mapwidget-context-menu.png</file>

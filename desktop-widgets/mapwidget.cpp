@@ -2,6 +2,8 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QModelIndex>
+#include <QTimer>
+#include <QGuiApplication>
 
 #include "mapwidget.h"
 #include "core/divesite.h"
@@ -28,7 +30,9 @@ MapWidget::MapWidget(QWidget *parent) : QQuickWidget(parent)
 	setResizeMode(QQuickWidget::SizeRootObjectToView);
 	connect(this, &QQuickWidget::statusChanged, this, &MapWidget::doneLoading);
 	connect(&diveListNotifier, &DiveListNotifier::divesChanged, this, &MapWidget::divesChanged);
-	connect(&diveListNotifier, &DiveListNotifier::dataReset, this, &MapWidget::reload);
+	// AI-generated (Claude): on a full data reset (e.g. log just loaded) fit
+	// every dive site into the viewport.
+	connect(&diveListNotifier, &DiveListNotifier::dataReset, this, &MapWidget::onDataReset);
 	connect(&diveListNotifier, &DiveListNotifier::settingsChanged, this, &MapWidget::reload);
 	setSource(urlMapWidget);
 }
@@ -49,6 +53,9 @@ void MapWidget::doneLoading(QQuickWidget::Status status)
 	m_mapHelper = rootObject()->findChild<MapWidgetHelper *>();
 	connect(m_mapHelper, &MapWidgetHelper::selectedDivesChanged, this, &MapWidget::selectedDivesChanged);
 	connect(m_mapHelper, &MapWidgetHelper::coordinatesChanged, this, &MapWidget::coordinatesChanged);
+	// AI-generated (Claude)
+	connect(m_mapHelper, &MapWidgetHelper::selectedDiveSitesFromMap,
+		this, &MapWidget::selectedDiveSitesFromMap);
 }
 
 void MapWidget::centerOnDiveSite(struct dive_site *ds)
@@ -74,6 +81,20 @@ void MapWidget::reload()
 	m_mapHelper->centerOnSelectedDiveSite();
 }
 
+// AI-generated (Claude): the dive-list also re-selects the most recent dive on
+// dataReset, which triggers a centerOnSelectedDiveSite() and would otherwise
+// override our fit-all. Defer the fit to the next event loop tick so it runs
+// last and wins.
+void MapWidget::onDataReset()
+{
+	CHECK_IS_READY_RETURN_VOID();
+	m_mapHelper->reloadMapLocations();
+	QTimer::singleShot(0, this, [this]() {
+		if (isReady && m_mapHelper)
+			m_mapHelper->centerOnAllSites();
+	});
+}
+
 bool MapWidget::editMode() const
 {
 	return isReady && m_mapHelper->editMode();
@@ -91,13 +112,30 @@ void MapWidget::selectedDivesChanged(const QList<int> &list)
 	CHECK_IS_READY_RETURN_VOID();
 	// We get a list of dive indices, but the selection code wants a list of dives.
 	// Therefore, transform them here.
-	std::vector<dive *> selection;
-	selection.reserve(list.size());
+	std::vector<dive *> clicked;
+	clicked.reserve(list.size());
 	for (int idx: list) {
 		if (idx >= 0 && static_cast<size_t>(idx) < divelog.dives.size())
-			selection.push_back(divelog.dives[idx].get());
+			clicked.push_back(divelog.dives[idx].get());
 	}
-	setSelection(std::move(selection), current_dive, -1);
+
+	// AI-generated (Claude): Shift/Ctrl/Cmd held → extend the existing dive
+	// selection (toggle clicked dives in/out); otherwise replace.
+	const auto mods = QGuiApplication::keyboardModifiers();
+	const bool extendSel = mods & (Qt::ShiftModifier | Qt::ControlModifier | Qt::MetaModifier);
+	if (extendSel) {
+		std::vector<dive *> merged = getDiveSelection();
+		for (dive *d: clicked) {
+			auto it = std::find(merged.begin(), merged.end(), d);
+			if (it != merged.end())
+				merged.erase(it);     // toggle off
+			else
+				merged.push_back(d);  // toggle on
+		}
+		setSelection(merged, current_dive, -1);
+	} else {
+		setSelection(clicked, current_dive, -1);
+	}
 }
 
 void MapWidget::coordinatesChanged(struct dive_site *ds, const location_t &location)

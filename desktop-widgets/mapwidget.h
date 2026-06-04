@@ -34,6 +34,13 @@ public slots:
 	void coordinatesChanged(struct dive_site *ds, const location_t &);
 	void doneLoading(QQuickWidget::Status status);
 	void divesChanged(const QVector<dive *> &, DiveField field);
+	// AI-generated (Claude): full reload + fit all dive sites to the viewport
+	void onDataReset();
+
+signals:
+	// AI-generated (Claude): forwarded from MapWidgetHelper for the dive-site
+	// list view to select rows matching a map-marker click in site mode.
+	void selectedDiveSitesFromMap(const QVector<dive_site *> &sites);
 
 private:
 	static MapWidget *m_instance;

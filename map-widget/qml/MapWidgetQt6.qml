@@ -34,13 +34,18 @@ Item {
 	Map {
 		id: map
 		anchors.fill: parent
-		zoomLevel: defaultZoomIn
+		// AI-generated (Claude): initial view — Jeju area, zoom 8
+		center: QtPositioning.coordinate(33.35607909161026, 126.53013192706959)
+		zoomLevel: 8.0
 
 		property var startCentroid
 
 		property var mapType
-		readonly property var defaultCenter: QtPositioning.coordinate(0, 0)
-		readonly property real defaultZoomIn: 12.0
+		// AI-generated (Claude): default startup target (Jeju)
+		readonly property var defaultCenter: QtPositioning.coordinate(33.35607909161026, 126.53013192706959)
+		readonly property real defaultZoomIn: 18.0
+		// AI-generated (Claude): first-time single-site landing zoom
+		readonly property real singleSiteZoom: 14.0
 		readonly property real defaultZoomOut: 1.0
 		readonly property real textVisibleZoom: 11.0
 		readonly property real zoomStep: 2.0
@@ -49,11 +54,45 @@ Item {
 		property real newZoomOut: 1.0
 		property var clickCoord: QtPositioning.coordinate(0, 0)
 		property bool isReady: false
+		// AI-generated (Claude): debug tracking — who set the current zoom
+		property string zoomSource: "init: Jeju (33.356, 126.530), zoom=8"
+		// AI-generated (Claude): padding ratio used by centerOnRectangle (fit-all)
+		// 0.25 = 25% empty margin between the outermost marker and the viewport edge
+		readonly property real fitPaddingRatio: 0.25
 
 		Component.onCompleted: isReady = true
 		onZoomLevelChanged: {
 			if (isReady)
 				mapHelper.calculateSmallCircleRadius(map.center)
+		}
+
+		// AI-generated (Claude): dashed GPS1->GPS2 segments via many short
+		// MapPolylines (Qt's MapPolyline has no native dash pattern).
+		MapItemView {
+			id: trackDashesView
+			model: mapHelper.diveTrackDashes
+			delegate: MapPolyline {
+				line.width: 3
+				line.color: "#ff3030"
+				path: model.pathCoords.path
+			}
+		}
+
+		// AI-generated (Claude): GPS2 (exit) markers with checkered-flag icon
+		// to visually distinguish from the entry pin.
+		MapItemView {
+			id: trackExitView
+			model: mapHelper.diveTrackExits
+			delegate: MapQuickItem {
+				coordinate: model.coord
+				anchorPoint.x: exitImg.width * 0.5
+				anchorPoint.y: exitImg.height
+				z: 2
+				sourceItem: Image {
+					id: exitImg
+					source: "qrc:///dive-location-marker-exit-icon"
+				}
+			}
 		}
 
 		MapItemView {
@@ -76,8 +115,11 @@ Item {
 					MouseArea {
 						drag.target: (mapHelper.editMode && model.isSelected) ? mapItem : undefined
 						anchors.fill: parent
+						// AI-generated (Claude): allow clicks even in edit
+						// (dive-site) mode so map markers can drive the dive-
+						// site list selection.
 						onClicked: {
-							if (!mapHelper.editMode && model.divesite)
+							if (model.divesite)
 								mapHelper.selectedLocationChanged(model.divesite)
 						}
 						onDoubleClicked: map.doubleClickHandler(mapItem.coordinate)
@@ -132,7 +174,7 @@ Item {
 		// these also work with Qt 5.15
 		WheelHandler {
 			id: wheel
-			onActiveChanged: if (active) map.stopZoomAnimations()
+			onActiveChanged: if (active) { map.stopZoomAnimations(); map.zoomSource = "wheel (rotationScale=1/120)" }
 			acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland"
 				? PointerDevice.Mouse | PointerDevice.TouchPad
 				: PointerDevice.Mouse
@@ -151,6 +193,7 @@ Item {
 			onActiveChanged: if (active) {
 				map.stopZoomAnimations()
 				map.startCentroid = map.toCoordinate(pinch.centroid.position, false)
+				map.zoomSource = "pinch (log2(scale))"
 			}
 			onScaleChanged: function(delta) {
 				map.zoomLevel += Math.log2(delta)
@@ -170,6 +213,7 @@ Item {
 			newZoom = zoomLevel + zoomStep
 			if (newZoom > maximumZoomLevel)
 				newZoom = maximumZoomLevel
+			zoomSource = "doubleClick: zoomLevel+zoomStep(" + zoomStep + ") clamp<=maximumZoomLevel(" + maximumZoomLevel + ")"
 			mapAnimationClick.restart()
 		}
 
@@ -188,76 +232,83 @@ Item {
 			mapAnimationZoomIn.stop()
 		}
 
-		function centerOnCoordinate(coord) {
+		// AI-generated (Claude): single-site centring.
+		// preserveZoom=true → just pan, keep current zoom (transition between
+		// two single-site selections). Otherwise zoom to singleSiteZoom (14).
+		function centerOnCoordinate(coord, preserveZoom) {
 			stopZoomAnimations()
 			if (!coordIsValid(coord)) {
 				console.warn("MapWidget.qml: centerOnCoordinate(): !coordIsValid()")
 				return
 			}
-			var newZoomOutFound = false
 			var zoomStored = zoomLevel
-			var centerStored = QtPositioning.coordinate(center.latitude, center.longitude)
-			newZoomOut = zoomLevel
 			newCenter = coord
-			zoomLevel = Math.floor(zoomLevel)
-			while (zoomLevel > minimumZoomLevel) {
-				var pt = fromCoordinate(coord)
-				if (pointIsVisible(pt)) {
-					newZoomOut = zoomLevel
-					newZoomOutFound = true
-					break
-				}
-				zoomLevel -= 1.0
+			if (preserveZoom === true) {
+				newZoom = zoomStored
+				zoomSource = "centerOnCoordinate (single→single): zoom kept @ " +
+				             zoomStored.toFixed(2)
+			} else {
+				newZoom = singleSiteZoom
+				zoomSource = "centerOnCoordinate (single site, first): newZoom=singleSiteZoom(" +
+				             singleSiteZoom.toFixed(2) + ")"
 			}
-			if (!newZoomOutFound)
-				newZoomOut = defaultZoomOut
-			zoomLevel = zoomStored
-			center = centerStored
-			newZoom = zoomStored
+			newZoomOut = zoomStored
 			mapAnimationZoomIn.restart()
 		}
 
+		// AI-generated (Claude): pick the zoom level so the limiting axis (width
+		// or height, whichever is tighter relative to its bbox extent) hits the
+		// requested padding ratio. Comparing only diagonals would crop markers
+		// on the perpendicular axis when bbox aspect differs from the viewport.
 		function centerOnRectangle(topLeft, bottomRight, centerRect) {
 			stopZoomAnimations()
 			if (newCenter.latitude === 0.0 && newCenter.longitude === 0.0) {
-				// Do nothing
 				return
 			}
 			var centerStored = QtPositioning.coordinate(center.latitude, center.longitude)
 			var zoomStored = zoomLevel
-			var newZoomOutFound = false
 			newCenter = centerRect
-			// calculate zoom out
-			newZoomOut = zoomLevel
-			while (zoomLevel > minimumZoomLevel) {
-				var ptCenter = fromCoordinate(centerStored)
-				var ptCenterRect = fromCoordinate(centerRect)
-				if (pointIsVisible(ptCenter) && pointIsVisible(ptCenterRect)) {
-					newZoomOut = zoomLevel
-					newZoomOutFound = true
-					break
-				}
-				zoomLevel -= 1.0
-			}
-			if (!newZoomOutFound)
-				newZoomOut = defaultZoomOut
-			// calculate zoom in
-			center = newCenter
-			zoomLevel = Math.floor(maximumZoomLevel)
-			var diagonalRect = topLeft.distanceTo(bottomRight)
-			while (zoomLevel > minimumZoomLevel) {
-				var c0 = toCoordinate(Qt.point(0.0, 0.0))
-				var c1 = toCoordinate(Qt.point(width, height))
-				if (c0.distanceTo(c1) > diagonalRect) {
-					newZoom = zoomLevel - 2.0
-					break
-				}
-				zoomLevel -= 1.0
-			}
-			if (newZoom > defaultZoomIn)
+
+			// Viewport width/height in metres at the current zoom.
+			var midY = height * 0.5, midX = width * 0.5
+			var viewportW = toCoordinate(Qt.point(0.0, midY)).distanceTo(toCoordinate(Qt.point(width, midY)))
+			var viewportH = toCoordinate(Qt.point(midX, 0.0)).distanceTo(toCoordinate(Qt.point(midX, height)))
+
+			// Bbox width/height in metres along its midline.
+			var midLat = (topLeft.latitude + bottomRight.latitude) * 0.5
+			var midLon = (topLeft.longitude + bottomRight.longitude) * 0.5
+			var rectW = QtPositioning.coordinate(midLat, topLeft.longitude)
+			              .distanceTo(QtPositioning.coordinate(midLat, bottomRight.longitude))
+			var rectH = QtPositioning.coordinate(topLeft.latitude, midLon)
+			              .distanceTo(QtPositioning.coordinate(bottomRight.latitude, midLon))
+
+			if (viewportW > 0 && viewportH > 0 && rectW > 0 && rectH > 0) {
+				// At target zoom, we want both:
+				//   viewportW(target) >= rectW * (1 + 2*pad)
+				//   viewportH(target) >= rectH * (1 + 2*pad)
+				// Each axis halves per +1 zoom. The smaller of the two ratios
+				// drives the final zoom (otherwise the other axis is cropped).
+				var pad = 1.0 + 2.0 * fitPaddingRatio
+				var ratioX = viewportW / (rectW * pad)
+				var ratioY = viewportH / (rectH * pad)
+				var limit = Math.min(ratioX, ratioY)
+				newZoom = zoomStored + Math.log2(limit)
+			} else {
 				newZoom = defaultZoomIn
-			zoomLevel = zoomStored
+			}
+			if (newZoom > defaultZoomIn) newZoom = defaultZoomIn
+			if (newZoom < minimumZoomLevel) newZoom = minimumZoomLevel
+
+			// Skip the intermediate zoom-out step in the animation: zoom and pan
+			// together straight to the target.
+			newZoomOut = zoomStored
+
 			center = centerStored
+			zoomSource = "centerOnRectangle: rectW=" + Math.round(rectW) +
+			             "m rectH=" + Math.round(rectH) +
+			             "m -> newZoom=" + newZoom.toFixed(2) +
+			             " (padRatio=" + fitPaddingRatio + ", clamp[" +
+			             minimumZoomLevel.toFixed(1) + "," + defaultZoomIn + "])"
 			mapAnimationZoomIn.restart()
 		}
 
@@ -291,6 +342,26 @@ Item {
 			color: "white"
 			font.pointSize: 11.0
 			text: qsTr("Drag the selected dive location")
+		}
+	}
+
+	// AI-generated (Claude): debug overlay showing current zoom and who set it
+	Rectangle {
+		id: zoomDebugBox
+		x: 60; y: 10
+		width: zoomDebugText.width + 16
+		height: zoomDebugText.height + 10
+		color: "#cc000000"
+		radius: 4
+		Text {
+			id: zoomDebugText
+			x: 8; y: 5
+			color: "white"
+			font.pointSize: 10
+			text: "zoom = " + map.zoomLevel.toFixed(3) +
+			      "  [min " + map.minimumZoomLevel.toFixed(1) +
+			      ", max " + map.maximumZoomLevel.toFixed(1) + "]" +
+			      "\nsource: " + map.zoomSource
 		}
 	}
 
@@ -333,6 +404,8 @@ Item {
 				map.newZoom = map.zoomLevel + map.zoomStep
 				if (map.newZoom > map.maximumZoomLevel)
 					map.newZoom = map.maximumZoomLevel
+				map.zoomSource = "[+] button: zoomLevel+zoomStep(" + map.zoomStep +
+				                 ") clamp<=maximumZoomLevel(" + map.maximumZoomLevel + ")"
 				mapAnimationClick.restart()
 				imageZoomInAnimation.restart()
 			}
@@ -356,6 +429,7 @@ Item {
 				map.stopZoomAnimations()
 				map.newCenter = map.center
 				map.newZoom = map.zoomLevel - map.zoomStep
+				map.zoomSource = "[-] button: zoomLevel-zoomStep(" + map.zoomStep + ")"
 				mapAnimationClick.restart()
 				imageZoomOutAnimation.restart()
 			}

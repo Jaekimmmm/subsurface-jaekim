@@ -5,6 +5,9 @@
 #include <QVector>
 
 #include "qmlmapwidgethelper.h"
+#include "core/dive.h"
+#include "core/divecomputer.h"
+#include "core/extradata.h"
 #include "core/divefilter.h"
 #include "core/divelist.h"
 #include "core/divelog.h"
@@ -56,6 +59,64 @@ void MapWidgetHelper::setSelected(const std::vector<dive_site *> divesites)
 	m_mapLocationModel->setSelected(std::move(divesites));
 	m_mapLocationModel->selectionChanged();
 	updateEditMode();
+	// AI-generated (Claude)
+	updateDiveTracks();
+}
+
+// AI-generated (Claude): collect entry (GPS1) / exit (GPS2) coordinates from
+// the dive computers of the currently selected dives, and synthesize a fake
+// dashed line by chopping each segment into N short polylines (Qt's
+// MapPolyline does not support a native dash pattern).
+void MapWidgetHelper::updateDiveTracks()
+{
+	QVector<QGeoCoordinate> exits;
+	QVector<QVector<QGeoCoordinate>> dashes;
+	constexpr int DASH_COUNT = 10; // 10 dashes + 10 gaps along the segment
+
+	for (const auto &d: divelog.dives) {
+		if (!d->selected)
+			continue;
+		location_t entry{}, exitLoc{};
+		bool hasEntry = false, hasExit = false;
+		for (const struct divecomputer &dc: d->dcs) {
+			for (const auto &data: dc.extra_data) {
+				if (data.key == "GPS1" && !hasEntry) {
+					location_t tmp{};
+					parse_location(data.value.c_str(), &tmp);
+					if (has_location(&tmp)) { entry = tmp; hasEntry = true; }
+				} else if (data.key == "GPS2" && !hasExit) {
+					location_t tmp{};
+					parse_location(data.value.c_str(), &tmp);
+					if (has_location(&tmp)) { exitLoc = tmp; hasExit = true; }
+				}
+			}
+			if (hasEntry && hasExit)
+				break;
+		}
+		if (!hasEntry || !hasExit)
+			continue;
+		if (entry == exitLoc)
+			continue;
+
+		const double eLat = entry.lat.udeg   * 0.000001;
+		const double eLon = entry.lon.udeg   * 0.000001;
+		const double xLat = exitLoc.lat.udeg * 0.000001;
+		const double xLon = exitLoc.lon.udeg * 0.000001;
+		exits.append(QGeoCoordinate(xLat, xLon));
+
+		for (int i = 0; i < DASH_COUNT; ++i) {
+			const double t0 = static_cast<double>(2 * i)     / (2 * DASH_COUNT);
+			const double t1 = static_cast<double>(2 * i + 1) / (2 * DASH_COUNT);
+			QVector<QGeoCoordinate> seg{
+				QGeoCoordinate(eLat + (xLat - eLat) * t0, eLon + (xLon - eLon) * t0),
+				QGeoCoordinate(eLat + (xLat - eLat) * t1, eLon + (xLon - eLon) * t1)
+			};
+			dashes.append(std::move(seg));
+		}
+	}
+
+	m_diveTrackExits.reset(std::move(exits));
+	m_diveTrackDashes.reset(std::move(dashes));
 }
 
 void MapWidgetHelper::centerOnSelectedDiveSite()
@@ -95,7 +156,13 @@ void MapWidgetHelper::centerOnSelectedDiveSite()
 	// If we didn't find any coordinates, do nothing.
 	if (count == 1) {
 		QGeoCoordinate dsCoord (selDS[0]->location.lat.udeg * 0.000001, selDS[0]->location.lon.udeg * 0.000001);
-		QMetaObject::invokeMethod(m_map, "centerOnCoordinate", Q_ARG(QVariant, QVariant::fromValue(dsCoord)));
+		// AI-generated (Claude): preserve zoom only when transitioning from
+		// another single-site selection.
+		const bool preserveZoom = m_prevSingleSite;
+		QMetaObject::invokeMethod(m_map, "centerOnCoordinate",
+		                          Q_ARG(QVariant, QVariant::fromValue(dsCoord)),
+		                          Q_ARG(QVariant, preserveZoom));
+		m_prevSingleSite = true;
 	} else if (count > 1) {
 		QGeoCoordinate coordTopLeft(minLat, minLon);
 		QGeoCoordinate coordBottomRight(maxLat, maxLon);
@@ -104,6 +171,7 @@ void MapWidgetHelper::centerOnSelectedDiveSite()
 					  Q_ARG(QVariant, QVariant::fromValue(coordTopLeft)),
 					  Q_ARG(QVariant, QVariant::fromValue(coordBottomRight)),
 					  Q_ARG(QVariant, QVariant::fromValue(coordCenter)));
+		m_prevSingleSite = false;
 	}
 }
 
@@ -123,12 +191,50 @@ void MapWidgetHelper::reloadMapLocations()
 {
 	updateEditMode();
 	m_mapLocationModel->reload(m_map);
+	// AI-generated (Claude)
+	updateDiveTracks();
+}
+
+// AI-generated (Claude): compute the bounding box of every dive site that has
+// GPS coordinates and ask QML to fit the rectangle. Falls back to the single-
+// site centering for one site, or to the default zoom for none.
+void MapWidgetHelper::centerOnAllSites()
+{
+	qreal minLat = 0.0, minLon = 0.0, maxLat = 0.0, maxLon = 0.0;
+	int count = 0;
+	for (const auto &ds: divelog.sites) {
+		if (!ds->has_gps_location())
+			continue;
+		const qreal lat = ds->location.lat.udeg * 0.000001;
+		const qreal lon = ds->location.lon.udeg * 0.000001;
+		if (++count == 1) {
+			minLat = maxLat = lat;
+			minLon = maxLon = lon;
+			continue;
+		}
+		if      (lat < minLat) minLat = lat;
+		else if (lat > maxLat) maxLat = lat;
+		if      (lon < minLon) minLon = lon;
+		else if (lon > maxLon) maxLon = lon;
+	}
+	if (count == 0)
+		return;
+	if (count == 1) {
+		QGeoCoordinate c(minLat, minLon);
+		QMetaObject::invokeMethod(m_map, "centerOnCoordinate", Q_ARG(QVariant, QVariant::fromValue(c)));
+		return;
+	}
+	QGeoCoordinate topLeft(maxLat, minLon);
+	QGeoCoordinate bottomRight(minLat, maxLon);
+	QGeoCoordinate center(minLat + (maxLat - minLat) * 0.5, minLon + (maxLon - minLon) * 0.5);
+	QMetaObject::invokeMethod(m_map, "centerOnRectangle",
+				  Q_ARG(QVariant, QVariant::fromValue(topLeft)),
+				  Q_ARG(QVariant, QVariant::fromValue(bottomRight)),
+				  Q_ARG(QVariant, QVariant::fromValue(center)));
 }
 
 void MapWidgetHelper::selectedLocationChanged(struct dive_site *ds_in)
 {
-	QList<int> selectedDiveIds;
-
 	if (!ds_in)
 		return;
 	const MapLocation *location = m_mapLocationModel->getMapLocation(ds_in);
@@ -136,6 +242,26 @@ void MapWidgetHelper::selectedLocationChanged(struct dive_site *ds_in)
 		return;
 	QGeoCoordinate locationCoord = location->coordinate;
 
+#ifndef SUBSURFACE_MOBILE
+	// AI-generated (Claude): in dive-site mode the relevant selection is
+	// dive_site rows in the list view, not dives. Collect nearby sites and
+	// emit a dedicated signal.
+	if (DiveFilter::instance()->diveSiteMode()) {
+		QVector<dive_site *> nearbySites;
+		for (const auto &ds: divelog.sites) {
+			if (!ds->has_gps_location())
+				continue;
+			const qreal lat = ds->location.lat.udeg * 0.000001;
+			const qreal lon = ds->location.lon.udeg * 0.000001;
+			if (locationCoord.distanceTo(QGeoCoordinate(lat, lon)) < m_smallCircleRadius)
+				nearbySites.append(ds.get());
+		}
+		emit selectedDiveSitesFromMap(nearbySites);
+		return;
+	}
+#endif
+
+	QList<int> selectedDiveIds;
 	for (auto [idx, dive]: enumerated_range(divelog.dives)) {
 		struct dive_site *ds = dive->dive_site;
 		if (!ds || !ds->has_gps_location())
