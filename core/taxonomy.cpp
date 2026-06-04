@@ -17,7 +17,10 @@ const char *taxonomy_category_names[TC_NR_CATEGORIES] = {
 	QT_TRANSLATE_NOOP("gettextFromC", "State"),
 	QT_TRANSLATE_NOOP("gettextFromC", "County"),
 	QT_TRANSLATE_NOOP("gettextFromC", "Town"),
-	QT_TRANSLATE_NOOP("gettextFromC", "City")
+	QT_TRANSLATE_NOOP("gettextFromC", "City"),
+	// AI-generated (Claude)
+	QT_TRANSLATE_NOOP("gettextFromC", "Dive region"),
+	QT_TRANSLATE_NOOP("gettextFromC", "Dive point")
 };
 
 // these are the names for geoname.org
@@ -28,7 +31,10 @@ const char *taxonomy_api_names[TC_NR_CATEGORIES] = {
 	"adminName1",
 	"adminName2",
 	"toponymName",
-	"adminName3"
+	"adminName3",
+	// AI-generated (Claude): no geonames mapping; user-only fields
+	"none",
+	"none"
 };
 
 std::string taxonomy_get_value(const taxonomy_data &t, enum taxonomy_category cat)
@@ -60,6 +66,18 @@ void taxonomy_set_country(taxonomy_data &t, const std::string &country, enum tax
 	taxonomy_set_category(t, TC_COUNTRY, country, origin);
 }
 
+// AI-generated (Claude)
+std::vector<enum taxonomy_category> taxonomy_active_categories()
+{
+	std::vector<enum taxonomy_category> out;
+	out.reserve(GEOCODING_PREF_SLOTS);
+	for (int i = 0; i < GEOCODING_PREF_SLOTS; i++) {
+		if (prefs.geocoding.category[i] != TC_NONE)
+			out.push_back(prefs.geocoding.category[i]);
+	}
+	return out;
+}
+
 std::string taxonomy_get_location_tags(const taxonomy_data &taxonomy, bool for_maintab)
 {
 	using namespace std::string_literals;
@@ -68,9 +86,10 @@ std::string taxonomy_get_location_tags(const taxonomy_data &taxonomy, bool for_m
 	if (taxonomy.empty())
 		return locationTag;
 
-	/* Check if the user set any of the 3 geocoding categories */
+	/* Check if the user set any of the geocoding categories */
+	// AI-generated (Claude): iterate the full prefs slot array
 	bool prefs_set = false;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < GEOCODING_PREF_SLOTS; i++) {
 		if (prefs.geocoding.category[i] != TC_NONE)
 			prefs_set = true;
 	}
@@ -88,7 +107,8 @@ std::string taxonomy_get_location_tags(const taxonomy_data &taxonomy, bool for_m
 	else
 		locationTag = "<small><small>"s;
 	std::string connector;
-	for (int i = 0; i < 3; i++) {
+	// AI-generated (Claude): iterate the full prefs slot array
+	for (int i = 0; i < GEOCODING_PREF_SLOTS; i++) {
 		if (prefs.geocoding.category[i] == TC_NONE)
 			continue;
 		for (auto const &t: taxonomy) {

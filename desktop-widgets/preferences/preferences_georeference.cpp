@@ -14,6 +14,9 @@ PreferencesGeoreference::PreferencesGeoreference() : AbstractPreferencesWidget(t
 	ui->first_item->setModel(GeoReferencingOptionsModel::instance());
 	ui->second_item->setModel(GeoReferencingOptionsModel::instance());
 	ui->third_item->setModel(GeoReferencingOptionsModel::instance());
+	// AI-generated (Claude)
+	ui->fourth_item->setModel(GeoReferencingOptionsModel::instance());
+	ui->fifth_item->setModel(GeoReferencingOptionsModel::instance());
 }
 
 PreferencesGeoreference::~PreferencesGeoreference()
@@ -26,6 +29,9 @@ void PreferencesGeoreference::refreshSettings()
 	ui->first_item->setCurrentIndex(prefs.geocoding.category[0]);
 	ui->second_item->setCurrentIndex(prefs.geocoding.category[1]);
 	ui->third_item->setCurrentIndex(prefs.geocoding.category[2]);
+	// AI-generated (Claude)
+	ui->fourth_item->setCurrentIndex(prefs.geocoding.category[3]);
+	ui->fifth_item->setCurrentIndex(prefs.geocoding.category[4]);
 }
 
 void PreferencesGeoreference::syncSettings()
@@ -33,4 +39,7 @@ void PreferencesGeoreference::syncSettings()
 	qPrefGeocoding::set_first_taxonomy_category((taxonomy_category) ui->first_item->currentIndex());
 	qPrefGeocoding::set_second_taxonomy_category((taxonomy_category) ui->second_item->currentIndex());
 	qPrefGeocoding::set_third_taxonomy_category((taxonomy_category) ui->third_item->currentIndex());
+	// AI-generated (Claude)
+	qPrefGeocoding::set_fourth_taxonomy_category((taxonomy_category) ui->fourth_item->currentIndex());
+	qPrefGeocoding::set_fifth_taxonomy_category((taxonomy_category) ui->fifth_item->currentIndex());
 }

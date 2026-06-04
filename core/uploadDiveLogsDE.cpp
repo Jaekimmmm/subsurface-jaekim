@@ -109,7 +109,8 @@ bool uploadDiveLogsDE::prepareDives(bool selected)
 			put_format(&mb, "'");
 			put_location(&mb, &ds->location, " gps='", "'");
 			put_format(&mb, ">\n");
-			for (int i = 0; i < 3; i++) {
+			// AI-generated (Claude): iterate the full prefs slot array
+			for (int i = 0; i < GEOCODING_PREF_SLOTS; i++) {
 				if (prefs.geocoding.category[i] == TC_NONE)
 					continue;
 				for (auto const &t: ds->taxonomy) {

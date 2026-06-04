@@ -148,7 +148,29 @@ dive_site *dive_site_table::create(const std::string &name)
 /* same as before, but with GPS data */
 dive_site *dive_site_table::create(const std::string &name, const location_t loc)
 {
-	return register_site(std::make_unique<dive_site>(name, loc)).ptr;
+	dive_site *ds = register_site(std::make_unique<dive_site>(name, loc)).ptr;
+	// AI-generated (Claude): inherit dive_region / dive_point from the closest
+	// known site (default 500 m). This keeps fresh GPS fixes for the same
+	// physical entry point grouped under the same diving classification.
+	inherit_dive_taxonomy_from_nearby(*this, ds, 500 * 1000);
+	return ds;
+}
+
+// AI-generated (Claude)
+void inherit_dive_taxonomy_from_nearby(const dive_site_table &table, dive_site *ds, int distance_mm)
+{
+	if (!ds || !ds->has_gps_location())
+		return;
+	dive_site *nearby = table.get_by_gps_proximity(ds->location, distance_mm);
+	if (!nearby || nearby == ds)
+		return;
+	for (enum taxonomy_category cat: { TC_DIVE_REGION, TC_DIVE_POINT }) {
+		if (!taxonomy_get_value(ds->taxonomy, cat).empty())
+			continue;
+		std::string v = taxonomy_get_value(nearby->taxonomy, cat);
+		if (!v.empty())
+			taxonomy_set_category(ds->taxonomy, cat, v, GEOCOPIED);
+	}
 }
 
 /* if all fields are empty, the dive site is pointless */

@@ -446,7 +446,8 @@ void LocationFilterDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	if (!ds)
 		return;
 
-	for (int i = 0; i < 3; i++) {
+	// AI-generated (Claude): iterate the full prefs slot array
+	for (int i = 0; i < GEOCODING_PREF_SLOTS; i++) {
 		if (prefs.geocoding.category[i] == TC_NONE)
 			continue;
 		std::string value = taxonomy_get_value(ds->taxonomy, prefs.geocoding.category[i]);

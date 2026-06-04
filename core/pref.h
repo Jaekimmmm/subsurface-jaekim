@@ -18,8 +18,13 @@ struct partial_pressure_graphs_t {
 	double phe_threshold = 13.0;
 };
 
+// AI-generated (Claude): expanded from 3 to 5 slots to fit the dive-site
+// hierarchy. Default order: Country / State / (off) / Dive region / Dive point.
+constexpr int GEOCODING_PREF_SLOTS = 5;
 struct geocoding_prefs_t {
-	enum taxonomy_category category[3] = { TC_NONE, TC_NONE, TC_NONE };
+	enum taxonomy_category category[GEOCODING_PREF_SLOTS] = {
+		TC_COUNTRY, TC_ADMIN_L1, TC_NONE, TC_DIVE_REGION, TC_DIVE_POINT
+	};
 };
 
 struct locale_prefs_t {

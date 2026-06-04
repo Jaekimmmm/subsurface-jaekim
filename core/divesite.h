@@ -34,6 +34,13 @@ struct dive_site
 struct dive_site *unregister_dive_from_dive_site(struct dive *d);
 int divesite_comp_uuid(const dive_site &ds1, const dive_site &ds2);
 
+// AI-generated (Claude): copy dive_region / dive_point from the nearest site
+// within distance_mm into ds, if ds is still missing those categories. The
+// inherited values are tagged with origin GEOCOPIED so the user can still
+// see they were not entered manually.
+class dive_site_table;
+void inherit_dive_taxonomy_from_nearby(const dive_site_table &table, struct dive_site *ds, int distance_mm);
+
 /* Make pointer-to-dive_site a "Qt metatype" so that we can pass it through QVariants */
 #include <QObject>
 Q_DECLARE_METATYPE(dive_site *);

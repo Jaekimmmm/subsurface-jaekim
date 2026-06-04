@@ -13,6 +13,9 @@ enum taxonomy_category {
 	TC_ADMIN_L2,
 	TC_LOCALNAME,
 	TC_ADMIN_L3,
+	// AI-generated (Claude): diving-domain categories, user-editable only
+	TC_DIVE_REGION,
+	TC_DIVE_POINT,
 	TC_NR_CATEGORIES
 };
 
@@ -40,5 +43,11 @@ std::string taxonomy_get_country(const taxonomy_data &t);
 std::string taxonomy_get_location_tags(const taxonomy_data &taxonomy, bool for_maintab);
 void taxonomy_set_category(taxonomy_data &t, enum taxonomy_category category, const std::string &value, enum taxonomy_origin origin);
 void taxonomy_set_country(taxonomy_data &t, const std::string &country, enum taxonomy_origin origin);
+
+// AI-generated (Claude): hierarchy helpers
+// Returns the categories enabled in prefs.geocoding.category[], in order,
+// skipping TC_NONE slots. This is the user-visible ordering for both the
+// dive-site edit form and the tree view.
+std::vector<enum taxonomy_category> taxonomy_active_categories();
 
 #endif // TAXONOMY_H
