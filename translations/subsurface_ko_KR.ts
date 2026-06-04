@@ -13228,6 +13228,16 @@ You can create this logfile by selecting the corresponding checkbox in the downl
         <translation>도시</translation>
     </message>
     <message>
+        <location filename="../core/taxonomy.cpp" line="22"/>
+        <source>Dive region</source>
+        <translation>지역</translation>
+    </message>
+    <message>
+        <location filename="../core/taxonomy.cpp" line="23"/>
+        <source>Dive point</source>
+        <translation>다이빙 포인트</translation>
+    </message>
+    <message>
         <location filename="../core/time.cpp" line="238"/>
         <source>Jan</source>
         <translation>1월</translation>
