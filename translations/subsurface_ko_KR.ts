@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko_KR">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ko_KR">
 <context>
     <name>About</name>
     <message>
@@ -53,9 +55,8 @@
 <context>
     <name>Base</name>
     <message>
-        <location filename="../commands/command_edit.cpp" line="360"/>
         <source>dive site</source>
-        <translation>다이브 사이트</translation>
+        <translation type="vanished">다이브 사이트</translation>
     </message>
 </context>
 <context>
@@ -345,11 +346,77 @@
     </message>
 </context>
 <context>
+    <name>BulkDiveSiteEditDialog</name>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="44"/>
+        <source>Leave</source>
+        <translation>유지</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="45"/>
+        <source>Clear</source>
+        <translation>제거</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="46"/>
+        <source>Set</source>
+        <translation>덮어쓰기</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="47"/>
+        <source>Append</source>
+        <translation>덧붙임</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="94"/>
+        <source>Bulk edit %n dive site(s)</source>
+        <translation>
+            <numerusform>%n개 일괄 편집</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="99"/>
+        <source>Editing &lt;b&gt;%n&lt;/b&gt; selected dive site(s).</source>
+        <translation>
+            <numerusform>선택된 다이브 사이트 &lt;b&gt;%n&lt;/b&gt;개 편집 중.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="125"/>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="234"/>
+        <source>Description</source>
+        <translation>설명</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="126"/>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="243"/>
+        <source>Notes</source>
+        <translation>노트</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="133"/>
+        <source>Preview</source>
+        <translation>미리 보기</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="212"/>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/bulkdivesiteedit.cpp" line="258"/>
+        <source>%1: old → new</source>
+        <translation>%1: 이전 → 새 값</translation>
+    </message>
+</context>
+<context>
     <name>CheckCloudConnection</name>
     <message numerus="yes">
         <location filename="../core/checkcloudconnection.cpp" line="67"/>
         <source>Waiting for cloud connection (%n second(s) passed)</source>
-        <translation><numerusform>클라우드 연결을 기다리는 중 (%n (초) 경과)</numerusform></translation>
+        <translation>
+            <numerusform>클라우드 연결을 기다리는 중 (%n (초) 경과)</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../core/checkcloudconnection.cpp" line="81"/>
@@ -646,27 +713,37 @@
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="457"/>
         <source>import %n dive(s) from %1</source>
-        <translation><numerusform>%1에서 %n개 다이빙(들) 가져오기</numerusform></translation>
+        <translation>
+            <numerusform>%1에서 %n개 다이빙(들) 가져오기</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="574"/>
         <source>delete %n dive(s)</source>
-        <translation><numerusform>%n개 다이빙(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이빙(들) 삭제</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="610"/>
         <source>shift time of %n dives</source>
-        <translation><numerusform>%n개 다이빙의 시간 변경</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이빙의 시간 변경</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="660"/>
         <source>renumber %n dive(s)</source>
-        <translation><numerusform>%n개 다이빙(들) 번호 재정렬</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이빙(들) 번호 재정렬</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="718"/>
         <source>remove %n dive(s) from trip</source>
-        <translation><numerusform>트립에서 %n개 다이빙(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>트립에서 %n개 다이빙(들) 삭제</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_divelist.cpp" line="730"/>
@@ -676,7 +753,9 @@
     <message numerus="yes">
         <location filename="../commands/command_divelist.cpp" line="740"/>
         <source>add %n dives to trip</source>
-        <translation><numerusform>%n개 다이빙을 트립에 추가</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이빙을 트립에 추가</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_divelist.cpp" line="747"/>
@@ -726,7 +805,9 @@
     <message numerus="yes">
         <location filename="../commands/command_divesite.cpp" line="127"/>
         <source>delete %n dive site(s)</source>
-        <translation><numerusform>%n개 다이브 사이트(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이브 사이트(들) 삭제</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_divesite.cpp" line="147"/>
@@ -748,28 +829,34 @@
         <source>Edit dive site notes</source>
         <translation>다이브 사이트 노트 편집</translation>
     </message>
-    <message>
-        <location filename="../commands/command_divesite.cpp" line="241"/>
-        <source>Edit dive site country</source>
-        <translation>다이브 사이트 국가 편집</translation>
+    <message numerus="yes">
+        <location filename="../commands/command_divesite.cpp" line="401"/>
+        <source>Bulk edit %n dive site(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../commands/command_divesite.cpp" line="266"/>
+        <source>Edit dive site country</source>
+        <translation type="vanished">다이브 사이트 국가 편집</translation>
+    </message>
+    <message>
+        <location filename="../commands/command_divesite.cpp" line="241"/>
         <source>Edit dive site location</source>
         <translation>다이브 사이트 위치 편집</translation>
     </message>
     <message>
-        <location filename="../commands/command_divesite.cpp" line="293"/>
+        <location filename="../commands/command_divesite.cpp" line="268"/>
         <source>Edit dive site taxonomy</source>
         <translation>다이브 사이트 분류 편집</translation>
     </message>
     <message>
-        <location filename="../commands/command_divesite.cpp" line="320"/>
+        <location filename="../commands/command_divesite.cpp" line="295"/>
         <source>merge dive sites</source>
         <translation>다이브 사이트 병합</translation>
     </message>
     <message>
-        <location filename="../commands/command_divesite.cpp" line="374"/>
+        <location filename="../commands/command_divesite.cpp" line="349"/>
         <source>apply GPS fixes</source>
         <translation>GPS 수정사항 적용</translation>
     </message>
@@ -784,7 +871,9 @@
         <location filename="../commands/command_edit.cpp" line="138"/>
         <location filename="../commands/command_edit.cpp" line="521"/>
         <source>Edit %1 (%n dive(s))</source>
-        <translation><numerusform>%1 편집 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>%1 편집 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="194"/>
@@ -857,6 +946,11 @@
         <translation>수심</translation>
     </message>
     <message>
+        <location filename="../commands/command_edit.cpp" line="360"/>
+        <source>dive site</source>
+        <translation type="unfinished">다이브 사이트</translation>
+    </message>
+    <message>
         <location filename="../commands/command_edit.cpp" line="448"/>
         <source>dive mode</source>
         <translation>다이브 모드</translation>
@@ -884,7 +978,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="740"/>
         <source>Paste onto %n dive(s)</source>
-        <translation><numerusform>%n개 다이브(들)에 붙여넣기</numerusform></translation>
+        <translation>
+            <numerusform>%n개 다이브(들)에 붙여넣기</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="814"/>
@@ -899,17 +995,21 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="862"/>
         <source>Remove %n stop(s)</source>
-        <translation><numerusform>%n개 정지(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>%n개 정지(들) 삭제</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="863"/>
         <source>Move %n stop(s)</source>
-        <translation><numerusform>%n개 정지(들) 이동</numerusform></translation>
+        <translation>
+            <numerusform>%n개 정지(들) 이동</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="864"/>
         <source>Edit stop</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="928"/>
@@ -919,7 +1019,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="930"/>
         <source>Add weight (%n dive(s))</source>
-        <translation><numerusform>웨이트 추가 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>웨이트 추가 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1010"/>
@@ -929,7 +1031,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="1012"/>
         <source>Remove weight (%n dive(s))</source>
-        <translation><numerusform>웨이트 삭제 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>웨이트 삭제 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1042"/>
@@ -939,7 +1043,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="1044"/>
         <source>Edit weight (%n dive(s))</source>
-        <translation><numerusform>웨이트 편집 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>웨이트 편집 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1090"/>
@@ -949,7 +1055,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="1092"/>
         <source>Add cylinder (%n dive(s))</source>
-        <translation><numerusform>실린더 추가 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>실린더 추가 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1199"/>
@@ -959,7 +1067,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="1201"/>
         <source>Remove cylinder (%n dive(s))</source>
-        <translation><numerusform>실린더 삭제 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>실린더 삭제 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1250"/>
@@ -969,7 +1079,9 @@
     <message numerus="yes">
         <location filename="../commands/command_edit.cpp" line="1252"/>
         <source>Edit cylinder (%n dive(s))</source>
-        <translation><numerusform>실린더 편집 (%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>실린더 편집 (%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_edit.cpp" line="1300"/>
@@ -1039,7 +1151,9 @@
     <message numerus="yes">
         <location filename="../commands/command_pictures.cpp" line="140"/>
         <source>remove %n pictures(s)</source>
-        <translation><numerusform>%n개 사진(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>%n개 사진(들) 삭제</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../commands/command_pictures.cpp" line="173"/>
@@ -1049,7 +1163,9 @@
     <message numerus="yes">
         <location filename="../commands/command_pictures.cpp" line="187"/>
         <source>add %n pictures(s)</source>
-        <translation><numerusform>%n개 사진(들) 추가</numerusform></translation>
+        <translation>
+            <numerusform>%n개 사진(들) 추가</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1067,7 +1183,7 @@
     <message>
         <location filename="../core/configuredivecomputer.cpp" line="569"/>
         <source>The operation completed successfully</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/configuredivecomputer.cpp" line="584"/>
@@ -1264,7 +1380,7 @@
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="252"/>
         <source>OSTC 4/5</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="437"/>
@@ -1470,7 +1586,7 @@
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="447"/>
         <source>kg/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="858"/>
@@ -1480,7 +1596,7 @@
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="3138"/>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="3154"/>
         <source>L/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="890"/>
@@ -1986,12 +2102,12 @@
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="2588"/>
         <source>Serial no.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="2861"/>
         <source>Start depth</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="2916"/>
@@ -2001,12 +2117,12 @@
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="2930"/>
         <source>Compass declination</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="3026"/>
         <source>°</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/configuredivecomputerdialog.ui" line="3066"/>
@@ -2361,12 +2477,12 @@
     <message>
         <location filename="../qt-models/cylindermodel.cpp" line="65"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qt-models/cylindermodel.cpp" line="306"/>
         <source>Select the tank pressure sensor id for this cylinder.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qt-models/cylindermodel.cpp" line="61"/>
@@ -2460,22 +2576,22 @@
     <message>
         <location filename="../desktop-widgets/divecomponentselection.cpp" line="81"/>
         <source>Wave size: </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divecomponentselection.cpp" line="83"/>
         <source>Current: </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divecomponentselection.cpp" line="85"/>
         <source>Surge: </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divecomponentselection.cpp" line="87"/>
         <source>Chill: </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divecomponentselection.cpp" line="89"/>
@@ -2762,7 +2878,7 @@
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="609"/>
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="685"/>
         <source>Start P:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="408"/>
@@ -2780,7 +2896,7 @@
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="626"/>
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="702"/>
         <source>End P:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DiveDetailsEdit.qml" line="429"/>
@@ -3012,12 +3128,12 @@
     <message>
         <location filename="../mobile-widgets/qml/DiveList.qml" line="283"/>
         <source>Merge dive %1 with dive above</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DiveList.qml" line="291"/>
         <source>Merge dive %1 with dive below</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DiveList.qml" line="300"/>
@@ -3108,117 +3224,173 @@
 <context>
     <name>DiveListView</name>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="754"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="466"/>
+        <source>Default</source>
+        <translation>기본</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="467"/>
+        <source>Location</source>
+        <translation>위치</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="470"/>
+        <source>Dive profile</source>
+        <translation>다이브 프로필</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="472"/>
+        <source>Equipment &amp;&amp; Gas</source>
+        <translation>장비 및 가스</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="474"/>
+        <source>People</source>
+        <translation>동행자</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="475"/>
+        <source>Media &amp;&amp; Description</source>
+        <translation>미디어 및 설명</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="508"/>
+        <source>Show all</source>
+        <translation>모두 표시</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="513"/>
+        <source>Hide all</source>
+        <translation>모두 숨김</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divelistview.cpp" line="854"/>
         <source>Expand all</source>
         <translation>모두 확장</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="756"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="856"/>
         <source>Collapse all</source>
         <translation>모두 축소</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="760"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="860"/>
         <source>Collapse others</source>
         <translation>다른 항목 축소</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="765"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="865"/>
         <source>Remove dive(s) from trip</source>
-        <translation><numerusform>트립에서 다이빙(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>트립에서 다이빙(들) 삭제</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="767"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="867"/>
         <source>Create new trip above</source>
         <translation>위에 새 트립 생성</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="782"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="882"/>
         <source>Add dive(s) to trip immediately above</source>
-        <translation><numerusform>바로 위 트립에 다이빙(들) 추가</numerusform></translation>
+        <translation>
+            <numerusform>바로 위 트립에 다이빙(들) 추가</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="784"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="884"/>
         <source>Add dive(s) to trip immediately below</source>
-        <translation><numerusform>바로 아래 트립에 다이빙(들) 추가</numerusform></translation>
+        <translation>
+            <numerusform>바로 아래 트립에 다이빙(들) 추가</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="788"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="888"/>
         <source>Merge trip with trip above</source>
         <translation>위 트립과 병합</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="789"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="889"/>
         <source>Merge trip with trip below</source>
         <translation>아래 트립과 병합</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="793"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="893"/>
         <source>Delete dive(s)</source>
-        <translation><numerusform>다이빙(들) 삭제</numerusform></translation>
+        <translation>
+            <numerusform>다이빙(들) 삭제</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="795"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="895"/>
         <source>Mark dive(s) valid</source>
-        <translation><numerusform>유효한 다이빙(들)로 표시</numerusform></translation>
+        <translation>
+            <numerusform>유효한 다이빙(들)로 표시</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="797"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="897"/>
         <source>Mark dive(s) invalid</source>
-        <translation><numerusform>유효하지 않은 다이빙(들)로 표시</numerusform></translation>
+        <translation>
+            <numerusform>유효하지 않은 다이빙(들)로 표시</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="800"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="900"/>
         <source>Merge selected dives</source>
         <translation>선택된 다이빙 병합</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="802"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="902"/>
         <source>Add dive(s) to arbitrary trip</source>
-        <translation><numerusform>다이빙(들)을 추가할 트립 선택</numerusform></translation>
+        <translation>
+            <numerusform>다이빙(들)을 추가할 트립 선택</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divelistview.cpp" line="803"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="903"/>
         <source>Renumber dive(s)</source>
-        <translation><numerusform>다이빙(들) 번호 재정렬</numerusform></translation>
+        <translation>
+            <numerusform>다이빙(들) 번호 재정렬</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="804"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="904"/>
         <source>Shift dive times</source>
         <translation>다이빙 시간 이동</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="805"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="905"/>
         <source>Split selected dives</source>
         <translation>선택한 다이빙 분할</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="806"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="906"/>
         <source>Load media from file(s)</source>
         <translation>파일(들)에서 미디어 불러오기</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="807"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="907"/>
         <source>Load media from web</source>
         <translation>웹에서 미디어 불러오기</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="834"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="934"/>
         <source>Open media files</source>
         <translation>미디어 파일 열기</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="837"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="937"/>
         <source>Media files</source>
         <translation>미디어 파일</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="838"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="938"/>
         <source>All files</source>
         <translation>모든 파일</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="904"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="1004"/>
         <source>%1 does not appear to be an image</source>
         <translation>%1 은 이미지가 아닌 것 같습니다</translation>
     </message>
@@ -3226,7 +3398,7 @@
 <context>
     <name>DiveLocationModel</name>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="424"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="504"/>
         <source>Create a new dive site with this name</source>
         <translation>이 이름으로 새 다이브 사이트 생성</translation>
     </message>
@@ -3282,17 +3454,17 @@
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="191"/>
         <source>Dive info in profile</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="235"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="251"/>
         <source>Height</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="290"/>
@@ -3327,7 +3499,7 @@
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="364"/>
         <source>CSV dive list</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/divelogexportdialog.ui" line="374"/>
@@ -3967,7 +4139,7 @@
     <message>
         <location filename="../desktop-widgets/diveplanner.ui" line="154"/>
         <source>Deco on OC bailout</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/diveplanner.ui" line="210"/>
@@ -3992,7 +4164,7 @@
     <message>
         <location filename="../desktop-widgets/diveplanner.ui" line="251"/>
         <source>kg/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4000,7 +4172,7 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="10"/>
         <source>New Dive Plan</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="13"/>
@@ -4025,12 +4197,12 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="30"/>
         <source>Gas %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="175"/>
         <source>Plan Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="185"/>
@@ -4046,7 +4218,7 @@
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="205"/>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="449"/>
         <source>Dive Mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="211"/>
@@ -4067,22 +4239,22 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="218"/>
         <source>Deco on OC bailout</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="228"/>
         <source>Water Type</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="234"/>
         <source>Sea Water</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="234"/>
         <source>Fresh Water</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="234"/>
@@ -4107,32 +4279,32 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="277"/>
         <source>Mix</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="282"/>
         <source>Dil</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="288"/>
         <source>[%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="392"/>
         <source>Dive Segments</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="428"/>
         <source>Depth [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="433"/>
         <source>Time [min]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="438"/>
@@ -4142,7 +4314,7 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="443"/>
         <source>Setpoint [bar]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="525"/>
@@ -4152,12 +4324,12 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="627"/>
         <source>Dive Plan Summary</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerEdit.qml" line="642"/>
         <source>Save plan</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4165,22 +4337,22 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="11"/>
         <source>Gas Calculator</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="38"/>
         <source>Oxygen %</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="49"/>
         <source>Helium %</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="62"/>
         <source>Calculate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="91"/>
@@ -4190,17 +4362,17 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="98"/>
         <source>MOD</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="105"/>
         <source>END @ MOD</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerGasCalculator.qml" line="105"/>
         <source>EAD @ MOD</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4346,7 +4518,7 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="15"/>
         <source>L/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="15"/>
@@ -4376,97 +4548,97 @@
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="57"/>
         <source>below 75% avg. depth [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="71"/>
         <source>75% to 50% avg. depth [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="85"/>
         <source>50% avg. depth to 6m [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="99"/>
         <source>6m / 20ft to surface [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="118"/>
         <source>Surface to the bottom [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="167"/>
         <source>Reserve gas [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="204"/>
         <source>GFLow [%]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="219"/>
         <source>GFHigh [%]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="244"/>
         <source>Conservatism level [+]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="259"/>
         <source>Last stop at 20&apos;/6m</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">6미터에서 마지막 정지 {20&apos;/6m?}</translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="287"/>
         <source>Min switch time [min]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="301"/>
         <source>Surface segment [min]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="326"/>
         <source>Bottom SAC [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="353"/>
         <source>Deco SAC [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="405"/>
         <source>Problem solving time [min]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="418"/>
         <source>Bottom pO₂ [bar]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="437"/>
         <source>Deco pO₂ [bar]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="456"/>
         <source>CCR Default ppO₂ [bar]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="481"/>
         <source>Best mix END [%1]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DivePlannerSetup.qml" line="495"/>
@@ -4524,17 +4696,17 @@
     <message>
         <location filename="../desktop-widgets/diveplanner.cpp" line="114"/>
         <source>&amp;Planner</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/diveplanner.cpp" line="116"/>
         <source>Add &amp;reverse profile</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/diveplanner.cpp" line="221"/>
         <source>kg/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/diveplanner.cpp" line="40"/>
@@ -4594,7 +4766,7 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Oxygen-Sans'; font-size:7pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Oxygen-Sans&apos;; font-size:7pt; font-weight:600; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -4607,7 +4779,7 @@ p, li { white-space: pre-wrap; }
     <name>DiveSiteListView</name>
     <message>
         <location filename="../desktop-widgets/divesitelistview.ui" line="14"/>
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="28"/>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="36"/>
         <source>Dive sites</source>
         <translation>다이브 사이트</translation>
     </message>
@@ -4618,35 +4790,60 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../desktop-widgets/divesitelistview.ui" line="62"/>
+        <source>Bulk edit...</source>
+        <translation>일괄 편집...</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divesitelistview.ui" line="72"/>
         <source>Purge unused dive sites</source>
         <translation>사용되지 않은 다이브 사이트 제거</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="21"/>
+        <location filename="../desktop-widgets/divesitelistview.ui" line="80"/>
+        <source>Group by hierarchy</source>
+        <translation>계층으로 묶기</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="29"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="24"/>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="32"/>
         <source>Dive site management</source>
         <translation>다이브 사이트 관리</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="66"/>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="273"/>
         <source>Delete dive site?</source>
         <translation>다이브 사이트를 삭제할까요?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="67"/>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="274"/>
         <source>This dive site has %n dive(s). Do you really want to delete it?
 </source>
-        <translation><numerusform>이 다이브 사이트에는 %n개의 다이빙(들)이 있습니다. 정말 삭제할까요?
-</numerusform></translation>
+        <translation>
+            <numerusform>이 다이브 사이트에는 %n개의 다이빙(들)이 있습니다. 정말 삭제할까요?
+</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divesitelistview.cpp" line="84"/>
+        <location filename="../desktop-widgets/divesitelistview.cpp" line="291"/>
         <source>New dive site</source>
         <translation>새 다이브 사이트</translation>
+    </message>
+</context>
+<context>
+    <name>DiveSiteTreeModel</name>
+    <message>
+        <location filename="../qt-models/divelocationmodel.cpp" line="476"/>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divelocationmodel.cpp" line="477"/>
+        <source># of dives</source>
+        <translation>다이빙 횟수</translation>
     </message>
 </context>
 <context>
@@ -4698,199 +4895,319 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>DiveTripModelBase</name>
-    <message numerus="yes">
-        <location filename="../qt-models/divetripmodel.cpp" line="81"/>
-        <source>(%n dive(s))</source>
-        <translation><numerusform>(%n개 다이빙(들))</numerusform></translation>
+    <name>DiveSummaryModel</name>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="70"/>
+        <source>Number of dives</source>
+        <translation type="unfinished">다이빙 횟수</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="83"/>
+        <location filename="../qt-models/divesummarymodel.cpp" line="72"/>
+        <source>Time</source>
+        <translation type="unfinished">시각</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="74"/>
+        <source>Depth</source>
+        <translation type="unfinished">수심</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="76"/>
+        <source>SAC</source>
+        <translation type="unfinished">SAC</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="89"/>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="90"/>
+        <source>EAN dives</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="91"/>
+        <source>Deep dives (&gt; 39 m)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="92"/>
+        <source>Dive plan(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="93"/>
+        <source>Total time</source>
+        <translation type="unfinished">총 시간</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="94"/>
+        <source>Max Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="95"/>
+        <source>Avg time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="96"/>
+        <source>Max depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="97"/>
+        <source>Avg max depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="98"/>
+        <source>Min SAC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="99"/>
+        <source>Max SAC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="100"/>
+        <source>Avg SAC</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiveTripModelBase</name>
+    <message numerus="yes">
+        <location filename="../qt-models/divetripmodel.cpp" line="89"/>
+        <source>(%n dive(s))</source>
+        <translation>
+            <numerusform>(%n개 다이빙(들))</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="91"/>
         <source>(%L1 shown)</source>
         <translation>(%L1 보여짐)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="130"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="138"/>
         <source>(%1 shown)</source>
         <translation>(%1 보여짐)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="223"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="414"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="231"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="444"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="225"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="416"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="233"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="446"/>
         <source>Date</source>
         <translation>날짜</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="227"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="418"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="235"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="448"/>
         <source>Rating</source>
         <translation>등급</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="229"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="237"/>
         <source>Depth(%1)</source>
         <translation>수심(%1)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="229"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="237"/>
         <source>m</source>
         <translation>미터</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="229"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="237"/>
         <source>ft</source>
         <translation>피트</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="231"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="422"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="239"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="452"/>
         <source>Duration</source>
         <translation>다이빙 시간</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="233"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="241"/>
         <source>Temp.(°%1)</source>
         <translation>온도(°%1)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="235"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="243"/>
         <source>Weight(%1)</source>
         <translation>웨이트(%1)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="235"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="243"/>
         <source>kg</source>
         <translation>kg</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="235"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="243"/>
         <source>lbs</source>
         <translation>lbs</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="237"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="428"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="245"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="458"/>
         <source>Suit</source>
         <translation>수트</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="239"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="430"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="247"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="460"/>
         <source>Cylinder</source>
         <translation>실린더</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="241"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="432"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="249"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="462"/>
         <source>Gas</source>
         <translation>기체</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="245"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="253"/>
         <source>SAC(%1)</source>
         <translation>SAC(%1)</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="245"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="253"/>
         <source>/min</source>
         <translation>/분</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="247"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="436"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="255"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="466"/>
         <source>OTU</source>
         <translation>OTU</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="249"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="257"/>
         <source>Max. CNS</source>
         <translation>최대 CNS</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="251"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="440"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="259"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="470"/>
         <source>Tags</source>
         <translation>태그</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="253"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="261"/>
         <source>Media before/during/after dive</source>
         <translation>다이빙 전/중/후 미디어</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="255"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="444"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="263"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="474"/>
         <source>Country</source>
         <translation>국가</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="257"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="446"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="265"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="476"/>
         <source>Buddy</source>
         <translation>버디</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="259"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="448"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="267"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="478"/>
         <source>Dive guide</source>
         <translation>다이브 가이드</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="261"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="450"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="269"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="480"/>
         <source>Location</source>
         <translation>위치</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="263"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="452"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="271"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="482"/>
         <source>Notes</source>
         <translation>노트</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="265"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="454"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="273"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="484"/>
         <source>Divemode</source>
         <translation>다이브 모드</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="420"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="450"/>
         <source>Depth</source>
         <translation>수심</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="424"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="454"/>
         <source>Temp.</source>
         <translation>온도</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="426"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="456"/>
         <source>Weight</source>
         <translation>웨이트</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="434"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="464"/>
         <source>SAC</source>
         <translation>SAC</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="438"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="468"/>
         <source>Max CNS</source>
         <translation>최대 CNS</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="442"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="472"/>
         <source>Media</source>
         <translation>미디어</translation>
     </message>
     <message>
         <location filename="../qt-models/divetripmodel.cpp" line="486"/>
+        <source>Ocean</source>
+        <translation>바다</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="487"/>
+        <source>State</source>
+        <translation>주</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="488"/>
+        <source>County</source>
+        <translation>카운티</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="489"/>
+        <source>Town</source>
+        <translation>타운</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="490"/>
+        <source>City</source>
+        <translation>도시</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="491"/>
+        <source>Dive region</source>
+        <translation>다이브 지역</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="492"/>
+        <source>Dive point</source>
+        <translation>다이브 포인트</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divetripmodel.cpp" line="524"/>
         <source>finish populating data store</source>
         <translation>데이터 저장소 채우기 완료</translation>
     </message>
@@ -5046,7 +5363,7 @@ Existing Site</source>
     <message>
         <location filename="../desktop-widgets/downloadfromdivecomputer.cpp" line="396"/>
         <source>Select diretory to import .fit files from</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/downloadfromdivecomputer.cpp" line="422"/>
@@ -5075,7 +5392,7 @@ Not using the latest available stable firmware version on your dive computer mea
         <source>
 
 If your device uses Bluetooth, enable Bluetooth on the dive computer and do the same preparations as for a logbook download before continuing with the update.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/downloadfromdivecomputer.cpp" line="610"/>
@@ -5090,7 +5407,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
     <message>
         <location filename="../desktop-widgets/downloadfromdivecomputer.cpp" line="613"/>
         <source>Firmware update notice</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/downloadfromdivecomputer.cpp" line="621"/>
@@ -5302,7 +5619,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
     <message>
         <location filename="../mobile-widgets/qml/DownloadFromDiveComputer.qml" line="459"/>
         <source>&lt;br&gt;&lt;br&gt;A firmware update for your dive computer is available: you have version %1 but the latest stable version is %2. &lt;br&gt;&lt;br&gt;&lt;font color=&quot;red&quot;&gt;If your device uses Bluetooth, enable Bluetooth on the dive computer and do the same preparations as for a logbook download before continuing with the update.&lt;/font&gt;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/DownloadFromDiveComputer.qml" line="481"/>
@@ -5742,32 +6059,34 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
 <context>
     <name>LocationFilterDelegate</name>
     <message>
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="467"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="468"/>
         <source> (same GPS fix)</source>
         <translation> (동일한 GPS fix)</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="472"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="473"/>
         <source> (~%1 away</source>
         <translation> (~%1 떨어진</translation>
     </message>
     <message numerus="yes">
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="473"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="474"/>
         <source>, %n dive(s) here)</source>
-        <translation><numerusform>, %n개의 다이빙(들)이 여기에)</numerusform></translation>
+        <translation>
+            <numerusform>, %n개의 다이빙(들)이 여기에)</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="478"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="479"/>
         <source>(no existing GPS data, add GPS fix from this dive)</source>
         <translation>(기존 GPS 데이터 없음, 이 다이빙으로부터 GPS fix를 추가하세요)</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="480"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="481"/>
         <source>(no GPS data)</source>
         <translation>(GPS 데이터 없음)</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/modeldelegates.cpp" line="482"/>
+        <location filename="../desktop-widgets/modeldelegates.cpp" line="483"/>
         <source>Pick site: </source>
         <translation>사이트 선택:</translation>
     </message>
@@ -5830,40 +6149,43 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
         <translation>다음 범위 내의 다이브 사이트 표시:</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.ui" line="176"/>
         <source>Tags</source>
-        <translation>태그</translation>
+        <translation type="vanished">태그</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.ui" line="190"/>
         <source>Country</source>
-        <translation>국가</translation>
+        <translation type="vanished">국가</translation>
     </message>
 </context>
 <context>
     <name>LocationInformationModel</name>
     <message>
-        <location filename="../qt-models/divelocationmodel.cpp" line="60"/>
+        <location filename="../qt-models/divelocationmodel.cpp" line="64"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../qt-models/divelocationmodel.cpp" line="62"/>
+        <location filename="../qt-models/divelocationmodel.cpp" line="66"/>
         <source>Description</source>
         <translation>설명</translation>
     </message>
     <message>
-        <location filename="../qt-models/divelocationmodel.cpp" line="64"/>
+        <location filename="../qt-models/divelocationmodel.cpp" line="68"/>
         <source># of dives</source>
         <translation>다이빙 횟수</translation>
     </message>
     <message>
-        <location filename="../qt-models/divelocationmodel.cpp" line="101"/>
+        <location filename="../qt-models/divelocationmodel.cpp" line="71"/>
+        <source>Tags</source>
+        <translation>태그</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divelocationmodel.cpp" line="120"/>
         <source>Click here to edit the divesite.</source>
         <translation>다이브 사이트를 편집하려면 클릭</translation>
     </message>
     <message>
-        <location filename="../qt-models/divelocationmodel.cpp" line="102"/>
+        <location filename="../qt-models/divelocationmodel.cpp" line="121"/>
         <source>Clicking here will remove this divesite.</source>
         <translation>이 다이브 사이트를 삭제하려면 클릭</translation>
     </message>
@@ -5871,32 +6193,32 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
 <context>
     <name>LocationInformationWidget</name>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="37"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="42"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="40"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="45"/>
         <source>Dive site management</source>
         <translation>다이브 사이트 관리</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="67"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="138"/>
         <source>Merge into current site</source>
         <translation>현재 사이트로 병합</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="70"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="141"/>
         <source>Merge current site into this site</source>
         <translation>현재 사이트를 이 사이트로 병합</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="278"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="346"/>
         <source>Select GPS file to open</source>
         <translation>열고자 하는 GPS 파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/locationinformation.cpp" line="280"/>
+        <location filename="../desktop-widgets/locationinformation.cpp" line="348"/>
         <source>GPS files (*.gpx *.GPX)</source>
         <translation>GPS 파일 (*.gpx *.GPX)</translation>
     </message>
@@ -5940,7 +6262,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
     <message>
         <location filename="../desktop-widgets/tab-widgets/maintab.cpp" line="45"/>
         <source>Dive Computer Info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/maintab.cpp" line="103"/>
@@ -6069,7 +6391,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
     <message>
         <location filename="../desktop-widgets/mainwindow.ui" line="253"/>
         <source>&amp;Renumber all dives</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.ui" line="264"/>
@@ -6247,7 +6569,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
         <translation>클라우드 저장소 온라인</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="577"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="677"/>
         <location filename="../desktop-widgets/mainwindow.cpp" line="467"/>
         <location filename="../desktop-widgets/mainwindow.cpp" line="500"/>
         <location filename="../desktop-widgets/mainwindow.cpp" line="641"/>
@@ -6256,7 +6578,7 @@ If your device uses Bluetooth, enable Bluetooth on the dive computer and do the 
         <translation>경고</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/divelistview.cpp" line="578"/>
+        <location filename="../desktop-widgets/divelistview.cpp" line="678"/>
         <source>Trying to merge dives with %1min interval in between</source>
         <translation>다이빙을 %1분 간격으로 병합하려 시도 중</translation>
     </message>
@@ -6445,13 +6767,13 @@ If answering no, the cloud will only be synced on next call to &quot;Open cloud 
         <location filename="../desktop-widgets/mainwindow.cpp" line="923"/>
         <location filename="../desktop-widgets/mainwindow.cpp" line="974"/>
         <source>LogTrak/JTrak</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="924"/>
         <location filename="../desktop-widgets/mainwindow.cpp" line="975"/>
         <source>Scubapro ASD</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="958"/>
@@ -6461,12 +6783,12 @@ If answering no, the cloud will only be synced on next call to &quot;Open cloud 
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="960"/>
         <source>FIT</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="964"/>
         <source>Suunto JSON</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="976"/>
@@ -6497,12 +6819,12 @@ If answering no, the cloud will only be synced on next call to &quot;Open cloud 
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="610"/>
         <source>Please save or cancel the current dive edit before quitting the application.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="669"/>
         <source>Trying to replan a dive profile that has not been manually added.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/mainwindow.cpp" line="1202"/>
@@ -6559,6 +6881,63 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
         <location filename="../mobile-widgets/qml/MapPage.qml" line="10"/>
         <source>Map</source>
         <translation>지도</translation>
+    </message>
+</context>
+<context>
+    <name>MapWidget</name>
+    <message>
+        <location filename="../map-widget/qml/MapWidget.qml" line="247"/>
+        <source>Drag the selected dive location</source>
+        <translation>선택한 다이브 위치를 끌어다 놓으세요</translation>
+    </message>
+</context>
+<context>
+    <name>MapWidgetContextMenu</name>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetContextMenu.qml" line="15"/>
+        <source>Copy coordinates to clipboard (decimal)</source>
+        <translation>좌표를 클립보드에 복사 (십진수)</translation>
+    </message>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetContextMenu.qml" line="16"/>
+        <source>Copy coordinates to clipboard (sexagesimal)</source>
+        <translation>좌표를 클립보드에 복사 (도분초)</translation>
+    </message>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetContextMenu.qml" line="17"/>
+        <source>Select visible dive locations</source>
+        <translation>보이는 다이브 위치 선택</translation>
+    </message>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetContextMenu.qml" line="18"/>
+        <source>Open in Google Maps</source>
+        <translation>Google 지도에서 열기</translation>
+    </message>
+</context>
+<context>
+    <name>MapWidgetError</name>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetError.qml" line="10"/>
+        <source>MapWidget.qml failed to load!
+The QML modules QtPositioning and QtLocation could be missing!</source>
+        <translation>MapWidget.qml 로드 실패!
+QML 모듈 QtPositioning 또는 QtLocation이 누락된 것 같습니다.</translation>
+    </message>
+</context>
+<context>
+    <name>MapWidgetQt5</name>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetQt5.qml" line="247"/>
+        <source>Drag the selected dive location</source>
+        <translation>선택한 다이브 위치를 끌어다 놓으세요</translation>
+    </message>
+</context>
+<context>
+    <name>MapWidgetQt6</name>
+    <message>
+        <location filename="../map-widget/qml/MapWidgetQt6.qml" line="344"/>
+        <source>Drag the selected dive location</source>
+        <translation>선택한 다이브 위치를 끌어다 놓으세요</translation>
     </message>
 </context>
 <context>
@@ -6623,7 +7002,7 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
         <location filename="../desktop-widgets/diveplanner.cpp" line="484"/>
         <location filename="../desktop-widgets/diveplanner.cpp" line="485"/>
         <source>L/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/diveplanner.cpp" line="494"/>
@@ -6885,6 +7264,8 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     <message>
         <location filename="../desktop-widgets/preferences/preferences_georeference.ui" line="65"/>
         <location filename="../desktop-widgets/preferences/preferences_georeference.ui" line="82"/>
+        <location filename="../desktop-widgets/preferences/preferences_georeference.ui" line="99"/>
+        <location filename="../desktop-widgets/preferences/preferences_georeference.ui" line="116"/>
         <source>/</source>
         <translation>/</translation>
     </message>
@@ -6939,7 +7320,7 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="134"/>
         <source>Rebreather setup</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="140"/>
@@ -6964,7 +7345,7 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="184"/>
         <source>Allow open circuit gas to be used as diluent for CCR</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="191"/>
@@ -6979,7 +7360,7 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="205"/>
         <source>L/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="215"/>
@@ -6999,12 +7380,12 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="258"/>
         <source>Gasplot fraction</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="271"/>
         <source>Planner setup</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_graph.ui" line="277"/>
@@ -7143,7 +7524,7 @@ Subsurface는 데이터를 미리 채우려고 노력했습니다만, 새로운 
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_language.cpp" line="100"/>
-        <source>These will be used as is. This might not be what you intended. To avoid this warning wrap the literal parts in quotes (').
+        <source>These will be used as is. This might not be what you intended. To avoid this warning wrap the literal parts in quotes (&apos;).
 See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
         <translation>표준을 벗어난 문자들은 그대로 사용될 것이고, 의도한 바와 다를 수 있습니다. 이 경고를 피하려면 해당 문자들을 따옴표(&apos;)로 묶으세요.
 다음 웹사이트를 살펴보세요. https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</translation>
@@ -7317,182 +7698,182 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="176"/>
         <source>Dive data as subtitles</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="192"/>
         <source>Subtitle format string:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="213"/>
         <source>Available tags:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="221"/>
         <source>Dive time: [time]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="229"/>
         <source>Depth: [depth]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="237"/>
         <source>Temperature: [temperature]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="245"/>
         <source>Ceiling: [ceiling]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="253"/>
         <source>NDL: [ndl]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="261"/>
         <source>TTS: [tts]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="269"/>
         <source>RBT: [rbt]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="277"/>
         <source>Stop time: [stoptime]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="285"/>
         <source>Stop depth: [stopdepth]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="293"/>
         <source>CNS: [cns]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="301"/>
         <source>SAC: [sac]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="309"/>
         <source>pO₂: [p_o2]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="317"/>
         <source>pN₂: [p_n2]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="325"/>
         <source>pHe: [p_he]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="333"/>
         <source>O₂ pressure (rebreather): [o2_pressure]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="341"/>
         <source>O₂ setpoint: [o2_setpoint]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="349"/>
         <source>SCR ΔpO₂: [scr_oc_po2]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="357"/>
         <source>MOD: [mod]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="365"/>
         <source>EAD: [ead]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="373"/>
         <source>END: [end]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="381"/>
         <source>EADD: [eadd]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="389"/>
         <source>Vertical speed: [speed]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="397"/>
         <source>In deco (calculated): [in_deco]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="405"/>
         <source>NDL (calculated): [ndl_calc]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="413"/>
         <source>TTS (calculated): [tts_calc]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="421"/>
         <source>Stop time (calculated): [stoptime_calc]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="429"/>
         <source>Stop depth (calculated): [stopdepth_calc]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="437"/>
         <source>Heartrate: [heartrate]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="445"/>
         <source>Bearing: [bearing]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="453"/>
         <source>Surface GF: [surface_gf]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="461"/>
         <source>Current GF: [current_gf]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="469"/>
         <source>Density: [density]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.ui" line="477"/>
         <source>ICD Warning: [icd_warning]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/preferences/preferences_media.cpp" line="14"/>
@@ -7800,6 +8181,39 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     </message>
 </context>
 <context>
+    <name>PrintDialog</name>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="111"/>
+        <source>P&amp;rint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="114"/>
+        <source>&amp;Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="117"/>
+        <source>Export Html</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="130"/>
+        <source>Print</source>
+        <translation type="unfinished">인쇄</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="210"/>
+        <source>Filename to export html to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printdialog.cpp" line="211"/>
+        <source>Html file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PrintOptions</name>
     <message>
         <location filename="../desktop-widgets/printoptions.ui" line="29"/>
@@ -7865,6 +8279,65 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
         <location filename="../desktop-widgets/printoptions.ui" line="185"/>
         <source>Import</source>
         <translation>가져오기</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="132"/>
+        <location filename="../desktop-widgets/printoptions.cpp" line="159"/>
+        <location filename="../desktop-widgets/printoptions.cpp" line="195"/>
+        <location filename="../desktop-widgets/printoptions.cpp" line="227"/>
+        <source>Read-only template!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="133"/>
+        <source>The template &apos;%1&apos; is read-only and cannot be edited.
+Please export this template to a different file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="149"/>
+        <source>Import template file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="150"/>
+        <location filename="../desktop-widgets/printoptions.cpp" line="181"/>
+        <source>HTML files</source>
+        <translation type="unfinished">HTML 파일</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="160"/>
+        <location filename="../desktop-widgets/printoptions.cpp" line="196"/>
+        <source>The destination template &apos;%1&apos; is read-only and cannot be overwritten.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="180"/>
+        <source>Export template files as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="220"/>
+        <source>This action cannot be undone!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="221"/>
+        <source>Delete template &apos;%1&apos;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/printoptions.cpp" line="228"/>
+        <source>The template &apos;%1&apos; is read-only and cannot be deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Printer</name>
+    <message>
+        <location filename="../desktop-widgets/printer.cpp" line="499"/>
+        <source>Print Preview</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8019,12 +8492,12 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="601"/>
         <source>Edit gas change</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="605"/>
         <source>Set initial gas</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="607"/>
@@ -8064,7 +8537,7 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="632"/>
         <source>Hide events of type &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="635"/>
@@ -8080,17 +8553,17 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="675"/>
         <source>Unhide event type</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="682"/>
         <source>All event types</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="686"/>
         <source>Unhide individually hidden events of this dive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../profile-widget/profilewidget2.cpp" line="714"/>
@@ -8281,7 +8754,7 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     </message>
     <message>
         <location filename="../mobile-widgets/qmlmanager.cpp" line="1569"/>
-        <source>[%1]Changes saved:'%2'.
+        <source>[%1]Changes saved:&apos;%2&apos;.
 %1 possible via context menu</source>
         <translation>[%1]변경 사항이 다음으로 저장되었습니다:&apos;%2&apos;
 %1은 컨텍스트 메뉴를 통해 가능합니다.</translation>
@@ -8329,7 +8802,7 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../mobile-widgets/qmlmanager.cpp" line="2423"/>
         <source>(incorrect cloud email or password)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8340,9 +8813,19 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
         <translation>전체 텍스트 인덱스 생성</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="705"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="743"/>
         <source>populate data model</source>
         <translation>데이터 모델 채우기</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divelocationmodel.cpp" line="357"/>
+        <source>(unspecified)</source>
+        <translation>(미지정)</translation>
+    </message>
+    <message>
+        <location filename="../qt-models/divesummarymodel.cpp" line="199"/>
+        <source>no dives in period</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8356,17 +8839,17 @@ See https://doc.qt.io/archives/qt-4.8/qdatetime.html#fromString</source>
     <message>
         <location filename="../core/configuredivecomputerthreads.cpp" line="2137"/>
         <source>Reading Vyper settings failed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/configuredivecomputerthreads.cpp" line="2145"/>
         <source>Reading OSTC3 settings failed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/configuredivecomputerthreads.cpp" line="2156"/>
         <source>Reading OSTC settings failed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8808,12 +9291,12 @@ Please report DCs that need this setting</source>
     <message>
         <location filename="../mobile-widgets/qml/Settings.qml" line="667"/>
         <source>GFLow (10 to 150)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/Settings.qml" line="701"/>
         <source>GFHigh (10 to 150)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mobile-widgets/qml/Settings.qml" line="738"/>
@@ -9041,8 +9524,8 @@ Files with inappropriate date/time</source>
     </message>
     <message>
         <location filename="../stats/boxseries.cpp" line="107"/>
-        <location filename="../stats/statsvariables.cpp" line="1054"/>
-        <location filename="../stats/statsvariables.cpp" line="1088"/>
+        <location filename="../stats/statsvariables.cpp" line="1055"/>
+        <location filename="../stats/statsvariables.cpp" line="1089"/>
         <source>min</source>
         <translation>분</translation>
     </message>
@@ -9217,289 +9700,315 @@ Files with inappropriate date/time</source>
         <translation>95% 신뢰 구간</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="67"/>
+        <location filename="../stats/statsvariables.cpp" line="68"/>
         <source>no divesite</source>
         <translation>다이브 사이트 없음</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="100"/>
+        <location filename="../stats/statsvariables.cpp" line="101"/>
         <source>no trip</source>
         <translation>트립 없음</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="357"/>
+        <location filename="../stats/statsvariables.cpp" line="358"/>
         <source>Median</source>
         <translation>중앙값</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="358"/>
+        <location filename="../stats/statsvariables.cpp" line="359"/>
         <source>Mean</source>
         <translation>평균</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="359"/>
+        <location filename="../stats/statsvariables.cpp" line="360"/>
         <source>Time-weighted mean</source>
         <translation>시간-가중 평균</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="360"/>
+        <location filename="../stats/statsvariables.cpp" line="361"/>
         <source>Sum</source>
         <translation>합계</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="361"/>
+        <location filename="../stats/statsvariables.cpp" line="362"/>
         <source>Minimum</source>
         <translation>최소값</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="362"/>
+        <location filename="../stats/statsvariables.cpp" line="363"/>
         <source>Maximum</source>
         <translation>최대값</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="764"/>
-        <location filename="../stats/statsvariables.cpp" line="1140"/>
-        <location filename="../stats/statsvariables.cpp" line="1347"/>
+        <location filename="../stats/statsvariables.cpp" line="765"/>
+        <location filename="../stats/statsvariables.cpp" line="1141"/>
+        <location filename="../stats/statsvariables.cpp" line="1348"/>
         <source>%1–%2</source>
         <translation>%1–%2</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="859"/>
+        <location filename="../stats/statsvariables.cpp" line="860"/>
         <source>Yearly</source>
         <translation>연도별</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="876"/>
+        <location filename="../stats/statsvariables.cpp" line="877"/>
         <source>Quarterly</source>
         <translation>분기별</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="880"/>
+        <location filename="../stats/statsvariables.cpp" line="881"/>
         <source>%1 Q%2</source>
         <translation>%1 Q%2</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="888"/>
+        <location filename="../stats/statsvariables.cpp" line="889"/>
         <source>Q%1</source>
         <translation>Q%1</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="917"/>
+        <location filename="../stats/statsvariables.cpp" line="918"/>
         <source>Monthly</source>
         <translation>월별</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="955"/>
+        <location filename="../stats/statsvariables.cpp" line="956"/>
         <source>Date</source>
         <translation>날짜</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="981"/>
-        <location filename="../stats/statsvariables.cpp" line="1208"/>
-        <location filename="../stats/statsvariables.cpp" line="1288"/>
+        <location filename="../stats/statsvariables.cpp" line="982"/>
+        <location filename="../stats/statsvariables.cpp" line="1209"/>
+        <location filename="../stats/statsvariables.cpp" line="1289"/>
         <source>in %1 %2 steps</source>
         <translation>%1 %2 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1027"/>
+        <location filename="../stats/statsvariables.cpp" line="1028"/>
         <source>Max. Depth</source>
         <translation>최대 수심</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1039"/>
+        <location filename="../stats/statsvariables.cpp" line="1040"/>
         <source>Mean Depth</source>
         <translation>평균 수심</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1051"/>
+        <location filename="../stats/statsvariables.cpp" line="1052"/>
         <source>in %1 min steps</source>
         <translation>%1 분 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1063"/>
+        <location filename="../stats/statsvariables.cpp" line="1064"/>
         <source>in hours</source>
         <translation>1시간 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1069"/>
+        <location filename="../stats/statsvariables.cpp" line="1070"/>
         <source>h</source>
         <translation>시간</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1085"/>
+        <location filename="../stats/statsvariables.cpp" line="1086"/>
         <source>Duration</source>
         <translation>다이빙 시간</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1110"/>
-        <location filename="../stats/statsvariables.cpp" line="1134"/>
+        <location filename="../stats/statsvariables.cpp" line="1111"/>
+        <location filename="../stats/statsvariables.cpp" line="1135"/>
         <source>in %1 %2/min steps</source>
         <translation>%1 %2/분 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1114"/>
-        <location filename="../stats/statsvariables.cpp" line="1144"/>
-        <location filename="../stats/statsvariables.cpp" line="1173"/>
+        <location filename="../stats/statsvariables.cpp" line="1115"/>
+        <location filename="../stats/statsvariables.cpp" line="1145"/>
+        <location filename="../stats/statsvariables.cpp" line="1174"/>
         <source>/min</source>
         <translation>/분</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1170"/>
+        <location filename="../stats/statsvariables.cpp" line="1171"/>
         <source>SAC</source>
         <translation>SAC</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1260"/>
+        <location filename="../stats/statsvariables.cpp" line="1261"/>
         <source>Water temperature</source>
         <translation>수온</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1272"/>
+        <location filename="../stats/statsvariables.cpp" line="1273"/>
         <source>Air temperature</source>
         <translation>기온</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1311"/>
+        <location filename="../stats/statsvariables.cpp" line="1312"/>
         <source>Weight</source>
         <translation>웨이트</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1358"/>
+        <location filename="../stats/statsvariables.cpp" line="1359"/>
         <source>in %L2 steps</source>
         <translation>%L2 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1376"/>
+        <location filename="../stats/statsvariables.cpp" line="1377"/>
         <source>Dive #</source>
         <translation>다이빙 #</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1408"/>
+        <location filename="../stats/statsvariables.cpp" line="1409"/>
         <source>Dive mode</source>
         <translation>다이브 모드</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1436"/>
-        <source>People</source>
-        <translation>사람들</translation>
+        <location filename="../desktop-widgets/statswidget.cpp" line="123"/>
+        <source>Default</source>
+        <translation>기본</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1462"/>
+        <location filename="../desktop-widgets/statswidget.cpp" line="125"/>
+        <source>Location</source>
+        <translation>위치</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/statswidget.cpp" line="128"/>
+        <source>Dive profile</source>
+        <translation>다이브 프로필</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/statswidget.cpp" line="131"/>
+        <source>Equipment &amp; Gas</source>
+        <translation>장비 및 가스</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/statswidget.cpp" line="134"/>
+        <location filename="../stats/statsvariables.cpp" line="1437"/>
+        <source>People</source>
+        <translation>동행자</translation>
+    </message>
+    <message>
+        <location filename="../desktop-widgets/statswidget.cpp" line="136"/>
+        <source>Media &amp; Description</source>
+        <translation>미디어 및 설명</translation>
+    </message>
+    <message>
+        <location filename="../stats/statsvariables.cpp" line="1463"/>
         <source>Buddies</source>
         <translation>버디</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1484"/>
+        <location filename="../stats/statsvariables.cpp" line="1485"/>
         <source>Dive guides</source>
         <translation>다이브 가이드</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1508"/>
+        <location filename="../stats/statsvariables.cpp" line="1509"/>
         <source>Tags</source>
         <translation>태그</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1547"/>
+        <location filename="../stats/statsvariables.cpp" line="1548"/>
         <source>in %1% steps</source>
         <translation>%1% 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1567"/>
+        <location filename="../stats/statsvariables.cpp" line="1568"/>
         <source>Air</source>
         <translation>공기</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1569"/>
+        <location filename="../stats/statsvariables.cpp" line="1570"/>
         <source>Oxygen</source>
         <translation>산소</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1571"/>
+        <location filename="../stats/statsvariables.cpp" line="1572"/>
         <source>EAN%1–%2</source>
         <translation>EAN%1–%2</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1574"/>
+        <location filename="../stats/statsvariables.cpp" line="1575"/>
         <source>%1/%2–%3/%4</source>
         <translation>%1/%2–%3/%4</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1585"/>
+        <location filename="../stats/statsvariables.cpp" line="1586"/>
         <source>General</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1612"/>
+        <location filename="../stats/statsvariables.cpp" line="1613"/>
         <source>Gas type</source>
         <translation>기체 종류</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1668"/>
+        <location filename="../stats/statsvariables.cpp" line="1669"/>
         <source>In %L1% steps</source>
         <translation>%L1% 간격</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1718"/>
+        <location filename="../stats/statsvariables.cpp" line="1719"/>
         <source>O₂ (max)</source>
         <translation>O₂ (최대)</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1727"/>
+        <location filename="../stats/statsvariables.cpp" line="1728"/>
         <source>O₂ (bottom gas)</source>
         <translation>O₂ (바닥 기체)</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1736"/>
+        <location filename="../stats/statsvariables.cpp" line="1737"/>
         <source>He (max)</source>
         <translation>He (최대)</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1751"/>
+        <location filename="../stats/statsvariables.cpp" line="1752"/>
         <source>Suit type</source>
         <translation>수트 종류</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1781"/>
+        <location filename="../stats/statsvariables.cpp" line="1782"/>
         <source>Weightsystem</source>
         <translation>웨이트 시스템</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1811"/>
+        <location filename="../stats/statsvariables.cpp" line="1812"/>
         <source>Cylinder type</source>
         <translation>실린더 형식</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1837"/>
+        <location filename="../stats/statsvariables.cpp" line="1838"/>
         <source>Dive site</source>
         <translation>다이브 사이트</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1863"/>
+        <location filename="../stats/statsvariables.cpp" line="1897"/>
         <source>Dive trip</source>
         <translation>다이브 트립</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1887"/>
+        <location filename="../stats/statsvariables.cpp" line="1921"/>
         <source>Day of week</source>
         <translation>요일</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1910"/>
+        <location filename="../stats/statsvariables.cpp" line="1944"/>
         <source>Month of year</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1935"/>
+        <location filename="../stats/statsvariables.cpp" line="1969"/>
         <source>Rating</source>
         <translation>등급</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1961"/>
+        <location filename="../stats/statsvariables.cpp" line="1995"/>
         <source>Visibility</source>
         <translation>가시성</translation>
     </message>
     <message>
-        <location filename="../stats/statsvariables.cpp" line="1992"/>
+        <location filename="../stats/statsvariables.cpp" line="2026"/>
         <source>Dive computer</source>
         <translation>다이브 컴퓨터</translation>
     </message>
@@ -9568,12 +10077,12 @@ Files with inappropriate date/time</source>
         <translation>범위 제한 초기화</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/statswidget.cpp" line="175"/>
+        <location filename="../desktop-widgets/statswidget.cpp" line="253"/>
         <source>Analyzing all dives</source>
         <translation>모든 다이빙 분석중 - 제한 없음</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/statswidget.cpp" line="177"/>
+        <location filename="../desktop-widgets/statswidget.cpp" line="255"/>
         <source>Analyzing subset (%L1) dives</source>
         <translation>하위 (%L1)개 다이빙 분석중</translation>
     </message>
@@ -9598,7 +10107,7 @@ Files with inappropriate date/time</source>
     <message>
         <location filename="../desktop-widgets/about.ui" line="97"/>
         <source>C&amp;ontribute</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/about.ui" line="104"/>
@@ -9674,12 +10183,12 @@ Files with inappropriate date/time</source>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.ui" line="42"/>
         <source>Serial</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.ui" line="67"/>
         <source>Firmware</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.ui" line="92"/>
@@ -9694,12 +10203,12 @@ Files with inappropriate date/time</source>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.ui" line="142"/>
         <source>Dive Mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.ui" line="167"/>
         <source>Extra Data</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveExtraInfo.cpp" line="35"/>
@@ -9951,7 +10460,7 @@ Files with inappropriate date/time</source>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveNotes.ui" line="136"/>
         <source>Duration (h:mm(:ss))</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/tab-widgets/TabDiveNotes.ui" line="217"/>
@@ -10416,6 +10925,11 @@ mixed from Air and using:
         <source>color6</source>
         <translation>색상6</translation>
     </message>
+    <message>
+        <location filename="../desktop-widgets/templateedit.cpp" line="143"/>
+        <source>Do you want to save your changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TextHyperlinkEventFilter</name>
@@ -10565,12 +11079,12 @@ Subsurface의 새 버전 확인을 중단하려면 거절을 클릭하세요.</t
 <context>
     <name>UserManual</name>
     <message>
-        <location filename="../desktop-widgets/usermanual.cpp" line="63"/>
+        <location filename="../desktop-widgets/usermanual.cpp" line="61"/>
         <source>User manual</source>
         <translation>사용자 매뉴얼</translation>
     </message>
     <message>
-        <location filename="../desktop-widgets/usermanual.cpp" line="123"/>
+        <location filename="../desktop-widgets/usermanual.cpp" line="113"/>
         <source>Cannot find the Subsurface manual</source>
         <translation>Subsurface 매뉴얼을 찾을 수 없습니다.</translation>
     </message>
@@ -10806,7 +11320,7 @@ Maximum</source>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="861"/>
         <source>Error parsing the header: %s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10844,7 +11358,7 @@ Maximum</source>
         <location filename="../core/cochran.cpp" line="331"/>
         <location filename="../core/cochran.cpp" line="385"/>
         <location filename="../core/import-csv.cpp" line="753"/>
-        <location filename="../core/import-suunto-json.cpp" line="484"/>
+        <location filename="../core/import-suunto-json.cpp" line="482"/>
         <location filename="../core/libdivecomputer.cpp" line="332"/>
         <source>ascent</source>
         <translation>상승</translation>
@@ -10879,8 +11393,8 @@ Maximum</source>
         <location filename="../core/cochran.cpp" line="409"/>
         <location filename="../core/cochran.cpp" line="416"/>
         <location filename="../core/import-csv.cpp" line="834"/>
-        <location filename="../core/import-suunto-json.cpp" line="408"/>
-        <location filename="../core/import-suunto-json.cpp" line="458"/>
+        <location filename="../core/import-suunto-json.cpp" line="406"/>
+        <location filename="../core/import-suunto-json.cpp" line="456"/>
         <location filename="../core/libdivecomputer.cpp" line="340"/>
         <location filename="../core/libdivecomputer.cpp" line="356"/>
         <location filename="../core/plannernotes.cpp" line="57"/>
@@ -11119,7 +11633,8 @@ Maximum</source>
         <location filename="../core/divelogexportlogic.cpp" line="58"/>
         <location filename="../core/divelogexportlogic.cpp" line="94"/>
         <location filename="../core/string-format.cpp" line="235"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="165"/>
+        <location filename="../desktop-widgets/templatelayout.cpp" line="455"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="173"/>
         <source>h</source>
         <translation>시간</translation>
     </message>
@@ -11130,7 +11645,8 @@ Maximum</source>
         <location filename="../core/plannernotes.cpp" line="541"/>
         <location filename="../core/string-format.cpp" line="235"/>
         <location filename="../core/worldmap-save.cpp" line="49"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="165"/>
+        <location filename="../desktop-widgets/templatelayout.cpp" line="456"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="173"/>
         <source>min</source>
         <translation>분</translation>
     </message>
@@ -11138,6 +11654,7 @@ Maximum</source>
         <location filename="../core/divelogexportlogic.cpp" line="58"/>
         <location filename="../core/divelogexportlogic.cpp" line="94"/>
         <location filename="../core/string-format.cpp" line="523"/>
+        <location filename="../desktop-widgets/templatelayout.cpp" line="456"/>
         <source>sec</source>
         <translation>초</translation>
     </message>
@@ -11147,13 +11664,13 @@ Maximum</source>
         <translation>표준 위치에서 &apos;theme&apos;이라는 이름의 폴더를 찾을 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../core/taxonomy.cpp" line="79"/>
+        <location filename="../core/taxonomy.cpp" line="98"/>
         <source>No dive site layout categories set in preferences!</source>
         <translation>환경 설정에서 다이브 사이트 레이아웃 카테고리가 설정되지 않았습니다!</translation>
     </message>
     <message>
         <location filename="../core/save-html.cpp" line="541"/>
-        <location filename="../core/taxonomy.cpp" line="87"/>
+        <location filename="../core/taxonomy.cpp" line="106"/>
         <source>Tags</source>
         <translation>태그</translation>
     </message>
@@ -11217,17 +11734,17 @@ Maximum</source>
     <message>
         <location filename="../core/eventtype.cpp" line="90"/>
         <source>info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/eventtype.cpp" line="91"/>
         <source>warn</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/eventtype.cpp" line="92"/>
         <source>alarm</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/file.cpp" line="115"/>
@@ -11237,7 +11754,7 @@ Maximum</source>
     <message>
         <location filename="../core/file.cpp" line="229"/>
         <source>Cannot open CSV file %s; please use Import log file dialog</source>
-        <comment>'Import log file' should be the same text as corresponding label in Import menu</comment>
+        <comment>&apos;Import log file&apos; should be the same text as corresponding label in Import menu</comment>
         <translation>CSV 파일 %s을 열 수 없습니다; 로그 파일 가져오기 대화 상자를 사용하십시오.</translation>
     </message>
     <message>
@@ -11364,27 +11881,27 @@ Maximum</source>
     <message>
         <location filename="../core/filterconstraint.cpp" line="68"/>
         <source>any tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="69"/>
         <source>any person</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="70"/>
         <source>any location</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="71"/>
         <source>any weight type</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="72"/>
         <source>any cylinder type</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="73"/>
@@ -11419,7 +11936,7 @@ Maximum</source>
     <message>
         <location filename="../core/filterconstraint.cpp" line="79"/>
         <source>any dive computer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/filterconstraint.cpp" line="87"/>
@@ -11514,7 +12031,7 @@ Maximum</source>
     <message>
         <location filename="../core/gas.cpp" line="192"/>
         <source>invalid gas</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/git-access.cpp" line="91"/>
@@ -11710,28 +12227,28 @@ Maximum</source>
         <translation>수면</translation>
     </message>
     <message>
-        <location filename="../core/import-suunto-json.cpp" line="263"/>
+        <location filename="../core/import-suunto-json.cpp" line="261"/>
         <source>dive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/import-suunto-json.cpp" line="417"/>
-        <location filename="../core/import-suunto-json.cpp" line="468"/>
-        <location filename="../core/import-suunto-json.cpp" line="495"/>
+        <location filename="../core/import-suunto-json.cpp" line="415"/>
+        <location filename="../core/import-suunto-json.cpp" line="466"/>
+        <location filename="../core/import-suunto-json.cpp" line="493"/>
         <location filename="../core/libdivecomputer.cpp" line="339"/>
         <source>safety stop</source>
         <translation>안전 정지</translation>
     </message>
     <message>
-        <location filename="../core/import-suunto-json.cpp" line="428"/>
+        <location filename="../core/import-suunto-json.cpp" line="426"/>
         <source>low NDL</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/import-suunto-json.cpp" line="439"/>
-        <location filename="../core/import-suunto-json.cpp" line="473"/>
+        <location filename="../core/import-suunto-json.cpp" line="437"/>
+        <location filename="../core/import-suunto-json.cpp" line="471"/>
         <source>depth alarm</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="341"/>
@@ -11831,7 +12348,7 @@ Maximum</source>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="764"/>
         <source>Error obtaining location</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="799"/>
@@ -11846,77 +12363,77 @@ Maximum</source>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="848"/>
         <source>Unable to create parser for %s %s: %d</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/libdivecomputer.cpp" line="868"/>
         <source>Error parsing the samples: %s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="893"/>
+        <location filename="../core/libdivecomputer.cpp" line="905"/>
         <source>Already downloaded dive at %s</source>
         <translation>이미 %s에서 다운로드한 다이빙입니다</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1110"/>
+        <location filename="../core/libdivecomputer.cpp" line="1122"/>
         <source>Event: waiting for user action</source>
         <translation>이벤트: 사용자의 동작을 기다리는 중</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1122"/>
+        <location filename="../core/libdivecomputer.cpp" line="1134"/>
         <source>read %dkb</source>
         <translation>%dkb 읽음</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1144"/>
+        <location filename="../core/libdivecomputer.cpp" line="1156"/>
         <source>model=%s firmware=%u serial=%u</source>
         <translation>모델=%s 펌웨어=%u 시리얼=%u</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1198"/>
+        <location filename="../core/libdivecomputer.cpp" line="1210"/>
         <source>Error registering the event handler.</source>
         <translation>이벤트 핸들러 등록 중 오류 발생</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1206"/>
+        <location filename="../core/libdivecomputer.cpp" line="1218"/>
         <source>Error registering the cancellation handler.</source>
         <translation>취소 핸들러 등록 중 오류 발생</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1227"/>
+        <location filename="../core/libdivecomputer.cpp" line="1239"/>
         <source>Dumping not supported on this device</source>
         <translation>이 장치에서는 덤프 기능이 지원되지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1231"/>
+        <location filename="../core/libdivecomputer.cpp" line="1243"/>
         <source>Dive data dumping error</source>
         <translation>다이빙 데이터 덤프 오류</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1241"/>
+        <location filename="../core/libdivecomputer.cpp" line="1253"/>
         <source>Dive data import error</source>
         <translation>다이빙 데이터 가져오기 오류</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1541"/>
+        <location filename="../core/libdivecomputer.cpp" line="1553"/>
         <source>Unable to create libdivecomputer context</source>
         <translation>libdivecomputer 컨텍스트를 생성할 수 없음</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1552"/>
+        <location filename="../core/libdivecomputer.cpp" line="1564"/>
         <source>Unable to open %s %s (%s)</source>
         <translation>%s %s 를 열 수 없습니다 (%s)</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1565"/>
+        <location filename="../core/libdivecomputer.cpp" line="1577"/>
         <source>Error opening the device %s %s (%s).
 In most cases, in order to debug this issue, it is useful to send the developers the log files. You can copy them to the clipboard in the About dialog.</source>
         <translation>다음 장치를 여는 중 오류 발생: %s %s (%s)
 대부분의 경우, 이 문제를 디버그하기 위해서는 로그 파일을 개발자에게 보내는 것이 유용합니다. &apos;대하여&apos; 대화상자에서 클립보드로 복사할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1567"/>
+        <location filename="../core/libdivecomputer.cpp" line="1579"/>
         <source>Error opening the device %s %s (%s).
 In most cases, in order to debug this issue, a libdivecomputer logfile will be useful.
 You can create this logfile by selecting the corresponding checkbox in the download dialog.</source>
@@ -11925,7 +12442,7 @@ You can create this logfile by selecting the corresponding checkbox in the downl
 다운로드 대화 상자에서 해당 체크박스를 선택함으로써 이 로그 파일을 생성할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../core/libdivecomputer.cpp" line="1598"/>
+        <location filename="../core/libdivecomputer.cpp" line="1610"/>
         <source>No new dives downloaded from dive computer</source>
         <translation>다이브 컴퓨터에서 다운로드된 새 다이빙이 없습니다</translation>
     </message>
@@ -11958,7 +12475,7 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/ostctools.cpp" line="25"/>
         <source>Invalid OSTCTools file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/ostctools.cpp" line="67"/>
@@ -11969,18 +12486,18 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/divesoft.cpp" line="53"/>
         <source>Unknown Divesoft model %s, using Freedom as default</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/divesoft.cpp" line="60"/>
         <source>Not a known Divesoft log format.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/divesoft.cpp" line="67"/>
         <location filename="../core/fit_file.cpp" line="24"/>
         <source>Unknown DC</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/divesoft.cpp" line="75"/>
@@ -11992,7 +12509,7 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/parse-xml.cpp" line="421"/>
         <source>Strange percentage reading %s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/parse-xml.cpp" line="1757"/>
@@ -12080,17 +12597,17 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/plannernotes.cpp" line="127"/>
         <source>One or more tanks with a tank use type inappropriate for the selected dive mode are included in the dive plan. Please change them to appropriate tanks to enable the generation of a dive plan.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="132"/>
         <source>No suitable gas for OC bailout at the planned final depth found in the gaslist. Please add an OC-gas with an MOD suitable for the planned final depth to enable the generation of a dive plan.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="137"/>
         <source>An error occurred during dive plan generation!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="159"/>
@@ -12251,37 +12768,37 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/plannernotes.cpp" line="501"/>
         <source>(end pressure &amp;lt;= %.0f%s)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="505"/>
         <source>this is more gas than available in the specified cylinder %s!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="509"/>
         <source>not enough reserve for gas sharing on ascent %s!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="531"/>
         <source>not enough gas for problem solving and ascent at end of dive %s!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="578"/>
         <source>Isobaric counterdiffusion conditions exceeded!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="606"/>
         <source>high pO₂ value %.3f bar at %d:%02u with gas %s at depth %.*f %s!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="616"/>
         <source>low pO₂ value %.3f bar at %d:%02u with gas %s at depth %.*f %s!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/plannernotes.cpp" line="536"/>
@@ -12321,240 +12838,240 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/profile.cpp" line="1292"/>
         <source>@: %d:%02d</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1293"/>
         <source>D: %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1300"/>
         <source>P: %d%s (%s)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1304"/>
         <source>T: %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1310"/>
         <source>V: %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1313"/>
         <source>SAC: %.*f%s/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1315"/>
         <source>CNS: %u%%</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1317"/>
         <source>pO₂: %.2fbar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1319"/>
         <source>SCR ΔpO₂: %.2fbar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1322"/>
         <source>pN₂: %.2fbar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1324"/>
         <source>pHe: %.2fbar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1327"/>
         <source>MOD: %d%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1336"/>
         <source>EAD: %d%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1337"/>
         <location filename="../core/profile.cpp" line="1344"/>
         <source>EADD: %d%s / %.1fg/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1343"/>
         <source>END: %d%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1349"/>
         <source>Density: %.1fg/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1361"/>
         <source>Safety stop: %umin @ %.0f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1364"/>
         <source>Safety stop: unknown time @ %.0f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1369"/>
         <source>Deco: %umin @ %.0f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1372"/>
         <source>Deco: unknown time @ %.0f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1376"/>
         <location filename="../core/save-profiledata.cpp" line="334"/>
         <source>In deco</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1378"/>
         <source>NDL: %umin</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1381"/>
         <source>TTS: %umin</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1384"/>
         <source>Deco: %umin @ %.0f%s (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1392"/>
         <source>In deco (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1395"/>
         <source>NDL: %umin (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1397"/>
         <source>NDL: &gt;2h (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1401"/>
         <source>TTS: %umin (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1403"/>
         <source>TTS: &gt;2h (calc)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1406"/>
         <source>RBT: %umin</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1409"/>
         <source>GF %d%%</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1411"/>
         <source>Surface GF %.0f%%</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1414"/>
         <source>Calculated ceiling %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1420"/>
         <source>Tissue %.0fmin: %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1427"/>
         <location filename="../core/save-profiledata.cpp" line="393"/>
         <source>ICD in leading tissue</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1429"/>
         <source>heart rate: %d</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1431"/>
         <source>bearing: %d</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1434"/>
         <source>mean depth to here %.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1552"/>
         <source>ΔD:%.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1555"/>
         <source>↓D:%.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1558"/>
         <source>↑D:%.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1561"/>
         <source>øD:%.1f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1565"/>
         <source>↓V:%.2f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1568"/>
         <source>↑V:%.2f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1571"/>
         <source>øV:%.2f%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1598"/>
         <source>ΔP:%d%s</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1612"/>
         <source>SAC:%.*f%s/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/profile.cpp" line="1549"/>
@@ -12627,8 +13144,8 @@ You can create this logfile by selecting the corresponding checkbox in the downl
         <location filename="../core/qthelper.cpp" line="938"/>
         <location filename="../core/string-format.cpp" line="375"/>
         <location filename="../core/units.cpp" line="169"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="191"/>
         <location filename="../mobile-widgets/qmlmanager.cpp" line="1213"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="199"/>
         <source>kg</source>
         <translation>kg</translation>
     </message>
@@ -12636,8 +13153,8 @@ You can create this logfile by selecting the corresponding checkbox in the downl
         <location filename="../core/qthelper.cpp" line="939"/>
         <location filename="../core/string-format.cpp" line="377"/>
         <location filename="../core/units.cpp" line="165"/>
-        <location filename="../qt-models/divetripmodel.cpp" line="193"/>
         <location filename="../mobile-widgets/qmlmanager.cpp" line="1215"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="201"/>
         <source>lbs</source>
         <translation>lbs</translation>
     </message>
@@ -13042,32 +13559,32 @@ You can create this logfile by selecting the corresponding checkbox in the downl
         <translation>다이빙 상태</translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="772"/>
+        <location filename="../core/save-xml.cpp" line="771"/>
         <source>Failed to save dives to %s (%s)</source>
         <translation>다이빙을 %s에 저장하는 데 실패함 (%s)</translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="803"/>
+        <location filename="../core/save-xml.cpp" line="802"/>
         <source>No filename for export</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="815"/>
+        <location filename="../core/save-xml.cpp" line="814"/>
         <source>Failed to read XML memory</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="820"/>
+        <location filename="../core/save-xml.cpp" line="819"/>
         <source>Failed to open export conversion stylesheet</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="834"/>
+        <location filename="../core/save-xml.cpp" line="833"/>
         <source>Failed to open %s for writing (%s)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/save-xml.cpp" line="890"/>
+        <location filename="../core/save-xml.cpp" line="889"/>
         <source>Failed to save divesites to %s (%s)</source>
         <translation>다이브 사이트를 %s에 저장하는 데 실패함 (%s)</translation>
     </message>
@@ -13129,18 +13646,20 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message numerus="yes">
         <location filename="../core/string-format.cpp" line="321"/>
         <source>(%n dive(s))</source>
-        <translation><numerusform>(%n개 다이빙(들))</numerusform></translation>
+        <translation>
+            <numerusform>(%n개 다이빙(들))</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../core/string-format.cpp" line="427"/>
         <location filename="../core/units.cpp" line="63"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/string-format.cpp" line="450"/>
         <source>g/L</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/tag.cpp" line="15"/>
@@ -13230,12 +13749,12 @@ You can create this logfile by selecting the corresponding checkbox in the downl
     <message>
         <location filename="../core/taxonomy.cpp" line="22"/>
         <source>Dive region</source>
-        <translation>지역</translation>
+        <translation>다이브 지역</translation>
     </message>
     <message>
         <location filename="../core/taxonomy.cpp" line="23"/>
         <source>Dive point</source>
-        <translation>다이빙 포인트</translation>
+        <translation>다이브 포인트</translation>
     </message>
     <message>
         <location filename="../core/time.cpp" line="238"/>
@@ -13634,190 +14153,139 @@ Uemis Zurich가 올바르게 연결되었습니까?</translation>
         <translation>이 포인트 제거하기</translation>
     </message>
     <message>
-        <location filename="../qt-models/divetripmodel.cpp" line="182"/>
+        <location filename="../qt-models/divetripmodel.cpp" line="190"/>
         <source>/min</source>
         <translation>/분</translation>
     </message>
     <message>
         <location filename="../core/import-asd.cpp" line="617"/>
         <source>Equipment: </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="14"/>
         <source>Subsurface-mobile</source>
-        <translation>Subsurface-mobile</translation>
+        <translation type="vanished">Subsurface-mobile</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="365"/>
         <source>Dive list</source>
-        <translation>다이빙 목록</translation>
+        <translation type="vanished">다이빙 목록</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="377"/>
         <source>Dive management</source>
-        <translation>다이빙 관리</translation>
+        <translation type="vanished">다이빙 관리</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="383"/>
         <source>Add dive manually</source>
-        <translation>다이빙 수동 추가</translation>
+        <translation type="vanished">다이빙 수동 추가</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="395"/>
         <source>Download from DC</source>
-        <translation>다이브 컴퓨터에서 다운로드</translation>
+        <translation type="vanished">다이브 컴퓨터에서 다운로드</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="408"/>
         <source>Manual sync with cloud</source>
-        <translation>클라우드와 수동 동기화</translation>
+        <translation type="vanished">클라우드와 수동 동기화</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="414"/>
         <source>Completed manual sync with cloud
 </source>
-        <translation>클라우드와 수동 동기화 완료됨
+        <translation type="vanished">클라우드와 수동 동기화 완료됨
 </translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="423"/>
         <source>Auto cloud sync</source>
-        <translation>자동 클라우드 동기화</translation>
+        <translation type="vanished">자동 클라우드 동기화</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="429"/>
         <source>Turning off automatic sync to cloud causes all data to only be stored locally. This can be very useful in situations with limited or no network access. Please choose &apos;Manual sync with cloud&apos; if you have network connectivity and want to sync your data to cloud storage.</source>
-        <translation>자동 클라우드 동기화를 끄면 모든 데이터가 로컬에만 저장됩니다. 이는 네트워크 접속이 제한되거나 없는 상황에서 매우 유용할 수 있습니다. 네트워크 연결이 가능할 때 데이터를 클라우드 저장소에 동기화하려면 &apos;클라우드와 수동 동기화&apos;를 선택하세요.</translation>
+        <translation type="vanished">자동 클라우드 동기화를 끄면 모든 데이터가 로컬에만 저장됩니다. 이는 네트워크 접속이 제한되거나 없는 상황에서 매우 유용할 수 있습니다. 네트워크 연결이 가능할 때 데이터를 클라우드 저장소에 동기화하려면 &apos;클라우드와 수동 동기화&apos;를 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="440"/>
         <source>Dive summary</source>
-        <translation>다이빙 요약</translation>
+        <translation type="vanished">다이빙 요약</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="451"/>
         <source>Export</source>
-        <translation>내보내기</translation>
+        <translation type="vanished">내보내기</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="463"/>
         <source>Location</source>
-        <translation>위치</translation>
+        <translation type="vanished">위치</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="483"/>
         <source>Statistics</source>
-        <translation>통계</translation>
+        <translation type="vanished">통계</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="494"/>
-        <source>Technical Diving</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="498"/>
-        <source>Dive Planner</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="507"/>
-        <source>Gas Calculator</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="519"/>
         <source>Settings</source>
-        <translation>설정</translation>
+        <translation type="vanished">설정</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="532"/>
         <source>Help</source>
-        <translation>도움말</translation>
+        <translation type="vanished">도움말</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="538"/>
         <source>About</source>
-        <translation>대하여</translation>
+        <translation type="vanished">대하여</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="549"/>
         <source>Show user manual</source>
-        <translation>사용자 매뉴얼 표시</translation>
+        <translation type="vanished">사용자 매뉴얼 표시</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="559"/>
-        <source>Contribute to Subsurface</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="569"/>
         <source>Ask for support</source>
-        <translation>지원 요청하기</translation>
+        <translation type="vanished">지원 요청하기</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="573"/>
         <source>failed to open email client, please manually create support email to support@subsurface-divelog.org - the logs have been copied to the clipboard and can be pasted into that email.</source>
-        <translation>이메일 클라이언트를 열지 못했습니다. 직접 지원 요청 이메일을 작성하여 support@subsurface-divelog.org로 보내주세요 - 클립보드에 복사된 로그를 해당 이메일에 붙여넣을 수 있습니다.</translation>
+        <translation type="vanished">이메일 클라이언트를 열지 못했습니다. 직접 지원 요청 이메일을 작성하여 support@subsurface-divelog.org로 보내주세요 - 클립보드에 복사된 로그를 해당 이메일에 붙여넣을 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="584"/>
         <source>Reset forgotten Subsurface Cloud password</source>
-        <translation>잊어버린 Subsurface 클라우드 비밀번호 재설정</translation>
+        <translation type="vanished">잊어버린 Subsurface 클라우드 비밀번호 재설정</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="596"/>
         <source>Developer</source>
-        <translation>개발자</translation>
+        <translation type="vanished">개발자</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="603"/>
         <source>App log</source>
-        <translation>앱 로그</translation>
+        <translation type="vanished">앱 로그</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="614"/>
         <source>Test busy indicator (toggle)</source>
-        <translation>바쁨 표시 테스트 (전환)</translation>
+        <translation type="vanished">바쁨 표시 테스트 (전환)</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="628"/>
-        <location filename="../mobile-widgets/qml/main.qml" line="630"/>
         <source>Test notification text</source>
-        <translation>문자 알림 테스트</translation>
+        <translation type="vanished">문자 알림 테스트</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="638"/>
         <source>Theme information</source>
-        <translation>테마 정보</translation>
+        <translation type="vanished">테마 정보</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="649"/>
         <source>Enable verbose logging (currently: %1)</source>
-        <translation>자세한 로깅 활성화 (현재: %1)</translation>
+        <translation type="vanished">자세한 로깅 활성화 (현재: %1)</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="651"/>
         <source>Not persistent</source>
-        <translation>지속되지 않음</translation>
+        <translation type="vanished">지속되지 않음</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="661"/>
         <source>Access local cloud cache dirs</source>
-        <translation>로컬 클라우드 캐시 디렉터리에 접근</translation>
+        <translation type="vanished">로컬 클라우드 캐시 디렉터리에 접근</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="701"/>
         <source>Font size likely too big for the display, switching to smaller font suggested</source>
-        <translation>글꼴 크기가 디스플레이에 비해 너무 클 수 있으므로 작은 글꼴로 전환하는 것이 좋습니다</translation>
+        <translation type="vanished">글꼴 크기가 디스플레이에 비해 너무 클 수 있으므로 작은 글꼴로 전환하는 것이 좋습니다</translation>
     </message>
     <message>
-        <location filename="../mobile-widgets/qml/main.qml" line="855"/>
         <source>Subsurface-mobile starting up</source>
-        <translation>Subsurface-mobile 시작 중</translation>
+        <translation type="vanished">Subsurface-mobile 시작 중</translation>
     </message>
 </context>
 <context>
@@ -13842,7 +14310,7 @@ Uemis Zurich가 올바르게 연결되었습니까?</translation>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Courier'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Courier&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
       </source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -13966,7 +14434,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../desktop-widgets/plannerSettings.ui" line="620"/>
         <location filename="../desktop-widgets/plannerSettings.ui" line="682"/>
         <source>L/min</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../desktop-widgets/plannerSettings.ui" line="219"/>
@@ -14147,9 +14615,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>test</name>
     <message>
-        <location filename="../mobile-widgets/qml/test.qml" line="15"/>
         <source>Subsurface-mobile</source>
-        <translation>Subsurface-mobile</translation>
+        <translation type="vanished">Subsurface-mobile</translation>
     </message>
 </context>
 <context>
@@ -14167,69 +14634,69 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../core/uploadDiveLogsDE.cpp" line="68"/>
         <source>building json to upload</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/uploadDiveLogsDE.cpp" line="80"/>
         <source>Stylesheet to export to json is not found</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="140"/>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="163"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="141"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="164"/>
         <source>internal error</source>
         <translation>내부 오류</translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="152"/>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="171"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="153"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="172"/>
         <source>Conversion of dive %1 to divelogs.de format failed</source>
         <translation>다이빙 %1을 divelogs.de 형식으로 변환하는 데 실패했습니다.</translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="214"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="215"/>
         <source>Logging in to divelogs.de</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="264"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="265"/>
         <source>Login successful</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="272"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="273"/>
         <source>Invalid login response from divelogs.de</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="279"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="280"/>
         <source>Login failed: no token received</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="287"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="288"/>
         <source>Uploading dives</source>
         <translation>다이빙 업로드 중</translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="379"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="380"/>
         <source>Upload successful</source>
         <translation>업로드 성공</translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="328"/>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="392"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="329"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="393"/>
         <source>divelogs.de not responding</source>
         <translation>divelogs.de 응답 없음</translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="342"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="343"/>
         <source>Login failed: invalid username or password</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="347"/>
-        <location filename="../core/uploadDiveLogsDE.cpp" line="405"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="348"/>
+        <location filename="../core/uploadDiveLogsDE.cpp" line="406"/>
         <source>network error %1</source>
         <translation>네트워크 오류 %1</translation>
     </message>
