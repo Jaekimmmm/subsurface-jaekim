@@ -13,6 +13,7 @@
 */
 
 #include <QTreeView>
+#include <QHeaderView>
 #include <QNetworkAccessManager>
 #include "qt-models/divetripmodel.h"
 #include "core/subsurface-qt/divelistnotifier.h"
@@ -37,6 +38,9 @@ slots:
 private
 slots:
 	void toggleColumnVisibilityByIndex();
+	// AI-generated (Claude): grouped column-visibility context menu
+	void showHeaderContextMenu(const QPoint &pos);
+	void setGroupVisibility(const QList<int> &columns, bool visible);
 	void sortIndicatorChanged(int index, Qt::SortOrder order);
 	void removeFromTrip();
 	void deleteDive();

@@ -45,6 +45,15 @@ public:
 		LOCATION,
 		NOTES,
 		DIVEMODE,
+		// AI-generated (Claude): per-category taxonomy columns. COUNTRY above
+		// already covers TC_COUNTRY, so we add the rest here.
+		TAX_OCEAN,
+		TAX_STATE,
+		TAX_COUNTY,
+		TAX_TOWN,
+		TAX_CITY,
+		TAX_REGION,
+		TAX_POINT,
 		COLUMNS
 	};
 

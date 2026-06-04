@@ -60,6 +60,14 @@ static QVariant dive_table_alignment(int column)
 	case DiveTripModelBase::LOCATION:
 	case DiveTripModelBase::NOTES:
 	case DiveTripModelBase::DIVEMODE:
+	// AI-generated (Claude): taxonomy columns are textual
+	case DiveTripModelBase::TAX_OCEAN:
+	case DiveTripModelBase::TAX_STATE:
+	case DiveTripModelBase::TAX_COUNTY:
+	case DiveTripModelBase::TAX_TOWN:
+	case DiveTripModelBase::TAX_CITY:
+	case DiveTripModelBase::TAX_REGION:
+	case DiveTripModelBase::TAX_POINT:
 		return int(Qt::AlignLeft | Qt::AlignVCenter);
 	}
 	return QVariant();
@@ -364,6 +372,28 @@ QVariant DiveTripModelBase::diveData(const struct dive *d, int column, int role)
 			return QString::fromStdString(d->notes);
 		case DIVEMODE:
 			return QString(divemode_text_ui[(int)d->dcs[0].divemode]);
+		// AI-generated (Claude): pull straight from the dive site's taxonomy
+		case TAX_OCEAN:
+		case TAX_STATE:
+		case TAX_COUNTY:
+		case TAX_TOWN:
+		case TAX_CITY:
+		case TAX_REGION:
+		case TAX_POINT: {
+			if (!d->dive_site) return QString();
+			enum taxonomy_category cat = TC_NONE;
+			switch (column) {
+			case TAX_OCEAN:  cat = TC_OCEAN;       break;
+			case TAX_STATE:  cat = TC_ADMIN_L1;    break;
+			case TAX_COUNTY: cat = TC_ADMIN_L2;    break;
+			case TAX_TOWN:   cat = TC_LOCALNAME;   break;
+			case TAX_CITY:   cat = TC_ADMIN_L3;    break;
+			case TAX_REGION: cat = TC_DIVE_REGION; break;
+			case TAX_POINT:  cat = TC_DIVE_POINT;  break;
+			default: break;
+			}
+			return QString::fromStdString(taxonomy_get_value(d->dive_site->taxonomy, cat));
+		}
 		}
 		break;
 	case Qt::DecorationRole:
@@ -452,6 +482,14 @@ QVariant DiveTripModelBase::headerData(int section, Qt::Orientation orientation,
 			return tr("Notes");
 		case DIVEMODE:
 			return tr("Divemode");
+		// AI-generated (Claude)
+		case TAX_OCEAN:  return tr("Ocean");
+		case TAX_STATE:  return tr("State");
+		case TAX_COUNTY: return tr("County");
+		case TAX_TOWN:   return tr("Town");
+		case TAX_CITY:   return tr("City");
+		case TAX_REGION: return tr("Dive region");
+		case TAX_POINT:  return tr("Dive point");
 		}
 		break;
 	case Qt::ToolTipRole:
@@ -1803,5 +1841,28 @@ bool DiveTripModelList::lessThan(const QModelIndex &i1, const QModelIndex &i2) c
 		return lessThanHelper(strCmp(d1->notes, d2->notes), row_diff);
 	case DIVEMODE:
 		return lessThanHelper((int)d1->dcs[0].divemode - (int)d2->dcs[0].divemode, row_diff);
+	// AI-generated (Claude): per-category taxonomy columns sort by their string
+	case TAX_OCEAN:
+	case TAX_STATE:
+	case TAX_COUNTY:
+	case TAX_TOWN:
+	case TAX_CITY:
+	case TAX_REGION:
+	case TAX_POINT: {
+		enum taxonomy_category cat = TC_NONE;
+		switch (i1.column()) {
+		case TAX_OCEAN:  cat = TC_OCEAN;       break;
+		case TAX_STATE:  cat = TC_ADMIN_L1;    break;
+		case TAX_COUNTY: cat = TC_ADMIN_L2;    break;
+		case TAX_TOWN:   cat = TC_LOCALNAME;   break;
+		case TAX_CITY:   cat = TC_ADMIN_L3;    break;
+		case TAX_REGION: cat = TC_DIVE_REGION; break;
+		case TAX_POINT:  cat = TC_DIVE_POINT;  break;
+		default: break;
+		}
+		auto v1 = d1->dive_site ? taxonomy_get_value(d1->dive_site->taxonomy, cat) : std::string();
+		auto v2 = d2->dive_site ? taxonomy_get_value(d2->dive_site->taxonomy, cat) : std::string();
+		return lessThanHelper(strCmp(v1, v2), row_diff);
+	}
 	}
 }

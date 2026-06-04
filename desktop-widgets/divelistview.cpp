@@ -17,6 +17,7 @@
 #include <QMessageBox>
 #include <QNetworkReply>
 #include <QHeaderView>
+#include <QMenu>
 #include <QThread>
 #include "commands/command.h"
 #include "commands/command_base.h"
@@ -50,7 +51,10 @@ DiveListView::DiveListView(QWidget *parent) : QTreeView(parent),
 	setSortingEnabled(true);
 	setContextMenuPolicy(Qt::DefaultContextMenu);
 	setSelectionMode(ExtendedSelection);
-	header()->setContextMenuPolicy(Qt::ActionsContextMenu);
+	// AI-generated (Claude): grouped header menu via custom-context handler
+	header()->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(header(), &QHeaderView::customContextMenuRequested,
+	        this, &DiveListView::showHeaderContextMenu);
 
 	resetModel();
 
@@ -65,12 +69,13 @@ DiveListView::DiveListView(QWidget *parent) : QTreeView(parent),
 		calculateInitialColumnWidth(i);
 	setColumnWidths();
 
+	// AI-generated (Claude): initial visibility from persisted settings;
+	// QActions are no longer added to the header — the grouped context menu
+	// builds them fresh on every right-click.
 	QSettings s;
 	s.beginGroup("DiveListColumnState");
 	for (int i = 0; i < model()->columnCount(); i++) {
-		QString title = QStringLiteral("%1").arg(model()->headerData(i, Qt::Horizontal).toString());
 		QString settingName = QStringLiteral("showColumn%1").arg(i);
-		QAction *a = new QAction(title, header());
 		bool showHeaderFirstRun = i == DiveTripModelBase::NR ||
 					  i == DiveTripModelBase::DATE ||
 					  i == DiveTripModelBase::RATING ||
@@ -82,15 +87,17 @@ DiveListView::DiveListView(QWidget *parent) : QTreeView(parent),
 					  i == DiveTripModelBase::COUNTRY ||
 					  i == DiveTripModelBase::LOCATION;
 		bool shown = s.value(settingName, showHeaderFirstRun).toBool();
-		a->setCheckable(true);
-		a->setChecked(shown);
-		a->setProperty("index", i);
-		a->setProperty("settingName", settingName);
-		connect(a, SIGNAL(triggered(bool)), this, SLOT(toggleColumnVisibilityByIndex()));
-		header()->addAction(a);
 		setColumnHidden(i, !shown);
 	}
 	s.endGroup();
+
+	// AI-generated (Claude): user-reorderable columns + persisted header state
+	// (order, widths, visibility, sort indicator) survives across launches.
+	header()->setSectionsMovable(true);
+	QSettings hs;
+	const QByteArray hdrBlob = hs.value("DiveListView/headerState").toByteArray();
+	if (!hdrBlob.isEmpty())
+		header()->restoreState(hdrBlob);
 }
 
 DiveListView::~DiveListView()
@@ -109,6 +116,9 @@ DiveListView::~DiveListView()
 	}
 	settings.remove(QStringLiteral("colwidth%1").arg(DiveTripModelBase::COLUMNS - 1));
 	settings.endGroup();
+	// AI-generated (Claude): persist the header's full state (order, widths,
+	// visibility, sort indicator) for next launch.
+	settings.setValue("DiveListView/headerState", header()->saveState());
 }
 
 void DiveListView::resetModel()
@@ -441,6 +451,96 @@ void DiveListView::toggleColumnVisibilityByIndex()
 	s.endGroup();
 	s.sync();
 	setColumnHidden(idx, !action->isChecked());
+	setColumnWidth(lastVisibleColumn(), 10);
+}
+
+// AI-generated (Claude): grouped header menu with per-group bulk toggle.
+// Groups mirror what makes intuitive sense for divers, mapping the underlying
+// Column enum into named buckets. Columns absent from a group fall under
+// "Other".
+void DiveListView::showHeaderContextMenu(const QPoint &pos)
+{
+	using C = DiveTripModelBase;
+	struct Group { QString name; QList<int> cols; };
+	const QList<Group> groups = {
+		{ tr("Default"),              { C::NR, C::DATE } },
+		{ tr("Location"),             { C::LOCATION, C::COUNTRY,
+		                                C::TAX_OCEAN, C::TAX_STATE, C::TAX_COUNTY,
+		                                C::TAX_TOWN, C::TAX_CITY, C::TAX_REGION, C::TAX_POINT } },
+		{ tr("Dive profile"),         { C::DIVEMODE, C::DEPTH, C::TEMPERATURE,
+		                                C::DURATION, C::MAXCNS, C::OTU } },
+		{ tr("Equipment && Gas"),     { C::TOTALWEIGHT, C::SUIT, C::CYLINDER,
+		                                C::GAS, C::SAC } },
+		{ tr("People"),               { C::BUDDIES, C::DIVEGUIDE } },
+		{ tr("Media && Description"), { C::PHOTOS, C::NOTES, C::RATING, C::TAGS } },
+	};
+
+	QMenu menu(this);
+	auto applyToggle = [this](int col, bool show) {
+		// Refuse to hide the last visible column.
+		if (!show) {
+			int totalVisible = 0, lastVisibleIdx = -1;
+			for (int i = 0; i < model()->columnCount(); i++) {
+				if (isColumnHidden(i)) continue;
+				totalVisible++; lastVisibleIdx = i;
+			}
+			if (totalVisible == 1 && lastVisibleIdx == col)
+				return;
+		}
+		QSettings s;
+		s.beginGroup("DiveListColumnState");
+		s.setValue(QStringLiteral("showColumn%1").arg(col), show);
+		s.endGroup();
+		setColumnHidden(col, !show);
+		setColumnWidth(lastVisibleColumn(), 10);
+	};
+
+	for (const Group &g: groups) {
+		auto *sub = menu.addMenu(g.name);
+
+		// Tally how many of this group are currently visible.
+		int visible = 0;
+		for (int col: g.cols)
+			if (!isColumnHidden(col)) visible++;
+		bool allShown  = visible == g.cols.size();
+		bool noneShown = visible == 0;
+
+		QAction *showAll = sub->addAction(tr("Show all"));
+		showAll->setEnabled(!allShown);
+		connect(showAll, &QAction::triggered, this, [this, cols = g.cols, applyToggle]() {
+			for (int col: cols) applyToggle(col, true);
+		});
+		QAction *hideAll = sub->addAction(tr("Hide all"));
+		hideAll->setEnabled(!noneShown);
+		connect(hideAll, &QAction::triggered, this, [this, cols = g.cols, applyToggle]() {
+			for (int col: cols) applyToggle(col, false);
+		});
+		sub->addSeparator();
+
+		for (int col: g.cols) {
+			QString title = model()->headerData(col, Qt::Horizontal).toString();
+			QAction *a = sub->addAction(title);
+			a->setCheckable(true);
+			a->setChecked(!isColumnHidden(col));
+			connect(a, &QAction::toggled, this, [col, applyToggle](bool on) {
+				applyToggle(col, on);
+			});
+		}
+	}
+
+	menu.exec(header()->mapToGlobal(pos));
+}
+
+// AI-generated (Claude): batch-toggle helper exposed in case other code needs it.
+void DiveListView::setGroupVisibility(const QList<int> &columns, bool visible)
+{
+	QSettings s;
+	s.beginGroup("DiveListColumnState");
+	for (int col: columns) {
+		s.setValue(QStringLiteral("showColumn%1").arg(col), visible);
+		setColumnHidden(col, !visible);
+	}
+	s.endGroup();
 	setColumnWidth(lastVisibleColumn(), 10);
 }
 
