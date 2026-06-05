@@ -35,6 +35,8 @@ public:
 	void setFileUrl(const QString& s);
 signals:
 	void removePicture(const QString &fileUrl);
+	// AI-generated (Claude)
+	void clicked(const QString &fileUrl);
 public slots:
 	void settingsChanged();
 private:

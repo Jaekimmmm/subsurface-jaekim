@@ -164,6 +164,24 @@ void TabDivePhotos::updateData(const std::vector<dive *> &, dive *currentDive, i
 	divePictureModel->updateDivePictures();
 }
 
+// AI-generated (Claude)
+void TabDivePhotos::selectPicture(const QString &fileUrl)
+{
+	int row = divePictureModel->findPictureId(fileUrl.toStdString());
+	if (row < 0)
+		return;
+	QModelIndex idx = divePictureModel->index(row, 0);
+	if (!idx.isValid())
+		return;
+	auto *sel = ui->photosView->selectionModel();
+	sel->setCurrentIndex(idx,
+			    QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+	ui->photosView->scrollTo(idx);
+	// Give keyboard focus so the selection draws with the active (blue)
+	// highlight instead of the inactive (gray) palette.
+	ui->photosView->setFocus(Qt::OtherFocusReason);
+}
+
 void TabDivePhotos::changeZoomLevel(int delta)
 {
 	// We count on QSlider doing bound checks

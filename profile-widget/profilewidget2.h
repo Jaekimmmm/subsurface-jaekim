@@ -51,6 +51,13 @@ public:
 	ProfileWidget2(DivePlannerPointsModel *plannerModel, double dpr, QWidget *parent = 0);
 	~ProfileWidget2();
 	void resetZoom();
+	// AI-generated (Claude)
+	// When > 0, resize events use this width for the scene instead of the
+	// viewport width. The right-hand portion of the scene is clipped (we
+	// keep ScrollBarAlwaysOff). Used by the side picture-preview pane to
+	// keep the time axis pixels-per-second constant while the profile
+	// viewport shrinks. Pass 0 to release the lock.
+	void setLockedSceneWidth(int widthPx);
 	void plotDive(const struct dive *d, int dc, int flags = RenderFlags::None);
 	void setProfileState(const struct dive *d, int dc);
 	void setPlanState(const struct dive *d, int dc);
@@ -68,6 +75,10 @@ signals:
 	void stopRemoved(int count); // only emitted in edit mode
 	void stopMoved(int count); // only emitted in edit mode
 	void stopEdited(); // only emitted in edit mode
+	// AI-generated (Claude)
+	// Emitted when a thumbnail in the profile is left-clicked. MainWindow
+	// routes this based on the current ApplicationState.
+	void pictureClicked(const QString &fileUrl);
 
 public
 slots: // Necessary to call from QAction's signals.
@@ -86,6 +97,13 @@ slots: // Necessary to call from QAction's signals.
 	void profileChanged(dive *d);
 	void pictureOffsetChanged(dive *d, QString filename, offset_t offset);
 	void removePicture(const QString &fileUrl);
+	// AI-generated (Claude)
+	// When the side preview pane opens, the profile widget shrinks to
+	// half width. To keep the visible pixels-per-second ratio, bump the
+	// zoom by ~2x and pan so the clicked picture is centered. On exit,
+	// restore the user's previous zoom/pan state.
+	void enterPicturePreviewMode(const QString &fileUrl);
+	void exitPicturePreviewMode();
 
 	/* this is called for every move on the handlers. maybe we can speed up this a bit? */
 	void divePlannerHandlerMoved();
@@ -140,6 +158,12 @@ private:
 	DivePlannerPointsModel *plannerModel; // If null, no planning supported.
 	int zoomLevel;
 	double zoomedPosition;	// Position, when zoomed: 0.0 = beginning, 1.0 = end.
+	// AI-generated (Claude) — picture preview mode state
+	bool picturePreviewMode = false;
+	int savedZoomLevel = 0;
+	double savedZoomedPosition = 0.0;
+	// AI-generated (Claude)
+	int lockedSceneWidth; // 0 = follow viewport; >0 = use this width on resize
 #ifndef SUBSURFACE_MOBILE
 	ToolTipItem *toolTipItem;
 #endif

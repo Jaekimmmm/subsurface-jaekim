@@ -13,6 +13,7 @@ struct dive;
 class ProfileWidget2;
 class EmptyView;
 class QStackedWidget;
+class PicturePreviewPane;
 
 class ProfileWidget : public QWidget {
 	Q_OBJECT
@@ -27,6 +28,12 @@ public:
 	void nextDC();
 	void prevDC();
 	void exitEditMode();
+	// AI-generated (Claude)
+	// Show/hide a side preview pane that takes the right half of the
+	// profile area. Triggered by clicking a thumbnail on the profile
+	// in ProfileMaximized view.
+	void showPicturePreview(const QString &fileUrl);
+	void hidePicturePreview();
 	dive *d;
 	int dc;
 private
@@ -44,6 +51,8 @@ private:
 	std::vector<QAction *> toolbarActions;
 	Ui::ProfileWidget ui;
 	QStackedWidget *stack;
+	// AI-generated (Claude)
+	PicturePreviewPane *previewPane;
 	void setDive(const struct dive *d, int dcNr);
 	void editDive();
 	void rotateDC(int dir);

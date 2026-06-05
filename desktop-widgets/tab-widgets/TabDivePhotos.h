@@ -17,6 +17,8 @@ public:
 	~TabDivePhotos();
 	void updateData(const std::vector<dive *> &selection, dive *currentDive, int currentDC) override;
 	void clear() override;
+	// AI-generated (Claude)
+	void selectPicture(const QString &fileUrl);
 
 protected:
 	void contextMenuEvent(QContextMenuEvent *ev) override;

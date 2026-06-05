@@ -112,6 +112,8 @@ set(SUBSURFACE_INTERFACE
 	modeldelegates.h
 	notificationwidget.cpp
 	notificationwidget.h
+	picturepreviewpane.cpp
+	picturepreviewpane.h
 	profilewidget.cpp
 	profilewidget.h
 	qtwaitingspinner.cpp

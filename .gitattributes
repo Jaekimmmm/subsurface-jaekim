@@ -5,3 +5,4 @@ theme/jqplot.canvasTextRenderer.js binary
 theme/jqplot.highlighter.js binary
 theme/jquery.jqplot.min.js binary
 theme/jquery.min.js binary
+*.ts linguist-language=XML

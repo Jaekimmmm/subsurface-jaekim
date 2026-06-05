@@ -529,7 +529,7 @@ void Thumbnailer::clearWorkQueue()
 	workingOn.clear();
 }
 
-static const int maxZoom = 3;	// Maximum zoom: thrice of standard size
+static const int maxZoom = 5;	// Maximum zoom: thrice of standard size
 
 int Thumbnailer::defaultThumbnailSize()
 {

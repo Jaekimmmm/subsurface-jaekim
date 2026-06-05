@@ -71,6 +71,19 @@ void MainTab::nextInputField(QKeyEvent *event)
 	keyPressEvent(event);
 }
 
+// AI-generated (Claude)
+void MainTab::focusPicture(const QString &fileUrl)
+{
+	for (int i = 0; i < extraWidgets.size(); ++i) {
+		auto *photos = qobject_cast<TabDivePhotos *>(extraWidgets[i]);
+		if (!photos)
+			continue;
+		setCurrentIndex(i);
+		photos->selectPicture(fileUrl);
+		return;
+	}
+}
+
 void MainTab::settingsChanged()
 {
 	// TODO: remember these

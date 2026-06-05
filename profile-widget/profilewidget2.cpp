@@ -54,6 +54,7 @@ ProfileWidget2::ProfileWidget2(DivePlannerPointsModel *plannerModelIn, double dp
 	plannerModel(plannerModelIn),
 	zoomLevel(0),
 	zoomedPosition(0.0),
+	lockedSceneWidth(0),
 #ifndef SUBSURFACE_MOBILE
 	toolTipItem(new ToolTipItem()),
 #endif
@@ -283,8 +284,31 @@ void ProfileWidget2::settingsChanged()
 void ProfileWidget2::resizeEvent(QResizeEvent *event)
 {
 	QGraphicsView::resizeEvent(event);
-	profileScene->resize(viewport()->size());
+	// AI-generated (Claude)
+	// When the picture-preview pane is open, we keep the scene at the
+	// pre-shrink width so the time axis pixels-per-second stays constant.
+	// With horizontal scrollbar off, the right side of the scene is just
+	// clipped behind the (now-narrower) viewport edge.
+	QSize sceneSize = viewport()->size();
+	if (lockedSceneWidth > 0)
+		sceneSize.setWidth(lockedSceneWidth);
+	profileScene->resize(sceneSize);
 	plotDive(d, dc, RenderFlags::Instant | RenderFlags::DontRecalculatePlotInfo); // disable animation on resize events
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::setLockedSceneWidth(int widthPx)
+{
+	if (lockedSceneWidth == widthPx)
+		return;
+	lockedSceneWidth = widthPx;
+	// Force a scene resize with the new policy. Use the current viewport
+	// height; the scene width comes from the lock (or viewport on release).
+	QSize sceneSize = viewport()->size();
+	if (lockedSceneWidth > 0)
+		sceneSize.setWidth(lockedSceneWidth);
+	profileScene->resize(sceneSize);
+	plotDive(d, dc, RenderFlags::Instant | RenderFlags::DontRecalculatePlotInfo);
 }
 
 #ifndef SUBSURFACE_MOBILE
@@ -1155,6 +1179,8 @@ ProfileWidget2::PictureEntry::PictureEntry(offset_t offsetIn, const std::string 
 	thumbnail->setPixmap(QPixmap::fromImage(img));
 	thumbnail->setFileUrl(QString::fromStdString(filename));
 	connect(thumbnail.get(), &DivePictureItem::removePicture, profile, &ProfileWidget2::removePicture);
+	// AI-generated (Claude)
+	connect(thumbnail.get(), &DivePictureItem::clicked, profile, &ProfileWidget2::pictureClicked);
 }
 
 // Define a default sort order for picture-entries: sort lexicographically by timestamp and filename.
@@ -1311,6 +1337,40 @@ void ProfileWidget2::removePicture(const QString &fileUrl)
 {
 	if (d)
 		Command::removePictures({ { mutable_dive(), { fileUrl.toStdString() } } });
+}
+
+// AI-generated (Claude)
+// The side preview pane takes the right half of the profile area, halving
+// the pixels-per-second of the time axis. Bump the zoom by ~2x so the
+// apparent x-axis scale is preserved. Pan position is left untouched.
+void ProfileWidget2::enterPicturePreviewMode(const QString &)
+{
+	if (!d)
+		return;
+
+	if (!picturePreviewMode) {
+		savedZoomLevel = zoomLevel;
+		savedZoomedPosition = zoomedPosition;
+		picturePreviewMode = true;
+	}
+
+	// 1.15^5 ≈ 2.01, which compensates for halving the profile width.
+	constexpr int kPreviewZoomBoost = 5;
+	constexpr int kMaxZoom = 20;
+	zoomLevel = std::min(savedZoomLevel + kPreviewZoomBoost, kMaxZoom);
+	plotDive(d, dc, RenderFlags::DontRecalculatePlotInfo);
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::exitPicturePreviewMode()
+{
+	if (!picturePreviewMode)
+		return;
+	picturePreviewMode = false;
+	zoomLevel = savedZoomLevel;
+	zoomedPosition = savedZoomedPosition;
+	if (d)
+		plotDive(d, dc, RenderFlags::DontRecalculatePlotInfo);
 }
 
 void ProfileWidget2::profileChanged(dive *dive)

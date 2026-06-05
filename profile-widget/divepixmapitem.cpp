@@ -6,9 +6,7 @@
 #include "core/settings/qPrefDisplay.h"
 #include "core/subsurface-qt/divelistnotifier.h"
 
-#include <QDesktopServices>
 #include <QPen>
-#include <QUrl>
 #include <QGraphicsSceneMouseEvent>
 
 DivePixmapItem::DivePixmapItem(QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
@@ -100,8 +98,11 @@ void DivePictureItem::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 	Animations::hide(button, qPrefDisplay::animation_speed());
 }
 
+// AI-generated (Claude)
+// Emit clicked signal; ProfileWidget2 routes it through MainWindow which decides
+// whether to focus the Media tab (All view) or show an in-profile overlay preview.
 void DivePictureItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton)
-		QDesktopServices::openUrl(QUrl::fromLocalFile(localFilePath(fileUrl)));
+		emit clicked(fileUrl);
 }

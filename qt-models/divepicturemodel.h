@@ -29,6 +29,8 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	void updateDivePictures();
 	void removePictures(const QModelIndexList &);
+	// AI-generated (Claude)
+	int findPictureId(const std::string &filename);	// Return -1 if not found
 public slots:
 	void setZoomLevel(int level);
 	void updateThumbnail(QString filename, QImage thumbnail, duration_t duration);
@@ -38,7 +40,6 @@ public slots:
 private:
 	DivePictureModel();
 	std::vector<PictureEntry> pictures;
-	int findPictureId(const std::string &filename);	// Return -1 if not found
 	double zoomLevel;	// -1.0: minimum, 0.0: standard, 1.0: maximum
 	int size;
 	void updateThumbnails();

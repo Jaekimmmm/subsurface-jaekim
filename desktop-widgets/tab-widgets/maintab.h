@@ -23,6 +23,9 @@ public:
 	void stealFocus();
 	bool includesCurrentDive(const QVector<dive *> &dives) const;
 	divecomputer *getCurrentDC() const;
+	// AI-generated (Claude)
+	// Switch to the Media tab and select/scroll-to the given photo.
+	void focusPicture(const QString &fileUrl);
 
 	dive *currentDive;
 	int currentDC;

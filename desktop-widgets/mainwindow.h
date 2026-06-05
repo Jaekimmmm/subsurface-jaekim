@@ -132,6 +132,12 @@ slots:
 	void divesSelected(const std::vector<dive *> &selection, dive *currentDive, int currentDC);
 	void initialUiSetup();
 
+	// AI-generated (Claude)
+	// Picture clicks in the profile widget: Default (All) view jumps to
+	// the Media tab and selects the photo; ProfileMaximized shows an
+	// in-profile overlay preview.
+	void onProfilePictureClicked(const QString &fileUrl);
+
 	void on_actionImportDiveLog_triggered();
 	void on_actionImportDiveSites_triggered();
 

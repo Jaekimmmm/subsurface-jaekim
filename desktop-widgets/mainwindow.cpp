@@ -171,6 +171,11 @@ MainWindow::MainWindow() :
 	restoreSplitterSizes();
 	setApplicationState(ApplicationState::Default);
 
+	// AI-generated (Claude)
+	// Route picture clicks in the profile based on the current view mode.
+	connect(profile->view.get(), &ProfileWidget2::pictureClicked,
+		this, &MainWindow::onProfilePictureClicked);
+
 	setWindowIcon(QIcon(":subsurface-icon"));
 	if (!QIcon::hasThemeIcon("window-close")) {
 		QIcon::setThemeName("subsurface");
@@ -315,6 +320,18 @@ void MainWindow::refreshDisplay()
 void MainWindow::updateAutogroup()
 {
 	ui.actionAutoGroup->setChecked(divelog.autogroup);
+}
+
+// AI-generated (Claude)
+void MainWindow::onProfilePictureClicked(const QString &fileUrl)
+{
+	if (appState == ApplicationState::ProfileMaximized) {
+		profile->showPicturePreview(fileUrl);
+	} else {
+		// All view (Default) and any other layout that includes the
+		// Media tab: surface the photo there.
+		mainTab->focusPicture(fileUrl);
+	}
 }
 
 void MainWindow::divesSelected(const std::vector<dive *> &selection, dive *currentDive, int currentDC)

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git diff *)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(xargs cat)"
     ]
   }
 }

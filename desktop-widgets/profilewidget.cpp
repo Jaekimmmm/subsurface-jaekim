@@ -2,6 +2,7 @@
 
 #include "profilewidget.h"
 #include "profile-widget/profilewidget2.h"
+#include "desktop-widgets/picturepreviewpane.h"
 #include "commands/command.h"
 #include "core/color.h"
 #include "core/event.h"
@@ -85,6 +86,11 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 	stack->addWidget(emptyView.get());
 	stack->addWidget(view.get());
 
+	// AI-generated (Claude)
+	previewPane = new PicturePreviewPane(this);
+	previewPane->hide();
+	connect(previewPane, &PicturePreviewPane::closed, this, &ProfileWidget::hidePicturePreview);
+
 	QHBoxLayout *layout = new QHBoxLayout(this);
 	layout->setSpacing(0);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -92,7 +98,11 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 #endif
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->addWidget(toolBar);
-	layout->addWidget(stack);
+	// AI-generated (Claude)
+	// stack and preview pane share the remaining horizontal space 1:1
+	// when the preview is visible; preview is hidden by default.
+	layout->addWidget(stack, 1);
+	layout->addWidget(previewPane, 1);
 	setLayout(layout);
 
 	// Toolbar Connections related to the Profile Update
@@ -196,11 +206,37 @@ void ProfileWidget::plotCurrentDive()
 	plotDive(d, dc);
 }
 
+// AI-generated (Claude)
+void ProfileWidget::showPicturePreview(const QString &fileUrl)
+{
+	if (previewPane->isShownFor(fileUrl)) {
+		hidePicturePreview();
+		return;
+	}
+	previewPane->showFor(fileUrl);
+	previewPane->show();
+	// Compensate for the halved profile width by zooming ~2x and panning
+	// to the clicked picture.
+	view->enterPicturePreviewMode(fileUrl);
+}
+
+// AI-generated (Claude)
+void ProfileWidget::hidePicturePreview()
+{
+	previewPane->hide();
+	view->exitPicturePreviewMode();
+}
+
 void ProfileWidget::plotDive(dive *dIn, int dcIn)
 {
 	bool endEditMode = false;
 	if (editedDive && (dIn != d || dcIn != dc))
 		endEditMode = true;
+
+	// AI-generated (Claude)
+	// Dismiss any stale preview when the displayed dive changes.
+	if (dIn != d)
+		hidePicturePreview();
 
 	d = dIn;
 
