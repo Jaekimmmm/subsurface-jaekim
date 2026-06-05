@@ -395,11 +395,11 @@ void DiveListView::reload()
 void DiveListView::settingsChanged()
 {
 	update();
-
-	for (int i = 0; i < model()->columnCount(); i++) {
-		QString title = model()->headerData(i, Qt::Horizontal).toString();
-		header()->actions()[i]->setText(title);
-	}
+	// AI-generated (Claude): the header no longer carries per-column QActions
+	// (the grouped context menu is rebuilt on each right-click), so there is
+	// nothing to relabel here. Force a header repaint to pick up changed
+	// unit-aware titles (Depth(m)/(ft), Temp.(°C)/(°F), …).
+	header()->headerDataChanged(Qt::Horizontal, 0, model()->columnCount() - 1);
 }
 
 static void check_cylinder_use(struct dive &dive)
