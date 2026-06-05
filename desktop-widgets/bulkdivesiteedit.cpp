@@ -63,10 +63,16 @@ BulkDiveSiteEditDialog::makeRow(const QString &label, bool allowClear, bool allo
 	} else {
 		line = new QLineEdit(container);
 		line->setPlaceholderText(tr("Value"));
+		// AI-generated (Claude): macOS Qt5 native style erases the QLineEdit
+		// frame when disabled, leaving an invisible input slot. Force a visible
+		// border via styleSheet for both enabled and disabled states.
+		line->setStyleSheet(
+			"QLineEdit { border: 1px solid #A0A0A0; border-radius: 3px; "
+			"            padding: 3px 4px; background-color: white; }"
+			"QLineEdit:disabled { background-color: #F2F2F2; color: #888; }"
+		);
 		input = line;
 	}
-	// AI-generated (Claude): keep the input slot wide and visible even while
-	// disabled, otherwise on macOS Qt5 it can collapse to zero visible area.
 	input->setMinimumWidth(220);
 	input->setSizePolicy(QSizePolicy::Expanding, input->sizePolicy().verticalPolicy());
 	input->setEnabled(false);

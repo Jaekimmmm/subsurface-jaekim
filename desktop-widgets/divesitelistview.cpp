@@ -113,6 +113,11 @@ DiveSiteListView::DiveSiteListView(QWidget *parent) : QWidget(parent)
 	const QByteArray treeBlob = hs.value("DiveSiteListView/treeHeaderState").toByteArray();
 	if (!treeBlob.isEmpty())
 		treeHdr->restoreState(treeBlob);
+
+	// AI-generated (Claude): default to the hierarchical tree view; user can
+	// switch to the flat table via the "Flatten" toggle.
+	ui.viewStack->setCurrentWidget(ui.treePage);
+	ui.treeToggle->setChecked(false);
 }
 
 // AI-generated (Claude): persist header states on destruction.
@@ -366,14 +371,15 @@ void DiveSiteListView::treeSelectionChanged(const QItemSelection &, const QItemS
 		DiveFilter::instance()->setFilterDiveSite(selectedDiveSitesTree());
 }
 
-// AI-generated (Claude)
+// AI-generated (Claude): tree view is default; toggling the "Flatten" button
+// (checked = flat) switches to the legacy flat table.
 void DiveSiteListView::on_treeToggle_toggled(bool checked)
 {
-	ui.viewStack->setCurrentWidget(checked ? ui.treePage : ui.flatPage);
+	ui.viewStack->setCurrentWidget(checked ? ui.flatPage : ui.treePage);
 	if (checked)
-		DiveFilter::instance()->setFilterDiveSite(selectedDiveSitesTree());
-	else
 		DiveFilter::instance()->setFilterDiveSite(selectedDiveSites());
+	else
+		DiveFilter::instance()->setFilterDiveSite(selectedDiveSitesTree());
 }
 
 void DiveSiteListView::hideEvent(QHideEvent *)

@@ -71,7 +71,7 @@ void MapWidgetHelper::updateDiveTracks()
 {
 	QVector<QGeoCoordinate> exits;
 	QVector<QVector<QGeoCoordinate>> dashes;
-	constexpr int DASH_COUNT = 10; // 10 dashes + 10 gaps along the segment
+	constexpr int DASH_COUNT = 10; // 10 dashes + 9 gaps; pattern starts and ends with a dash
 
 	for (const auto &d: divelog.dives) {
 		if (!d->selected)
@@ -104,9 +104,10 @@ void MapWidgetHelper::updateDiveTracks()
 		const double xLon = exitLoc.lon.udeg * 0.000001;
 		exits.append(QGeoCoordinate(xLat, xLon));
 
+		constexpr int slots = 2 * DASH_COUNT - 1; // 19: even=dash, odd=gap; last slot is a dash
 		for (int i = 0; i < DASH_COUNT; ++i) {
-			const double t0 = static_cast<double>(2 * i)     / (2 * DASH_COUNT);
-			const double t1 = static_cast<double>(2 * i + 1) / (2 * DASH_COUNT);
+			const double t0 = static_cast<double>(2 * i)     / slots;
+			const double t1 = static_cast<double>(2 * i + 1) / slots;
 			QVector<QGeoCoordinate> seg{
 				QGeoCoordinate(eLat + (xLat - eLat) * t0, eLon + (xLon - eLon) * t0),
 				QGeoCoordinate(eLat + (xLat - eLat) * t1, eLon + (xLon - eLon) * t1)

@@ -54,8 +54,6 @@ Item {
 		property real newZoomOut: 1.0
 		property var clickCoord: QtPositioning.coordinate(0, 0)
 		property bool isReady: false
-		// AI-generated (Claude): debug tracking — who set the current zoom
-		property string zoomSource: "init: Jeju (33.356, 126.530), zoom=8"
 		// AI-generated (Claude): padding ratio used by centerOnRectangle (fit-all)
 		// 0.25 = 25% empty margin between the outermost marker and the viewport edge
 		readonly property real fitPaddingRatio: 0.25
@@ -174,7 +172,7 @@ Item {
 		// these also work with Qt 5.15
 		WheelHandler {
 			id: wheel
-			onActiveChanged: if (active) { map.stopZoomAnimations(); map.zoomSource = "wheel (rotationScale=1/120)" }
+			onActiveChanged: if (active) map.stopZoomAnimations()
 			acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland"
 				? PointerDevice.Mouse | PointerDevice.TouchPad
 				: PointerDevice.Mouse
@@ -193,7 +191,6 @@ Item {
 			onActiveChanged: if (active) {
 				map.stopZoomAnimations()
 				map.startCentroid = map.toCoordinate(pinch.centroid.position, false)
-				map.zoomSource = "pinch (log2(scale))"
 			}
 			onScaleChanged: function(delta) {
 				map.zoomLevel += Math.log2(delta)
@@ -213,7 +210,6 @@ Item {
 			newZoom = zoomLevel + zoomStep
 			if (newZoom > maximumZoomLevel)
 				newZoom = maximumZoomLevel
-			zoomSource = "doubleClick: zoomLevel+zoomStep(" + zoomStep + ") clamp<=maximumZoomLevel(" + maximumZoomLevel + ")"
 			mapAnimationClick.restart()
 		}
 
@@ -245,12 +241,8 @@ Item {
 			newCenter = coord
 			if (preserveZoom === true) {
 				newZoom = zoomStored
-				zoomSource = "centerOnCoordinate (single→single): zoom kept @ " +
-				             zoomStored.toFixed(2)
 			} else {
 				newZoom = singleSiteZoom
-				zoomSource = "centerOnCoordinate (single site, first): newZoom=singleSiteZoom(" +
-				             singleSiteZoom.toFixed(2) + ")"
 			}
 			newZoomOut = zoomStored
 			mapAnimationZoomIn.restart()
@@ -304,11 +296,6 @@ Item {
 			newZoomOut = zoomStored
 
 			center = centerStored
-			zoomSource = "centerOnRectangle: rectW=" + Math.round(rectW) +
-			             "m rectH=" + Math.round(rectH) +
-			             "m -> newZoom=" + newZoom.toFixed(2) +
-			             " (padRatio=" + fitPaddingRatio + ", clamp[" +
-			             minimumZoomLevel.toFixed(1) + "," + defaultZoomIn + "])"
 			mapAnimationZoomIn.restart()
 		}
 
@@ -342,26 +329,6 @@ Item {
 			color: "white"
 			font.pointSize: 11.0
 			text: qsTr("Drag the selected dive location")
-		}
-	}
-
-	// AI-generated (Claude): debug overlay showing current zoom and who set it
-	Rectangle {
-		id: zoomDebugBox
-		x: 60; y: 10
-		width: zoomDebugText.width + 16
-		height: zoomDebugText.height + 10
-		color: "#cc000000"
-		radius: 4
-		Text {
-			id: zoomDebugText
-			x: 8; y: 5
-			color: "white"
-			font.pointSize: 10
-			text: "zoom = " + map.zoomLevel.toFixed(3) +
-			      "  [min " + map.minimumZoomLevel.toFixed(1) +
-			      ", max " + map.maximumZoomLevel.toFixed(1) + "]" +
-			      "\nsource: " + map.zoomSource
 		}
 	}
 
@@ -404,8 +371,6 @@ Item {
 				map.newZoom = map.zoomLevel + map.zoomStep
 				if (map.newZoom > map.maximumZoomLevel)
 					map.newZoom = map.maximumZoomLevel
-				map.zoomSource = "[+] button: zoomLevel+zoomStep(" + map.zoomStep +
-				                 ") clamp<=maximumZoomLevel(" + map.maximumZoomLevel + ")"
 				mapAnimationClick.restart()
 				imageZoomInAnimation.restart()
 			}
@@ -429,10 +394,69 @@ Item {
 				map.stopZoomAnimations()
 				map.newCenter = map.center
 				map.newZoom = map.zoomLevel - map.zoomStep
-				map.zoomSource = "[-] button: zoomLevel-zoomStep(" + map.zoomStep + ")"
 				mapAnimationClick.restart()
 				imageZoomOutAnimation.restart()
 			}
+		}
+	}
+
+	// AI-generated (Claude): scale bar overlay (see MapWidgetQt5.qml for notes).
+	Item {
+		id: scaleBar
+		x: 10
+		y: parent.height - height - 10
+		width: 140
+		height: 22
+		z: 10
+
+		property real mpp: {
+			var dummy = map.zoomLevel + map.center.latitude
+			var y = map.height * 0.5
+			var p0 = map.toCoordinate(Qt.point(0, y))
+			var p1 = map.toCoordinate(Qt.point(100, y))
+			var d = p0.distanceTo(p1)
+			return d > 0 ? d / 100 : 1
+		}
+		property real targetPx: 120
+		property real lengthMeters: {
+			var meters = targetPx * mpp
+			if (meters <= 0) return 1
+			var pow10 = Math.pow(10, Math.floor(Math.log(meters) / Math.LN10))
+			var ratio = meters / pow10
+			var mult = ratio < 2 ? 1 : (ratio < 5 ? 2 : 5)
+			return mult * pow10
+		}
+		property real barPx: Math.max(1, Math.min(scaleBar.width, lengthMeters / mpp))
+
+		Rectangle {
+			id: barBg
+			anchors.bottom: parent.bottom
+			width: scaleBar.barPx
+			height: 4
+			color: "white"
+			border.color: "black"
+			border.width: 1
+		}
+		Rectangle {
+			anchors.bottom: barBg.top
+			x: 0; width: 1; height: 6; color: "black"
+		}
+		Rectangle {
+			anchors.bottom: barBg.top
+			x: scaleBar.barPx - 1; width: 1; height: 6; color: "black"
+		}
+		Text {
+			anchors.bottom: barBg.top
+			anchors.bottomMargin: 2
+			x: 4
+			text: scaleBar.lengthMeters >= 1000
+				? (scaleBar.lengthMeters / 1000).toFixed(scaleBar.lengthMeters >= 10000 ? 0 : 1) + " km"
+				: scaleBar.lengthMeters.toFixed(0) + " m"
+			color: "white"
+			style: Text.Outline
+			styleColor: "black"
+			font.pointSize: 10
+			font.bold: true
 		}
 	}
 

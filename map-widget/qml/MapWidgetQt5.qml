@@ -53,6 +53,33 @@ Item {
 				mapHelper.calculateSmallCircleRadius(map.center)
 		}
 
+		// AI-generated (Claude): dashed GPS1->GPS2 segments
+		MapItemView {
+			id: trackDashesView
+			model: mapHelper.diveTrackDashes
+			delegate: MapPolyline {
+				line.width: 3
+				line.color: "#ff3030"
+				path: model.pathCoords.path
+			}
+		}
+
+		// AI-generated (Claude): GPS2 (exit) markers with checkered-flag icon
+		MapItemView {
+			id: trackExitView
+			model: mapHelper.diveTrackExits
+			delegate: MapQuickItem {
+				coordinate: model.coord
+				anchorPoint.x: exitImg.width * 0.5
+				anchorPoint.y: exitImg.height
+				z: 2
+				sourceItem: Image {
+					id: exitImg
+					source: "qrc:///dive-location-marker-exit-icon"
+				}
+			}
+		}
+
 		MapItemView {
 			id: mapItemView
 			model: mapHelper.model
@@ -313,6 +340,77 @@ Item {
 				mapAnimationClick.restart()
 				imageZoomOutAnimation.restart()
 			}
+		}
+	}
+
+	// AI-generated (Claude): scale bar overlay. Samples meters-per-pixel from
+	// the current viewport, picks a "nice" length (1/2/5 × 10^n metres) that
+	// fits within ~120 px, and renders a labelled bar in the bottom-left.
+	Item {
+		id: scaleBar
+		x: 10
+		y: parent.height - height - 10
+		width: 140
+		height: 22
+		z: 10
+
+		// recompute on every zoom/center change (binding via map.zoomLevel + map.center)
+		property real mpp: {
+			var dummy = map.zoomLevel + map.center.latitude  // dependency
+			var y = map.height * 0.5
+			var p0 = map.toCoordinate(Qt.point(0, y))
+			var p1 = map.toCoordinate(Qt.point(100, y))
+			var d = p0.distanceTo(p1)
+			return d > 0 ? d / 100 : 1
+		}
+		property real targetPx: 120
+		property real lengthMeters: {
+			var meters = targetPx * mpp
+			if (meters <= 0) return 1
+			var pow10 = Math.pow(10, Math.floor(Math.log(meters) / Math.LN10))
+			var ratio = meters / pow10
+			var mult = ratio < 2 ? 1 : (ratio < 5 ? 2 : 5)
+			return mult * pow10
+		}
+		property real barPx: Math.max(1, Math.min(scaleBar.width, lengthMeters / mpp))
+
+		// the bar itself: white fill, black tick lines at each end
+		Rectangle {
+			id: barBg
+			anchors.bottom: parent.bottom
+			width: scaleBar.barPx
+			height: 4
+			color: "white"
+			border.color: "black"
+			border.width: 1
+		}
+		Rectangle { // left tick
+			anchors.bottom: barBg.top
+			x: 0
+			width: 1
+			height: 6
+			color: "black"
+		}
+		Rectangle { // right tick
+			anchors.bottom: barBg.top
+			x: scaleBar.barPx - 1
+			width: 1
+			height: 6
+			color: "black"
+		}
+		Text {
+			id: scaleLabel
+			anchors.bottom: barBg.top
+			anchors.bottomMargin: 2
+			x: 4
+			text: scaleBar.lengthMeters >= 1000
+				? (scaleBar.lengthMeters / 1000).toFixed(scaleBar.lengthMeters >= 10000 ? 0 : 1) + " km"
+				: scaleBar.lengthMeters.toFixed(0) + " m"
+			color: "white"
+			style: Text.Outline
+			styleColor: "black"
+			font.pointSize: 10
+			font.bold: true
 		}
 	}
 
