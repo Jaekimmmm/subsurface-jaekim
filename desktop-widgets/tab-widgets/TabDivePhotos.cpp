@@ -39,6 +39,19 @@ TabDivePhotos::TabDivePhotos(MainTab *parent)
 		this, &TabDivePhotos::changeZoomLevel);
 	connect(ui->zoomSlider, &QAbstractSlider::valueChanged,
 		DivePictureModel::instance(), &DivePictureModel::setZoomLevel);
+
+	// AI-generated (Claude)
+	// Surface "current row changed" so MainWindow can update the
+	// in-profile media infobox + red time marker.
+	connect(ui->photosView->selectionModel(),
+		&QItemSelectionModel::currentChanged,
+		this, [this](const QModelIndex &cur, const QModelIndex &) {
+			if (!cur.isValid())
+				return;
+			QString file = cur.data(Qt::DisplayPropertyRole).toString();
+			if (!file.isEmpty())
+				emit pictureFocused(file);
+		});
 }
 
 TabDivePhotos::~TabDivePhotos()
@@ -180,6 +193,7 @@ void TabDivePhotos::selectPicture(const QString &fileUrl)
 	// Give keyboard focus so the selection draws with the active (blue)
 	// highlight instead of the inactive (gray) palette.
 	ui->photosView->setFocus(Qt::OtherFocusReason);
+	emit pictureFocused(fileUrl);
 }
 
 void TabDivePhotos::changeZoomLevel(int delta)

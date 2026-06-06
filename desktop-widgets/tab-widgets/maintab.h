@@ -29,6 +29,11 @@ public:
 
 	dive *currentDive;
 	int currentDC;
+signals:
+	// AI-generated (Claude)
+	// Re-emitted from TabDivePhotos so MainWindow can drive the
+	// in-profile media infobox without poking into extraWidgets.
+	void pictureFocused(const QString &fileUrl);
 public
 slots:
 	// Always called with non-null currentDive

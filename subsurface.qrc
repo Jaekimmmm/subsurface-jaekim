@@ -61,6 +61,7 @@
         <file alias="rate-heart-icon">icons/icon-HR.png</file>
         <file alias="heatmap-icon">icons/heatmap.png</file>
         <file alias="photo-icon">icons/pictures.png</file>
+        <file alias="pictures-info-icon">icons/pictures-info-icon.png</file>
         <file>icons/subsurface/index.theme</file>
         <file alias="go-down-icon">icons/subsurface/32x32/actions/go-down.png</file>
         <file alias="go-up-icon">icons/subsurface/32x32/actions/go-up.png</file>

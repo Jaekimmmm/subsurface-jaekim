@@ -4,6 +4,12 @@
 #include "profile-widget/profilewidget2.h"
 #include "desktop-widgets/picturepreviewpane.h"
 #include "commands/command.h"
+#include "core/divecomputer.h"
+#include "core/pref.h"
+#include "core/qthelper.h"
+#include "core/string-format.h"
+
+#include <QDateTime>
 #include "core/color.h"
 #include "core/event.h"
 #include "core/sample.h"
@@ -67,7 +73,9 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 			   ui.profIncrement3m, ui.profDcCeiling,
 			   ui.profPhe, ui.profPn2, ui.profPO2, // partial pressure graphs
 			   ui.profRuler, ui.profScaled, // measuring and scaling
-			   ui.profTogglePicture, ui.profTankbar,
+			   ui.profTogglePicture,
+			   ui.profMediaInfobox, // AI-generated (Claude)
+			   ui.profTankbar,
 			   ui.profMod, ui.profDeco, ui.profNdl_tts, // various values that a user is either interested in or not
 			   ui.profEad, ui.profSAC,
 			   ui.profHR, // very few dive computers support this
@@ -123,6 +131,8 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 	connect(ui.profTankbar,        &QAction::triggered, tec, &qPrefTechnicalDetails::set_tankbar);
 	connect(ui.profTissues,        &QAction::triggered, tec, &qPrefTechnicalDetails::set_percentagegraph);
 	connect(ui.profInfobox,        &QAction::triggered, tec, &qPrefTechnicalDetails::set_infobox);
+	// AI-generated (Claude)
+	connect(ui.profMediaInfobox,   &QAction::triggered, this, &ProfileWidget::mediaInfoboxToggled);
 
 	connect(ui.profTissues,        &QAction::triggered, this, &ProfileWidget::unsetProfHR);
 	connect(ui.profHR,             &QAction::triggered, this, &ProfileWidget::unsetProfTissues);
@@ -161,6 +171,8 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 	ui.profTissues->setChecked(qPrefTechnicalDetails::percentagegraph());
 	ui.profScaled->setChecked(qPrefTechnicalDetails::zoomed_plot());
 	ui.profInfobox->setChecked(qPrefTechnicalDetails::infobox());
+	// AI-generated (Claude) — session-only toggle, starts off
+	ui.profMediaInfobox->setChecked(false);
 }
 
 ProfileWidget::~ProfileWidget()
@@ -218,6 +230,11 @@ void ProfileWidget::showPicturePreview(const QString &fileUrl)
 	// Compensate for the halved profile width by zooming ~2x and panning
 	// to the clicked picture.
 	view->enterPicturePreviewMode(fileUrl);
+	// AI-generated (Claude)
+	// Always show the corner info box inside the preview, regardless of
+	// the profile's media-infobox toggle. Compute via updateMediaInfo so
+	// the preview pane receives the strings.
+	updateMediaInfo(fileUrl);
 }
 
 // AI-generated (Claude)
@@ -225,6 +242,95 @@ void ProfileWidget::hidePicturePreview()
 {
 	previewPane->hide();
 	view->exitPicturePreviewMode();
+}
+
+// AI-generated (Claude)
+namespace {
+QString formatPictureTime(int seconds)
+{
+	int s = std::max(seconds, 0);
+	int h = s / 3600;
+	int m = (s % 3600) / 60;
+	int sec = s % 60;
+	if (h > 0)
+		return QString("%1:%2:%3").arg(h).arg(m, 2, 10, QChar('0'))
+					   .arg(sec, 2, 10, QChar('0'));
+	return QString("%1:%2").arg(m, 2, 10, QChar('0'))
+			       .arg(sec, 2, 10, QChar('0'));
+}
+} // namespace
+
+// AI-generated (Claude)
+void ProfileWidget::updateMediaInfo(const QString &fileUrl)
+{
+	currentMediaInfoFile = fileUrl;
+	if (!d) {
+		clearMediaInfo();
+		return;
+	}
+	// Find this picture in the current dive.
+	int offsetSec = -1;
+	for (const auto &pic: d->pictures) {
+		if (QString::fromStdString(pic.filename) == fileUrl) {
+			offsetSec = pic.offset.seconds;
+			break;
+		}
+	}
+	if (offsetSec < 0) {
+		clearMediaInfo();
+		return;
+	}
+	const struct divecomputer *dcomp = d->get_dc(dc);
+	int depthMm = get_depth_at_time(dcomp, offsetSec);
+	depth_t depth = { .mm = depthMm };
+	int tempMk = 0;
+	if (dcomp) {
+		for (const auto &s: dcomp->samples) {
+			if (s.time.seconds > offsetSec)
+				break;
+			if (s.temperature.mkelvin)
+				tempMk = s.temperature.mkelvin;
+		}
+	}
+	// AI-generated (Claude)
+	// Wall-clock date + time the photo was taken + dive-elapsed offset.
+	QDateTime taken = timestampToDateTime(d->when + offsetSec);
+	QString dateFmt = QString::fromStdString(prefs.date_format_short);
+	QString timeFmt = QString::fromStdString(prefs.time_format);
+	if (dateFmt.isEmpty())
+		dateFmt = "yyyy-MM-dd";
+	if (timeFmt.isEmpty())
+		timeFmt = "HH:mm:ss";
+	const QString takenStr = taken.toString(dateFmt + " " + timeFmt);
+	const QString timeStr = ProfileWidget::tr("Time: %1 (+%2)")
+					.arg(takenStr)
+					.arg(formatPictureTime(offsetSec));
+	const QString depthStr = ProfileWidget::tr("Depth: %1").arg(get_depth_string(depth, true, true));
+	QString tempStr;
+	if (tempMk > 0) {
+		temperature_t t = { .mkelvin = (uint32_t)tempMk };
+		tempStr = ProfileWidget::tr("Temp: %1").arg(get_temperature_string(t, true));
+	} else {
+		tempStr = ProfileWidget::tr("Temp: --");
+	}
+	view->showMediaInfo(offsetSec, timeStr, depthStr, tempStr);
+	previewPane->setMediaInfo(timeStr, depthStr, tempStr);
+}
+
+// AI-generated (Claude)
+void ProfileWidget::clearMediaInfo()
+{
+	currentMediaInfoFile.clear();
+	view->clearMediaInfo();
+	previewPane->clearMediaInfo();
+}
+
+// AI-generated (Claude)
+void ProfileWidget::mediaInfoboxToggled(bool on)
+{
+	view->setMediaInfoboxEnabled(on);
+	if (on && !currentMediaInfoFile.isEmpty())
+		updateMediaInfo(currentMediaInfoFile);
 }
 
 void ProfileWidget::plotDive(dive *dIn, int dcIn)
@@ -235,8 +341,10 @@ void ProfileWidget::plotDive(dive *dIn, int dcIn)
 
 	// AI-generated (Claude)
 	// Dismiss any stale preview when the displayed dive changes.
-	if (dIn != d)
+	if (dIn != d) {
 		hidePicturePreview();
+		clearMediaInfo();
+	}
 
 	d = dIn;
 

@@ -19,6 +19,12 @@ public:
 	void clear() override;
 	// AI-generated (Claude)
 	void selectPicture(const QString &fileUrl);
+signals:
+	// AI-generated (Claude)
+	// Fired when the user moves the current selection in the photos
+	// view (or selectPicture is called from elsewhere). Used to drive
+	// the in-profile media infobox + red time marker.
+	void pictureFocused(const QString &fileUrl);
 
 protected:
 	void contextMenuEvent(QContextMenuEvent *ev) override;

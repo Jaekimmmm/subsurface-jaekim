@@ -13,6 +13,7 @@
 #include "profile-widget/divetextitem.h"
 #include "profile-widget/divetooltipitem.h"
 #include "profile-widget/divehandler.h"
+#include "profile-widget/mediainfoboxitem.h"
 #include "core/planner.h"
 #include "profile-widget/ruleritem.h"
 #include "core/pref.h"
@@ -57,6 +58,8 @@ ProfileWidget2::ProfileWidget2(DivePlannerPointsModel *plannerModelIn, double dp
 	lockedSceneWidth(0),
 #ifndef SUBSURFACE_MOBILE
 	toolTipItem(new ToolTipItem()),
+	mediaInfoBox(new MediaInfoBoxItem()),
+	mediaTimeMarker(new DiveLineItem()),
 #endif
 	d(nullptr),
 	dc(0),
@@ -143,6 +146,16 @@ void ProfileWidget2::addItemsToScene()
 {
 #ifndef SUBSURFACE_MOBILE
 	scene()->addItem(toolTipItem);
+	scene()->addItem(mediaInfoBox);
+	scene()->addItem(mediaTimeMarker);
+	mediaInfoBox->setVisible(false);
+	mediaTimeMarker->setVisible(false);
+	{
+		QPen redPen(QColor(220, 0, 0));
+		redPen.setWidth(0);
+		mediaTimeMarker->setPen(redPen);
+		mediaTimeMarker->setZValue(9996);
+	}
 	scene()->addItem(rulerItem);
 	scene()->addItem(rulerItem->sourceNode());
 	scene()->addItem(rulerItem->destNode());
@@ -239,6 +252,8 @@ void ProfileWidget2::plotDive(const struct dive *dIn, int dcIn, int flags)
 		plotPicturesInternal(d, flags & RenderFlags::Instant);
 
 	toolTipItem->refresh(d, mapToScene(mapFromGlobal(QCursor::pos())), currentState == PLAN);
+	// AI-generated (Claude)
+	layoutMediaInfo();
 #endif
 
 	// OK, how long did this take us? Anything above the second is way too long,
@@ -1340,37 +1355,93 @@ void ProfileWidget2::removePicture(const QString &fileUrl)
 }
 
 // AI-generated (Claude)
-// The side preview pane takes the right half of the profile area, halving
-// the pixels-per-second of the time axis. Bump the zoom by ~2x so the
-// apparent x-axis scale is preserved. Pan position is left untouched.
+// Preview pane takes the right half of the profile, halving pixels/sec.
+// Bump zoom by ~2x on first entry only. Subsequent clicks while preview
+// is open keep current zoom/pan (manual adjustments stick).
 void ProfileWidget2::enterPicturePreviewMode(const QString &)
 {
 	if (!d)
 		return;
-
-	if (!picturePreviewMode) {
-		savedZoomLevel = zoomLevel;
-		savedZoomedPosition = zoomedPosition;
-		picturePreviewMode = true;
-	}
+	if (picturePreviewMode)
+		return;
+	picturePreviewMode = true;
 
 	// 1.15^5 ≈ 2.01, which compensates for halving the profile width.
 	constexpr int kPreviewZoomBoost = 5;
 	constexpr int kMaxZoom = 20;
-	zoomLevel = std::min(savedZoomLevel + kPreviewZoomBoost, kMaxZoom);
+	zoomLevel = std::min(zoomLevel + kPreviewZoomBoost, kMaxZoom);
 	plotDive(d, dc, RenderFlags::DontRecalculatePlotInfo);
 }
 
 // AI-generated (Claude)
+// Inverse of enter: halve current zoom (subtract the same boost from the
+// *current* zoom, not from a saved value). This way manual zoom changes
+// during preview are preserved on exit.
 void ProfileWidget2::exitPicturePreviewMode()
 {
 	if (!picturePreviewMode)
 		return;
 	picturePreviewMode = false;
-	zoomLevel = savedZoomLevel;
-	zoomedPosition = savedZoomedPosition;
+
+	constexpr int kPreviewZoomBoost = 5;
+	zoomLevel = std::max(zoomLevel - kPreviewZoomBoost, 0);
 	if (d)
 		plotDive(d, dc, RenderFlags::DontRecalculatePlotInfo);
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::setMediaInfoboxEnabled(bool on)
+{
+	mediaInfoboxEnabled = on;
+	layoutMediaInfo();
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::showMediaInfo(int offsetSec, const QString &timeStr,
+				   const QString &depthStr, const QString &tempStr)
+{
+	mediaInfoActive = true;
+	mediaInfoOffsetSec = offsetSec;
+	mediaInfoBox->setLines(timeStr, depthStr, tempStr);
+	layoutMediaInfo();
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::clearMediaInfo()
+{
+	mediaInfoActive = false;
+	mediaInfoBox->setVisible(false);
+	mediaTimeMarker->setVisible(false);
+}
+
+// AI-generated (Claude)
+void ProfileWidget2::layoutMediaInfo()
+{
+	const bool haveSel = mediaInfoActive && d;
+	const bool showBox = haveSel && mediaInfoboxEnabled;
+	// The red time marker tracks the picture-display toggle (media), not
+	// the infobox toggle. If pictures are shown on the profile and one is
+	// selected, the marker is visible.
+	const bool showMarker = haveSel && prefs.show_pictures_in_profile;
+
+	mediaInfoBox->setVisible(showBox);
+	mediaTimeMarker->setVisible(showMarker);
+	if (!haveSel)
+		return;
+
+	const QRectF &region = profileScene->profileRegion;
+	if (showBox) {
+		// Bottom-left of the profile region, inset slightly.
+		mediaInfoBox->anchorBottomLeft(QPointF(region.left() + 6.0,
+						       region.bottom() - 6.0));
+	}
+	if (showMarker) {
+		double x = profileScene->timeAxis->posAtValue(mediaInfoOffsetSec);
+		if (x < region.left() || x > region.right())
+			mediaTimeMarker->setVisible(false);
+		else
+			mediaTimeMarker->setLine(x, region.top(), x, region.bottom());
+	}
 }
 
 void ProfileWidget2::profileChanged(dive *dive)

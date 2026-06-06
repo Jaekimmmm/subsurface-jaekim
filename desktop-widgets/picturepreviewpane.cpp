@@ -107,6 +107,17 @@ PicturePreviewPane::PicturePreviewPane(QWidget *parent) : QWidget(parent)
 	// visible at a time so the error text appears centered in the pane.
 	vbox->addWidget(imageLabel, 1);
 	vbox->addWidget(errorLabel, 1);
+
+	// AI-generated (Claude)
+	// Free-floating info box anchored to the image's bottom-left corner.
+	// Square corners per spec, semi-transparent black, white text.
+	infoBox = new QLabel(this);
+	infoBox->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+	infoBox->setStyleSheet(
+		"QLabel { color: white; background: rgba(0, 0, 0, 170); "
+		"padding: 4px 8px; border: none; }");
+	infoBox->hide();
+	infoBox->raise();
 }
 
 void PicturePreviewPane::showFor(const QString &fileUrl)
@@ -156,6 +167,34 @@ void PicturePreviewPane::resizeEvent(QResizeEvent *event)
 	QWidget::resizeEvent(event);
 	rescaleImage();
 	updatePathLabel();
+	positionInfoBox();
+}
+
+// AI-generated (Claude)
+void PicturePreviewPane::setMediaInfo(const QString &time, const QString &depth,
+				      const QString &temperature)
+{
+	infoBox->setText(time + "\n" + depth + "\n" + temperature);
+	infoBox->adjustSize();
+	infoBox->show();
+	infoBox->raise();
+	positionInfoBox();
+}
+
+// AI-generated (Claude)
+void PicturePreviewPane::clearMediaInfo()
+{
+	infoBox->hide();
+}
+
+// AI-generated (Claude)
+void PicturePreviewPane::positionInfoBox()
+{
+	if (!infoBox || !infoBox->isVisible())
+		return;
+	// Flush against the preview pane's bottom-left corner.
+	infoBox->adjustSize();
+	infoBox->move(0, height() - infoBox->height());
 }
 
 void PicturePreviewPane::rescaleImage()

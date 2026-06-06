@@ -39,8 +39,14 @@ MainTab::MainTab(QWidget *parent) : QTabWidget(parent),
 	addTab(extraWidgets.last(), tr("Information"));
 	extraWidgets << new TabDiveStatistics(this);
 	addTab(extraWidgets.last(), tr("Summary"));
-	extraWidgets << new TabDivePhotos(this);
-	addTab(extraWidgets.last(), tr("Media"));
+	{
+		auto *photos = new TabDivePhotos(this);
+		extraWidgets << photos;
+		addTab(photos, tr("Media"));
+		// AI-generated (Claude)
+		connect(photos, &TabDivePhotos::pictureFocused,
+			this, &MainTab::pictureFocused);
+	}
 	extraWidgets << new TabDiveExtraInfo(this);
 	addTab(extraWidgets.last(), tr("Dive Computer Info"));
 

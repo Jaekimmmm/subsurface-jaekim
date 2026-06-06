@@ -175,6 +175,11 @@ MainWindow::MainWindow() :
 	// Route picture clicks in the profile based on the current view mode.
 	connect(profile->view.get(), &ProfileWidget2::pictureClicked,
 		this, &MainWindow::onProfilePictureClicked);
+	// AI-generated (Claude)
+	// Drive the in-profile media infobox + red marker from Media-tab
+	// selection changes.
+	connect(mainTab.get(), &MainTab::pictureFocused,
+		profile.get(), &ProfileWidget::updateMediaInfo);
 
 	setWindowIcon(QIcon(":subsurface-icon"));
 	if (!QIcon::hasThemeIcon("window-close")) {
@@ -332,6 +337,10 @@ void MainWindow::onProfilePictureClicked(const QString &fileUrl)
 		// Media tab: surface the photo there.
 		mainTab->focusPicture(fileUrl);
 	}
+	// AI-generated (Claude)
+	// Update the in-profile media infobox + red time marker (no-op
+	// when the toggle is off; the profile remembers the selection).
+	profile->updateMediaInfo(fileUrl);
 }
 
 void MainWindow::divesSelected(const std::vector<dive *> &selection, dive *currentDive, int currentDC)

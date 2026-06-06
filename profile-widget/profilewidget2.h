@@ -30,6 +30,7 @@ class DiveHandler;
 class QGraphicsSimpleTextItem;
 class QModelIndex;
 class DivePictureItem;
+class MediaInfoBoxItem;
 
 class ProfileWidget2 : public QGraphicsView {
 	Q_OBJECT
@@ -104,6 +105,14 @@ slots: // Necessary to call from QAction's signals.
 	// restore the user's previous zoom/pan state.
 	void enterPicturePreviewMode(const QString &fileUrl);
 	void exitPicturePreviewMode();
+	// AI-generated (Claude)
+	// Toggle for the in-profile media infobox + red time marker. State
+	// is session-only.
+	void setMediaInfoboxEnabled(bool on);
+	// Show/clear the selection-driven media info inside the profile.
+	void showMediaInfo(int offsetSec, const QString &timeStr,
+			   const QString &depthStr, const QString &tempStr);
+	void clearMediaInfo();
 
 	/* this is called for every move on the handlers. maybe we can speed up this a bit? */
 	void divePlannerHandlerMoved();
@@ -166,6 +175,13 @@ private:
 	int lockedSceneWidth; // 0 = follow viewport; >0 = use this width on resize
 #ifndef SUBSURFACE_MOBILE
 	ToolTipItem *toolTipItem;
+	// AI-generated (Claude)
+	MediaInfoBoxItem *mediaInfoBox;
+	DiveLineItem *mediaTimeMarker;
+	bool mediaInfoboxEnabled = false;
+	bool mediaInfoActive = false;
+	int mediaInfoOffsetSec = 0;
+	void layoutMediaInfo();
 #endif
 	const struct dive *d;
 	int dc;

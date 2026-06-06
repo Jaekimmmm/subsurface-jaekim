@@ -282,7 +282,7 @@
   </action>
   <action name="actionViewProfile">
    <property name="text">
-    <string>&amp;Profile</string>
+    <string>&amp;Profile &amp; Media</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+3</string>

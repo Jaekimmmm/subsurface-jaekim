@@ -21,6 +21,12 @@ public:
 	explicit PicturePreviewPane(QWidget *parent = nullptr);
 	void showFor(const QString &fileUrl);
 	bool isShownFor(const QString &fileUrl) const;
+	// AI-generated (Claude)
+	// Overlay the per-picture info (time/depth/temperature) at the
+	// bottom-left corner of the image. Empty strings clear the box.
+	void setMediaInfo(const QString &time, const QString &depth,
+			  const QString &temperature);
+	void clearMediaInfo();
 signals:
 	void closed();
 protected:
@@ -31,10 +37,12 @@ private:
 	QPixmap original;
 	bool loadFailed = false;
 	void updatePathLabel();
+	void positionInfoBox();
 	QLabel *imageLabel;
 	QLabel *errorLabel;
 	QLabel *pathLabel;
 	QToolButton *closeBtn;
+	QLabel *infoBox = nullptr;
 };
 
 #endif // PICTUREPREVIEWPANE_H

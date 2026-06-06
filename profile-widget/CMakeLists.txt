@@ -38,6 +38,8 @@ set(SUBSURFACE_PROFILE_LIB_SRCS
 	${SUBSURFACE_PROFILE_LIB_SRCS}
 	divehandler.cpp
 	divehandler.h
+	mediainfoboxitem.cpp
+	mediainfoboxitem.h
 	profilewidget2.cpp
 	profilewidget2.h
 	ruleritem.cpp

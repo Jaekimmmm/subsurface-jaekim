@@ -14,6 +14,18 @@
     <string>Toggle infobox</string>
    </property>
   </action>
+  <action name="profMediaInfobox">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:pictures-info-icon</normaloff>:pictures-info-icon</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle media infobox</string>
+   </property>
+  </action>
   <action name="profTissues">
    <property name="checkable">
     <bool>true</bool>

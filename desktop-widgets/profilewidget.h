@@ -34,6 +34,12 @@ public:
 	// in ProfileMaximized view.
 	void showPicturePreview(const QString &fileUrl);
 	void hidePicturePreview();
+	// AI-generated (Claude)
+	// Update the selection-driven media infobox (in the profile and, if
+	// preview is open, the preview pane). Called from the profile-click
+	// route and from the Media tab's selection change.
+	void updateMediaInfo(const QString &fileUrl);
+	void clearMediaInfo();
 	dive *d;
 	int dc;
 private
@@ -46,6 +52,8 @@ slots:
 	void stopRemoved(int count);
 	void stopMoved(int count);
 	void stopEdited();
+	// AI-generated (Claude)
+	void mediaInfoboxToggled(bool on);
 private:
 	std::unique_ptr<EmptyView> emptyView;
 	std::vector<QAction *> toolbarActions;
@@ -53,6 +61,7 @@ private:
 	QStackedWidget *stack;
 	// AI-generated (Claude)
 	PicturePreviewPane *previewPane;
+	QString currentMediaInfoFile;
 	void setDive(const struct dive *d, int dcNr);
 	void editDive();
 	void rotateDC(int dir);
