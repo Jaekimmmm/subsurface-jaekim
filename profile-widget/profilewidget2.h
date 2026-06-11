@@ -169,8 +169,6 @@ private:
 	double zoomedPosition;	// Position, when zoomed: 0.0 = beginning, 1.0 = end.
 	// AI-generated (Claude) — picture preview mode state
 	bool picturePreviewMode = false;
-	int savedZoomLevel = 0;
-	double savedZoomedPosition = 0.0;
 	// AI-generated (Claude)
 	int lockedSceneWidth; // 0 = follow viewport; >0 = use this width on resize
 #ifndef SUBSURFACE_MOBILE

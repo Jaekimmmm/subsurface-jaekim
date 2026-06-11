@@ -2,6 +2,7 @@
 #include "desktop-widgets/divepicturewidget.h"
 #include "core/metrics.h"
 #include "core/qthelper.h"
+#include <QApplication>
 #include <QDrag>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -23,41 +24,75 @@ void DivePictureWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	}
 }
 
+// AI-generated (Claude)
+// Defer the drag until the mouse actually moves past the system drag
+// threshold. Previously the drag-and-drop event loop started on every
+// left-click, which made the click behave like a drag (and also broke
+// normal selection, since QDrag::exec is blocking and runs before the
+// QListView press handler).
 void DivePictureWidget::mousePressEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && event->modifiers() == Qt::NoModifier) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-		QModelIndex index = indexAt(event->position().toPoint());
+		dragStartPos = event->position().toPoint();
 #else
-		QModelIndex index = indexAt(event->pos());
+		dragStartPos = event->pos();
 #endif
-		QString filename = model()->data(index, Qt::DisplayPropertyRole).toString();
-
-		if (!filename.isEmpty()) {
-			int dim = lrint(defaultIconMetrics().sz_pic * 0.2);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-			QPixmap pixmap = model()->data(indexAt(event->position().toPoint()), Qt::DecorationRole).value<QPixmap>();
-#else
-			QPixmap pixmap = model()->data(indexAt(event->pos()), Qt::DecorationRole).value<QPixmap>();
-#endif
-			pixmap = pixmap.scaled(dim, dim, Qt::KeepAspectRatio);
-			
-			QByteArray itemData;
-			QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-			dataStream << filename;
-
-			QMimeData *mimeData = new QMimeData;
-			mimeData->setData("application/x-subsurfaceimagedrop", itemData);
-
-			QDrag *drag = new QDrag(this);
-			drag->setMimeData(mimeData);
-			drag->setPixmap(pixmap);
-
-			drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
-		}
+		dragPending = true;
+	} else {
+		dragPending = false;
 	}
 	QListView::mousePressEvent(event);
+}
+
+// AI-generated (Claude)
+void DivePictureWidget::mouseMoveEvent(QMouseEvent *event)
+{
+	if (!dragPending || !(event->buttons() & Qt::LeftButton)) {
+		QListView::mouseMoveEvent(event);
+		return;
+	}
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	QPoint pos = event->position().toPoint();
+#else
+	QPoint pos = event->pos();
+#endif
+	if ((pos - dragStartPos).manhattanLength() < QApplication::startDragDistance()) {
+		QListView::mouseMoveEvent(event);
+		return;
+	}
+
+	// Threshold crossed — start the actual drag.
+	dragPending = false;
+	QModelIndex index = indexAt(dragStartPos);
+	QString filename = model()->data(index, Qt::DisplayPropertyRole).toString();
+	if (filename.isEmpty()) {
+		QListView::mouseMoveEvent(event);
+		return;
+	}
+
+	int dim = lrint(defaultIconMetrics().sz_pic * 0.2);
+	QPixmap pixmap = model()->data(index, Qt::DecorationRole).value<QPixmap>();
+	pixmap = pixmap.scaled(dim, dim, Qt::KeepAspectRatio);
+
+	QByteArray itemData;
+	QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+	dataStream << filename;
+
+	QMimeData *mimeData = new QMimeData;
+	mimeData->setData("application/x-subsurfaceimagedrop", itemData);
+
+	QDrag *drag = new QDrag(this);
+	drag->setMimeData(mimeData);
+	drag->setPixmap(pixmap);
+	drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+}
+
+// AI-generated (Claude)
+void DivePictureWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+	dragPending = false;
+	QListView::mouseReleaseEvent(event);
 }
 
 void DivePictureWidget::wheelEvent(QWheelEvent *event)
