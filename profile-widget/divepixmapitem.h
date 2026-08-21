@@ -33,6 +33,11 @@ public:
 	void setPixmap(const QPixmap& pix);
 	void setBaseZValue(double z);
 	void setFileUrl(const QString& s);
+	// AI-generated (Claude)
+	// Programmatically apply the same enlarged state used on hover. Used
+	// to mirror Media-tab selection on the profile's thumbnail.
+	void setHighlighted(bool on);
+	QString getFileUrl() const { return fileUrl; }
 signals:
 	void removePicture(const QString &fileUrl);
 	// AI-generated (Claude)

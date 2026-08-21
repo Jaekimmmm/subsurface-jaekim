@@ -115,6 +115,8 @@ ProfileWidget2::ProfileWidget2(DivePlannerPointsModel *plannerModelIn, double dp
 	connect(tec, &qPrefTechnicalDetails::tankbarChanged                  , this, &ProfileWidget2::actionRequestedReplot);
 	connect(tec, &qPrefTechnicalDetails::percentagegraphChanged          , this, &ProfileWidget2::actionRequestedReplot);
 	connect(tec, &qPrefTechnicalDetails::infoboxChanged                  , this, &ProfileWidget2::actionRequestedReplot);
+	// AI-generated (Claude)
+	connect(tec, &qPrefTechnicalDetails::mediainfoboxChanged             , this, &ProfileWidget2::actionRequestedReplot);
 
 	auto pp_gas = qPrefPartialPressureGas::instance();
 	connect(pp_gas, &qPrefPartialPressureGas::pheChanged, this, &ProfileWidget2::actionRequestedReplot);
@@ -1283,6 +1285,12 @@ void ProfileWidget2::plotPictures()
 
 void ProfileWidget2::plotPicturesInternal(const struct dive *d, bool synchronous)
 {
+	// AI-generated (Claude)
+	// pictures.clear() destroys the DivePictureItems, so drop the
+	// highlight pointer to avoid a dangling reference. layoutMediaInfo()
+	// (called at the end of plotDive) will reapply the highlight to the
+	// rebuilt thumbnail if a picture is still selected.
+	highlightedThumbnail = nullptr;
 	pictures.clear();
 	if (currentState == EDIT || currentState == PLAN)
 		return;
@@ -1389,36 +1397,63 @@ void ProfileWidget2::exitPicturePreviewMode()
 		plotDive(d, dc, RenderFlags::DontRecalculatePlotInfo);
 }
 
-// AI-generated (Claude)
-void ProfileWidget2::setMediaInfoboxEnabled(bool on)
-{
-	mediaInfoboxEnabled = on;
-	layoutMediaInfo();
-}
 
 // AI-generated (Claude)
-void ProfileWidget2::showMediaInfo(int offsetSec, const QString &timeStr,
-				   const QString &depthStr, const QString &tempStr)
+void ProfileWidget2::showMediaInfo(const QString &fileUrl, int offsetSec,
+				   const QString &timeStr, const QString &depthStr,
+				   const QString &tempStr)
 {
 	mediaInfoActive = true;
 	mediaInfoOffsetSec = offsetSec;
+	mediaInfoFileUrl = fileUrl;
 	mediaInfoBox->setLines(timeStr, depthStr, tempStr);
 	layoutMediaInfo();
+	applyThumbnailHighlight();
 }
 
 // AI-generated (Claude)
 void ProfileWidget2::clearMediaInfo()
 {
 	mediaInfoActive = false;
+	mediaInfoFileUrl.clear();
 	mediaInfoBox->setVisible(false);
 	mediaTimeMarker->setVisible(false);
+	if (highlightedThumbnail) {
+		highlightedThumbnail->setHighlighted(false);
+		highlightedThumbnail = nullptr;
+	}
+}
+
+// AI-generated (Claude)
+// Find the on-profile thumbnail for the selected picture and apply the
+// same enlarged state as a hover. Mirrors Media-tab selection onto the
+// profile so the user can see which thumbnail corresponds to the row.
+void ProfileWidget2::applyThumbnailHighlight()
+{
+	DivePictureItem *target = nullptr;
+	if (mediaInfoActive && !mediaInfoFileUrl.isEmpty()) {
+		const std::string needle = mediaInfoFileUrl.toStdString();
+		for (auto &e : pictures) {
+			if (e.filename == needle) {
+				target = e.thumbnail.get();
+				break;
+			}
+		}
+	}
+	if (target == highlightedThumbnail)
+		return;
+	if (highlightedThumbnail)
+		highlightedThumbnail->setHighlighted(false);
+	highlightedThumbnail = target;
+	if (highlightedThumbnail)
+		highlightedThumbnail->setHighlighted(true);
 }
 
 // AI-generated (Claude)
 void ProfileWidget2::layoutMediaInfo()
 {
 	const bool haveSel = mediaInfoActive && d;
-	const bool showBox = haveSel && mediaInfoboxEnabled;
+	const bool showBox = haveSel && prefs.mediainfobox;
 	// The red time marker tracks the picture-display toggle (media), not
 	// the infobox toggle. If pictures are shown on the profile and one is
 	// selected, the marker is visible.
@@ -1442,6 +1477,11 @@ void ProfileWidget2::layoutMediaInfo()
 		else
 			mediaTimeMarker->setLine(x, region.top(), x, region.bottom());
 	}
+	// AI-generated (Claude)
+	// Re-resolve the highlighted thumbnail. Needed after plotPictures
+	// rebuilds the items, when zoom/pan changes the visible set, or when
+	// a different picture is selected.
+	applyThumbnailHighlight();
 }
 
 void ProfileWidget2::profileChanged(dive *dive)

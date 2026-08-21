@@ -114,6 +114,8 @@ set(SUBSURFACE_INTERFACE
 	notificationwidget.h
 	picturepreviewpane.cpp
 	picturepreviewpane.h
+	savemediawithinfodialog.cpp
+	savemediawithinfodialog.h
 	profilewidget.cpp
 	profilewidget.h
 	qtwaitingspinner.cpp

@@ -36,6 +36,8 @@ class qPrefTechnicalDetails : public QObject {
 	Q_PROPERTY(int vpmb_conservatism READ vpmb_conservatism WRITE set_vpmb_conservatism NOTIFY vpmb_conservatismChanged)
 	Q_PROPERTY(bool zoomed_plot READ zoomed_plot WRITE set_zoomed_plot NOTIFY zoomed_plotChanged)
 	Q_PROPERTY(bool infobox READ infobox WRITE set_infobox NOTIFY infoboxChanged)
+	// AI-generated (Claude)
+	Q_PROPERTY(bool mediainfobox READ mediainfobox WRITE set_mediainfobox NOTIFY mediainfoboxChanged)
 
 public:
 	static qPrefTechnicalDetails *instance();
@@ -75,6 +77,7 @@ public:
 	static int  vpmb_conservatism() { return prefs.vpmb_conservatism; }
 	static bool zoomed_plot() { return prefs.zoomed_plot; }
 	static bool infobox() { return prefs.infobox; }
+	static bool mediainfobox() { return prefs.mediainfobox; } // AI-generated (Claude)
 
 public slots:
 	static void set_allowOcGasAsDiluent(bool value);
@@ -106,6 +109,7 @@ public slots:
 	static void set_vpmb_conservatism(int value);
 	static void set_zoomed_plot(bool value);
 	static void set_infobox(bool value);
+	static void set_mediainfobox(bool value); // AI-generated (Claude)
 
 signals:
 	void allowOcGasAsDiluentChanged(bool value);
@@ -137,6 +141,7 @@ signals:
 	void vpmb_conservatismChanged(int value);
 	void zoomed_plotChanged(bool value);
 	void infoboxChanged(bool value);
+	void mediainfoboxChanged(bool value); // AI-generated (Claude)
 
 private:
 	qPrefTechnicalDetails() {}
@@ -170,6 +175,7 @@ private:
 	static void disk_vpmb_conservatism(bool doSync);
 	static void disk_zoomed_plot(bool doSync);
 	static void disk_infobox(bool doSync);
+	static void disk_mediainfobox(bool doSync); // AI-generated (Claude)
 };
 
 #endif

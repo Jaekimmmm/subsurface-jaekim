@@ -38,6 +38,8 @@ private slots:
 	void openFolderOfSelectedFiles();
 	void changeZoomLevel(int delta);
 	void saveSubtitles();
+	// AI-generated (Claude)
+	void saveMediaWithInfo();
 
 private:
 	Ui::TabDivePhotos *ui;

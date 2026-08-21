@@ -208,6 +208,7 @@ struct preferences {
 	int                         vpmb_conservatism;
 	bool                        zoomed_plot;
 	bool                        infobox;
+	bool                        mediainfobox; // AI-generated (Claude)
 	bool                        allowOcGasAsDiluent;
 
 	// ********** Units **********

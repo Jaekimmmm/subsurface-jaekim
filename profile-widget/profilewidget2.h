@@ -106,12 +106,12 @@ slots: // Necessary to call from QAction's signals.
 	void enterPicturePreviewMode(const QString &fileUrl);
 	void exitPicturePreviewMode();
 	// AI-generated (Claude)
-	// Toggle for the in-profile media infobox + red time marker. State
-	// is session-only.
-	void setMediaInfoboxEnabled(bool on);
 	// Show/clear the selection-driven media info inside the profile.
-	void showMediaInfo(int offsetSec, const QString &timeStr,
-			   const QString &depthStr, const QString &tempStr);
+	// Visibility of the infobox follows prefs.mediainfobox (persistent
+	// toggle); the red time marker follows prefs.show_pictures_in_profile.
+	void showMediaInfo(const QString &fileUrl, int offsetSec,
+			   const QString &timeStr, const QString &depthStr,
+			   const QString &tempStr);
 	void clearMediaInfo();
 
 	/* this is called for every move on the handlers. maybe we can speed up this a bit? */
@@ -176,10 +176,12 @@ private:
 	// AI-generated (Claude)
 	MediaInfoBoxItem *mediaInfoBox;
 	DiveLineItem *mediaTimeMarker;
-	bool mediaInfoboxEnabled = false;
 	bool mediaInfoActive = false;
 	int mediaInfoOffsetSec = 0;
+	QString mediaInfoFileUrl;
+	DivePictureItem *highlightedThumbnail = nullptr;
 	void layoutMediaInfo();
+	void applyThumbnailHighlight();
 #endif
 	const struct dive *d;
 	int dc;

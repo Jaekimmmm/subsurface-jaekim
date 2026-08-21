@@ -94,6 +94,7 @@ preferences::preferences() :
 	vpmb_conservatism(3),
 	zoomed_plot(false),
 	infobox(true),
+	mediainfobox(false), // AI-generated (Claude)
 	allowOcGasAsDiluent(false),
 	coordinates_traditional(true),
 	unit_system(METRIC),

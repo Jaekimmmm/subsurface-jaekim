@@ -99,6 +99,22 @@ void DivePictureItem::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 }
 
 // AI-generated (Claude)
+void DivePictureItem::setHighlighted(bool on)
+{
+	if (on) {
+		Animations::scaleTo(this, qPrefDisplay::animation_speed(), 1.0);
+		setZValue(baseZValue + 5.0);
+		button->setOpacity(0);
+		button->show();
+		Animations::show(button, qPrefDisplay::animation_speed());
+	} else {
+		Animations::scaleTo(this, qPrefDisplay::animation_speed(), 0.2);
+		setZValue(baseZValue);
+		Animations::hide(button, qPrefDisplay::animation_speed());
+	}
+}
+
+// AI-generated (Claude)
 // Emit clicked signal; ProfileWidget2 routes it through MainWindow which decides
 // whether to focus the Media tab (All view) or show an in-profile overlay preview.
 void DivePictureItem::mousePressEvent(QGraphicsSceneMouseEvent *event)

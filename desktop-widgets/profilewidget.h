@@ -52,8 +52,6 @@ slots:
 	void stopRemoved(int count);
 	void stopMoved(int count);
 	void stopEdited();
-	// AI-generated (Claude)
-	void mediaInfoboxToggled(bool on);
 private:
 	std::unique_ptr<EmptyView> emptyView;
 	std::vector<QAction *> toolbarActions;

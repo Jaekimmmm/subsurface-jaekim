@@ -3,6 +3,8 @@
 #include "maintab.h"
 #include "ui_TabDivePhotos.h"
 #include "core/imagedownloader.h"
+#include "core/qthelper.h"
+#include "desktop-widgets/savemediawithinfodialog.h"
 
 #include <qt-models/divepicturemodel.h>
 
@@ -75,7 +77,9 @@ void TabDivePhotos::contextMenuEvent(QContextMenuEvent *event)
 	popup.addAction(tr("Delete all media files"), this, &TabDivePhotos::removeAllPhotos);
 	popup.addAction(tr("Open folder of selected media files"), this, &TabDivePhotos::openFolderOfSelectedFiles);
 	popup.addAction(tr("Recalculate selected thumbnails"), this, &TabDivePhotos::recalculateSelectedThumbnails);
-	popup.addAction(tr("Save dive data as subtitles"), this, &TabDivePhotos::saveSubtitles);
+	popup.addAction(tr("Save dive data as subtitles (video only)"), this, &TabDivePhotos::saveSubtitles);
+	// AI-generated (Claude)
+	popup.addAction(tr("Save media with dive info (photo only)"), this, &TabDivePhotos::saveMediaWithInfo);
 	popup.exec(event->globalPos());
 	event->accept();
 }
@@ -194,6 +198,48 @@ void TabDivePhotos::selectPicture(const QString &fileUrl)
 	// highlight instead of the inactive (gray) palette.
 	ui->photosView->setFocus(Qt::OtherFocusReason);
 	emit pictureFocused(fileUrl);
+}
+
+// AI-generated (Claude)
+// Filters out videos (non-zero duration) and opens the SaveMediaWithInfo
+// dialog. The dialog renders an info overlay onto each photo and writes
+// new files to the configured output folder.
+void TabDivePhotos::saveMediaWithInfo()
+{
+	if (!parent.currentDive)
+		return;
+	if (!ui->photosView->selectionModel()->hasSelection()) {
+		QMessageBox::information(this, tr("Save media with dive info"),
+					 tr("Select one or more photos first."));
+		return;
+	}
+	QStringList photos;
+	QList<int> offsets;
+	QModelIndexList indices = ui->photosView->selectionModel()->selectedRows();
+	for (const auto &photo : indices) {
+		if (!photo.isValid())
+			continue;
+		int duration = photo.data(Qt::UserRole + 2).toInt();
+		if (duration)
+			continue; // skip videos
+		QString fileUrl = photo.data(Qt::DisplayPropertyRole).toString();
+		if (fileUrl.isEmpty())
+			continue;
+		QString local = localFilePath(fileUrl);
+		QFileInfo fi(local);
+		if (!fi.exists())
+			continue;
+		photos << local;
+		offsets << photo.data(Qt::UserRole + 1).toInt();
+	}
+	if (photos.isEmpty()) {
+		QMessageBox::information(this, tr("Save media with dive info"),
+					 tr("No photos in the selection (videos are skipped)."));
+		return;
+	}
+	SaveMediaWithInfoDialog dlg(parent.currentDive, parent.currentDC,
+				    photos, offsets, this);
+	dlg.exec();
 }
 
 void TabDivePhotos::changeZoomLevel(int delta)

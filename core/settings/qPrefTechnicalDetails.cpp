@@ -42,6 +42,7 @@ void qPrefTechnicalDetails::loadSync(bool doSync)
 	disk_vpmb_conservatism(doSync);
 	disk_zoomed_plot(doSync);
 	disk_infobox(doSync);
+	disk_mediainfobox(doSync); // AI-generated (Claude)
 }
 
 HANDLE_PREFERENCE_BOOL(TechnicalDetails, "calcalltissues", calcalltissues);
@@ -109,6 +110,9 @@ HANDLE_PREFERENCE_BOOL(TechnicalDetails, "allowOcGasAsDiluent", allowOcGasAsDilu
 HANDLE_PREFERENCE_BOOL(TechnicalDetails, "gf_low_at_maxdepth", gf_low_at_maxdepth);
 
 HANDLE_PREFERENCE_BOOL(TechnicalDetails, "InfoBox", infobox);
+
+// AI-generated (Claude)
+HANDLE_PREFERENCE_BOOL(TechnicalDetails, "MediaInfoBox", mediainfobox);
 
 HANDLE_PREFERENCE_BOOL(TechnicalDetails, "hrgraph", hrgraph);
 

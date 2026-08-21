@@ -132,7 +132,7 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 	connect(ui.profTissues,        &QAction::triggered, tec, &qPrefTechnicalDetails::set_percentagegraph);
 	connect(ui.profInfobox,        &QAction::triggered, tec, &qPrefTechnicalDetails::set_infobox);
 	// AI-generated (Claude)
-	connect(ui.profMediaInfobox,   &QAction::triggered, this, &ProfileWidget::mediaInfoboxToggled);
+	connect(ui.profMediaInfobox,   &QAction::triggered, tec, &qPrefTechnicalDetails::set_mediainfobox);
 
 	connect(ui.profTissues,        &QAction::triggered, this, &ProfileWidget::unsetProfHR);
 	connect(ui.profHR,             &QAction::triggered, this, &ProfileWidget::unsetProfTissues);
@@ -171,8 +171,8 @@ ProfileWidget::ProfileWidget() : d(nullptr), dc(0), placingCommand(false)
 	ui.profTissues->setChecked(qPrefTechnicalDetails::percentagegraph());
 	ui.profScaled->setChecked(qPrefTechnicalDetails::zoomed_plot());
 	ui.profInfobox->setChecked(qPrefTechnicalDetails::infobox());
-	// AI-generated (Claude) — session-only toggle, starts off
-	ui.profMediaInfobox->setChecked(false);
+	// AI-generated (Claude)
+	ui.profMediaInfobox->setChecked(qPrefTechnicalDetails::mediainfobox());
 }
 
 ProfileWidget::~ProfileWidget()
@@ -294,14 +294,18 @@ void ProfileWidget::updateMediaInfo(const QString &fileUrl)
 	}
 	// AI-generated (Claude)
 	// Wall-clock date + time the photo was taken + dive-elapsed offset.
+	// Uses the same date_format/time_format the user sets in Preferences
+	// (these are populated to a system default at load time when the
+	// override is off, so we can read them directly).
 	QDateTime taken = timestampToDateTime(d->when + offsetSec);
-	QString dateFmt = QString::fromStdString(prefs.date_format_short);
+	QString dateFmt = QString::fromStdString(prefs.date_format);
 	QString timeFmt = QString::fromStdString(prefs.time_format);
 	if (dateFmt.isEmpty())
 		dateFmt = "yyyy-MM-dd";
 	if (timeFmt.isEmpty())
 		timeFmt = "HH:mm:ss";
-	const QString takenStr = taken.toString(dateFmt + " " + timeFmt);
+	const QString takenStr = getLocale().toString(taken.toUTC(),
+						      dateFmt + " " + timeFmt);
 	const QString timeStr = ProfileWidget::tr("Time: %1 (+%2)")
 					.arg(takenStr)
 					.arg(formatPictureTime(offsetSec));
@@ -313,7 +317,7 @@ void ProfileWidget::updateMediaInfo(const QString &fileUrl)
 	} else {
 		tempStr = ProfileWidget::tr("Temp: --");
 	}
-	view->showMediaInfo(offsetSec, timeStr, depthStr, tempStr);
+	view->showMediaInfo(fileUrl, offsetSec, timeStr, depthStr, tempStr);
 	previewPane->setMediaInfo(timeStr, depthStr, tempStr);
 }
 
@@ -323,14 +327,6 @@ void ProfileWidget::clearMediaInfo()
 	currentMediaInfoFile.clear();
 	view->clearMediaInfo();
 	previewPane->clearMediaInfo();
-}
-
-// AI-generated (Claude)
-void ProfileWidget::mediaInfoboxToggled(bool on)
-{
-	view->setMediaInfoboxEnabled(on);
-	if (on && !currentMediaInfoFile.isEmpty())
-		updateMediaInfo(currentMediaInfoFile);
 }
 
 void ProfileWidget::plotDive(dive *dIn, int dcIn)
